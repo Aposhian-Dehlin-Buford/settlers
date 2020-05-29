@@ -1,7 +1,9 @@
 import actionTypes from './actionTypes'
 const {SET_GAME_STATE, UPDATE_ACTIVE_PLAYER} = actionTypes
 
-const initialState = {}
+const initialState = {
+    gameStart: false
+}
 
 export function setGameState(payload){
     return{type: SET_GAME_STATE, payload}
