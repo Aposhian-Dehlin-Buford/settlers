@@ -1,15 +1,23 @@
 const seedMap = () => {
     let terrain = ['sheep', 'sheep', 'sheep', 'sheep', 'wheat', 'wheat', 'wheat', 'wheat',  'wood', 'wood', 'wood', 'wood', 'clay', 'clay', 'clay', 'rock', 'rock', 'rock', 'desert']
+    let numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 13]
 
     const getTerrain = (x, y) => {
-        return y === 0 || y === 7 ? 'water' :
-        (y === 1 || y === 5) ? ((x < 3 || x > 5) ? 'water' : terrainType()) :
-        (y === 2 || y === 4) ? ((x < 2 || x > 5) ? 'water' : terrainType()) :
-        y === 3 ? ((x < 2 || x > 6) ? 'water' : terrainType()) : 'water'
+        return (y === 0 || y === 6) ? (x === 2 || x === 4) ? 'port' : 'water' :
+        (y === 1 || y === 5) ? (x < 3 || x > 5) ? x === 6 ? 'port' : 'water' : terrainType() :
+        (y === 2 || y === 4) ? (x < 2 || x > 5) ? x === 1 ? 'port' : 'water' : terrainType() :
+        y === 3 ? (x < 2 || x > 6) ? x === 7 ? 'port' : 'water' : terrainType() : 'water'
     }
 
-    const getNumber = (x,y) => {
+    const getNumber = (x, y) => {
+        return y === 0 || y === 7 ? null :
+        (y === 1 || y === 5) ? ((x < 3 || x > 5) ? null : numberType()) :
+        (y === 2 || y === 4) ? ((x < 2 || x > 5) ? null : numberType()) :
+        y === 3 ? ((x < 2 || x > 6) ? null : numberType()) : null
+    }
 
+    const numberType = (x,y) => {
+        return numbers.splice(Math.floor(Math.random() * terrain.length), 1)[0]
     }
 
     const terrainType = () => {

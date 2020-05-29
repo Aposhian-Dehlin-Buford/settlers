@@ -1,0 +1,14 @@
+@import '../variables';
+
+.number-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 70px;
+    position: absolute;
+    z-index: 15;
+    height: 100px;
+    width: 100px;
+    background: rgb(184, 138, 77);
+    border-radius: 50%;
+}
