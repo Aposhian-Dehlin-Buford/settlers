@@ -46,7 +46,7 @@ const removeUserFromGame = (user_id, app) => {
   )
   console.log(newLobbies)
   app.set('lobbies', newLobbies)
-  //emit remove game command to remove other use from game
+  //emit remove game command to remove other user from game
 }
 const generateInitialGameState = (
   io,
