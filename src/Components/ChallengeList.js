@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { setGameState } from "../redux/gameReducer"
 
 const ChallengeList = () => {
   const dispatch = useDispatch()
@@ -23,7 +24,10 @@ const ChallengeList = () => {
         })
       })
     })
-    socket.on("game-start", (body) => console.log(body))
+    socket.on("game-start", (body) => {
+        console.log(body)
+        dispatch(setGameState(body))
+    })
   }, [socket])
   return (
     <div>

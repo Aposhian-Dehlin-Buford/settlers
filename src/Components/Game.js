@@ -1,15 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react';
+import {useSelector} from 'react-redux'
 import Map from './Map/Map';
 import './Map/Map.scss';
 import axios from 'axios';
 
 const Game = (props) => {
-    const [map, setMap] = useState([])
+    // const [map, setMap] = useState([])
+    const {map} = useSelector(({gameReducer}) => gameReducer)
 
-    useEffect(() => {
-        console.log("1")
-        axios.get('/api/map').then(res => setMap(res.data)).catch(err => console.log(err))
-    }, [])
+    // useEffect(() => {
+    //     console.log("1")
+    //     axios.get('/api/map').then(res => setMap(res.data)).catch(err => console.log(err))
+    // }, [])
 
     const mappedMap = map.map((e,i) => e.map((f,j) => {
         console.log(i, j, f.terrain)

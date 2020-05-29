@@ -61,4 +61,4 @@ app.get("/api/users", userCtrl.getUsers)
 
 // Map Endpoints
 
-app.get("/api/map", mapCtrl.seed)
+// app.get("/api/map", mapCtrl.seed)

@@ -1,3 +1,5 @@
+const { seedMap } = require("../seedMap")
+
 const removeSocketId = (users) =>
   users.map(({ username, email, user_id }) => ({
     username,
@@ -39,13 +41,12 @@ const removeUserChallenges = (user_id, app) => {
 }
 const removeUserFromGame = (user_id, app) => {
   const lobbies = app.get("lobbies")
-  console.log(lobbies)
   const newLobbies = lobbies.filter(
-    (e) =>
-      e.players[0].user_id !== user_id && e.players[1].user_id !== user_id
+    (e) => e.players[0].user_id !== user_id && e.players[1].user_id !== user_id
   )
   console.log(newLobbies)
-
+  app.set('lobbies', newLobbies)
+  //emit remove game command to remove other use from game
 }
 const generateInitialGameState = (
   io,
@@ -61,7 +62,10 @@ const generateInitialGameState = (
     activePlayer,
     players: [challenger, opponent],
     resources: { sheep: 0, wood: 0, clay: 0, wheat: 0, rock: 0 },
-    map: [],
+    opponentsInfo: [
+      { resources: { sheep: 0, wood: 0, clay: 0, wheat: 0, rock: 0 } },
+    ],
+    map: seedMap(),
     // buildings: {},
     // units: {},
   }
