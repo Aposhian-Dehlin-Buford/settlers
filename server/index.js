@@ -10,8 +10,9 @@ const lobbies = []
 const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env
 
 //Controllers
-const authCtrl = require("./controllers/authController")
-const userCtrl = require("./controllers/userController")
+const authCtrl = require("./controllers/authController"),
+  userCtrl = require("./controllers/userController"),
+  mapCtrl = require("./controllers/mapController")
 
 //Middleware
 app.use(express.json())
@@ -57,3 +58,7 @@ app.get("/auth/user", authCtrl.getUser)
 
 //User Endpoints
 app.get("/api/users", userCtrl.getUsers)
+
+// Map Endpoints
+
+app.get("/api/map", mapCtrl.seed)
