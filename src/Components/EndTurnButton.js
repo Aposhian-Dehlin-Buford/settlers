@@ -3,10 +3,13 @@ import { useSelector } from "react-redux"
 
 const EndTurnButton = () => {
   const { socket } = useSelector(({ authReducer }) => authReducer)
-  const { active, room, rolledDice } = useSelector(({ gameReducer }) => gameReducer)
+  const { active, room, rolledDice, tradePending } = useSelector(({ gameReducer }) => gameReducer)
+  console.log({tradePending})
+  console.log({active})
+  console.log({rolledDice})
   return (
     <div>
-      {active && rolledDice && (
+      {active && rolledDice && !tradePending && (
         <button
           onClick={() => {
             socket.emit("end-turn", { room })

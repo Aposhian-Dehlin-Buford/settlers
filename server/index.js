@@ -13,7 +13,7 @@ const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env
 const authCtrl = require("./controllers/authController"),
   userCtrl = require("./controllers/userController"),
   mapCtrl = require("./controllers/mapController"),
-  gameCtrl = require('./controllers/gameController')
+  gameCtrl = require("./controllers/gameController")
 
 //Middleware
 app.use(express.json())
@@ -46,8 +46,11 @@ massive({
     socket.on("disconnect", () => userCtrl.leave(app, socket))
     socket.on("challenge", (body) => userCtrl.challenge(app, body))
     socket.on("accept-challenge", (body) => userCtrl.acceptChallenge(app, body))
-      socket.on('end-turn', (body) => gameCtrl.endTurn(app, body))
-      socket.on('roll-dice', (body) => gameCtrl.rollDice(app, body))
+    socket.on("end-turn", (body) => gameCtrl.endTurn(app, body))
+    socket.on("roll-dice", (body) => gameCtrl.rollDice(app, body))
+    socket.on("request-trade", (body) => gameCtrl.requestTrade(socket, body))
+    socket.on('accept-offer', (body) => gameCtrl.acceptTrade(socket, body))
+    socket.on('reject-offer', (body) => gameCtrl.rejectTrade(socket, body))
   })
 })
 
