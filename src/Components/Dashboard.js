@@ -6,7 +6,7 @@ import io from "socket.io-client"
 import UserList from "./UserList"
 import ChallengeList from "./ChallengeList"
 import Game from './Game'
-import MyHand from "./MyHand"
+// import MyHand from "./MyHand"
 const sock = io.connect("http://localhost:3333")
 
 const Dashboard = () => {
@@ -23,7 +23,7 @@ const Dashboard = () => {
       <div>Dashboard</div>
       {socket && <UserList />}
       {socket && <ChallengeList/>}
-      {socket && gameStart && <MyHand />}
+      {/* {socket && gameStart && <MyHand />} */}
       {socket && gameStart && <Game />}
     </div>
   )
