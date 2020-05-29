@@ -1,0 +1,21 @@
+@import '../../variables';
+
+.roll-dice-button {
+    background: white;
+    border: 3px solid green;
+    height: ($size*.6);
+    width: ($size*.6);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dice-numbers {
+    border: 1px solid purple;
+    width: $size;
+    height: ($size*.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

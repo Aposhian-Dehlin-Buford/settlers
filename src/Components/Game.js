@@ -8,6 +8,7 @@ import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
 import DiceButton from "./DiceButton"
 import Dice from './Dice/Dice'
+import './Dice/Dice.scss'
 
 const Game = () => {
   const dispatch = useDispatch()
@@ -20,11 +21,38 @@ const Game = () => {
 
   return (
     <div className="game-container">
-      <EndTurnButton />
-      <DiceButton />
-      <MyHand />
-      <Dice  />
-      <Map />
+        <div className="top-container">
+
+        </div>
+        <div className="middle-container">
+            <div className="p3-container">P3</div>
+            <div className="res-dice-container">
+                <div className="res-container">
+                    <div className="res-4">
+                        <div className="wheat">Wheat</div>
+                        <div className="sheep">Sheep</div>
+                        <div className="wood">Wood</div>
+                    </div>
+                    <div className="res-3">
+                        <div className="clay">Clay</div>
+                        <div className="rock">Rock</div>
+                    </div>
+                </div>
+                <div className="dice-container">
+                    <DiceButton />
+                    <Dice  />
+                </div>
+            </div>
+            <Map />
+            <div className="p4-container">P4</div>
+
+
+        </div>
+        <div className="bottom-container">
+            <MyHand />
+            <EndTurnButton />
+
+        </div>
     </div>
   )
 }
