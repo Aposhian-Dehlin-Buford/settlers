@@ -47,6 +47,7 @@ massive({
     socket.on("challenge", (body) => userCtrl.challenge(app, body))
     socket.on("accept-challenge", (body) => userCtrl.acceptChallenge(app, body))
       socket.on('end-turn', (body) => gameCtrl.endTurn(app, body))
+      socket.on('roll-dice', (body) => gameCtrl.rollDice(app, body))
   })
 })
 
