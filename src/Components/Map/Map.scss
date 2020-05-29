@@ -1,19 +1,16 @@
 @import '../../variables';
 
 .map-container {
-    border: 1px solid black;
     display: grid;
-    grid-template-rows: repeat(7, 250px);
-    grid-template-columns: repeat(9, 300px);
+    grid-template-rows: repeat(7, ($size*.8));
+    grid-template-columns: repeat(9, $size);
     padding: 200px;
 }
 
-
-
 .hexagon {
     position: relative;
-    width: 300px; 
-    height: 173.21px;
+    width: $size; 
+    height: ($size*.57736667);
     background: white;
     margin: 0px 0;
     border-left: solid 1px #333333;
@@ -36,23 +33,23 @@
     content: "";
     position: absolute;
     z-index: inherit;
-    width: 212.13px;
-    height: 212.13px;
+    width: ($size*.7071);
+    height: ($size*.7071);
     -webkit-transform: scaleY(0.5774) rotate(-45deg);
     -ms-transform: scaleY(0.5774) rotate(-45deg);
     transform: scaleY(0.5774) rotate(-45deg);
     background: inherit;
-    left: 42.9340px;
+    left: ($size*.14311333);
   }
   
   .hexagon:before {
-    top: -106.0660px;
+    top: ($size*-.35355333);
     border-top: solid 1px #333333;
     border-right: solid 1px #333333;
   }
 
   .hexagon:after {
-    bottom: -106.0660px;
+    bottom: ($size*-.35355333);
     border-bottom: solid 1px #333333;
     border-left: solid 1px #333333;
   }
@@ -61,8 +58,8 @@
 
   .hexagon-odd {
     position: relative;
-    width: 300px; 
-    height: 173.21px;
+    width: $size; 
+    height: ($size*.57736667);
     background:white;
     margin: 0px 0;
     border-left: solid 1px #333333;
@@ -70,7 +67,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 150px;
+    margin-left: ($size/2);
   }
 
   .hexagon-odd:hover {
@@ -87,23 +84,23 @@
     content: "";
     position: absolute;
     z-index: 1;
-    width: 212.13px;
-    height: 212.13px;
+    width: ($size*.7071);
+    height: ($size*.7071);
     -webkit-transform: scaleY(0.5774) rotate(-45deg);
     -ms-transform: scaleY(0.5774) rotate(-45deg);
     transform: scaleY(0.5774) rotate(-45deg);
     background: inherit;
-    left: 42.9340px;
+    left: ($size*.14311333);
   }
   
   .hexagon-odd:before {
-    top: -106.0660px;
+    top: ($size*-.35355333);
     border-top: solid 1px #333333;
     border-right: solid 1px #333333;
   }
   
   .hexagon-odd:after {
-    bottom: -106.0660px;
+    bottom: ($size*-.35355333);
     border-bottom: solid 1px #333333;
     border-left: solid 1px #333333;
   }
