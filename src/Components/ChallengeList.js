@@ -26,7 +26,7 @@ const ChallengeList = () => {
     })
     socket.on("game-start", (body) => {
         console.log(body)
-        dispatch(setGameState(body))
+        dispatch(setGameState(body, user.user_id))
     })
   }, [socket])
   return (
