@@ -1,6 +1,7 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { setRolledDice } from '../redux/gameReducer'
+import {GiRollingDices} from 'react-icons/gi'
 
 const DiceButton = () => {
     const dispatch = useDispatch()
@@ -9,14 +10,14 @@ const DiceButton = () => {
     return (
         <div>
              {active && !rolledDice && (
-        <button
+        <div className="roll-dice-button"
           onClick={() => {
             socket.emit("roll-dice", { room })
             dispatch(setRolledDice())
           }}
         >
-          Roll Dice
-        </button>
+          <GiRollingDices />
+        </div>
       )}
         </div>
     )

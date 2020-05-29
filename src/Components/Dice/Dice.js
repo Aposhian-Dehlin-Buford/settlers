@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 const Dice = () => {
     const {diceResult} = useSelector(({gameReducer}) => gameReducer)
     return (
-        <div>{diceResult[0]} {diceResult[1]}</div>
+        <div className="dice-numbers">{diceResult[0] + diceResult[1]}</div>
     )
 }
 
