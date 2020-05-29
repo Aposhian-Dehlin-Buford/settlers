@@ -60,6 +60,8 @@ const generateInitialGameState = (
     gameStart: true,
     room: `${challenger.user_id}-${opponent.user_id}`,
     activePlayer,
+    rolledDice: false,
+    diceResult: [0,0],
     players: [challenger, opponent],
     resources: { sheep: 0, wood: 0, clay: 0, wheat: 0, rock: 0 },
     opponentsInfo: [
