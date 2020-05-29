@@ -6,7 +6,9 @@ import { updateTradePending } from "../redux/gameReducer"
 const OfferTrade = () => {
   const dispatch = useDispatch()
   const { socket } = useSelector(({ authReducer }) => authReducer)
-  const {active, rolledDice, room, tradePending} = useSelector(({gameReducer}) => gameReducer)
+  const { active, rolledDice, room, tradePending } = useSelector(
+    ({ gameReducer }) => gameReducer
+  )
   const { sheep, wheat, wood, clay, rock } = useSelector(
     ({ gameReducer }) => gameReducer.resources
   )
@@ -76,18 +78,24 @@ const OfferTrade = () => {
           </div>
           <button
             onClick={() => {
-              socket.emit("request-trade", {
-                offer: {
-                  offerClay,
-                  offerWood,
-                  offerWheat,
-                  offerRock,
-                  offerSheep,
-                },
-                request: { forClay, forWood, forWheat, forRock, forSheep },
-                room
-              })
-              dispatch(updateTradePending(true))
+              if (
+                offerClay + offerWood + offerWheat + offerRock + offerSheep >
+                  0 &&
+                forClay + forWood + forWheat + forRock + forSheep > 0
+              ) {
+                socket.emit("request-trade", {
+                  offer: {
+                    offerClay,
+                    offerWood,
+                    offerWheat,
+                    offerRock,
+                    offerSheep,
+                  },
+                  request: { forClay, forWood, forWheat, forRock, forSheep },
+                  room,
+                })
+                dispatch(updateTradePending(true))
+              }
             }}
           >
             Request Trade
