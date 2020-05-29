@@ -25,7 +25,6 @@ const ChallengeList = () => {
       })
     })
     socket.on("game-start", (body) => {
-        console.log(body)
         dispatch(setGameState(body, user.user_id))
     })
   }, [socket])
@@ -51,7 +50,6 @@ const ChallengeList = () => {
             </div>
           ))}
       </div>
-      {/* <pre>{JSON.stringify(challenges, null, 2)}</pre> */}
     </div>
   )
 }
