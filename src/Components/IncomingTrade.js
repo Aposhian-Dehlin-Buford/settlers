@@ -1,6 +1,6 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { updateIncomingTrade } from "../redux/gameReducer"
+import { updateIncomingTrade, updateResources } from "../redux/gameReducer"
 
 const IncomingTrade = () => {
   const dispatch = useDispatch()
@@ -8,6 +8,9 @@ const IncomingTrade = () => {
   const { room } = useSelector(({ gameReducer }) => gameReducer)
   const { offer, request } = useSelector(
     ({ gameReducer }) => gameReducer.incomingTrade
+  )
+  const { sheep, wheat, wood, clay, rock } = useSelector(
+    ({ gameReducer }) => gameReducer.resources
   )
   const { offerWood, offerClay, offerWheat, offerSheep, offerRock } = offer
   const { forWood, forClay, forWheat, forSheep, forRock } = request
@@ -28,14 +31,29 @@ const IncomingTrade = () => {
           {forClay > 0 && <div>Clay: {forClay}</div>}
           {forWheat > 0 && <div>Wheat: {forWheat}</div>}
           {forRock > 0 && <div>Rock: {forRock}</div>}
-          <button
-            onClick={() => {
-              socket.emit("accept-offer", { room, offer, request })
-              dispatch(updateIncomingTrade(null))
-            }}
-          >
-            Accept
-          </button>
+          {wood > forWood &&
+            wheat > forWheat &&
+            clay > forClay &&
+            sheep > forSheep &&
+            rock > forRock && (
+              <button
+                onClick={() => {
+                  socket.emit("accept-offer", { room, offer, request })
+                  dispatch(updateIncomingTrade(null))
+                  dispatch(
+                    updateResources({
+                      wood: offer.offerWood - request.forWood,
+                      clay: offer.offerClay - request.forClay,
+                      wheat: offer.offerWheat - request.forWheat,
+                      sheep: offer.offerSheep - request.forSheep,
+                      rock: offer.offerRock - request.forRock,
+                    })
+                  )
+                }}
+              >
+                Accept
+              </button>
+            )}
           <button
             onClick={() => {
               socket.emit("reject-offer", { room })

@@ -48,6 +48,19 @@ const OfferTrade = () => {
     { name: "Rock", resource: 4, offer: forRock, action: setForRock },
   ]
 
+  const resetFields = () => {
+    setForSheep(0)
+    setForWheat(0)
+    setForClay(0)
+    setForRock(0)
+    setForWood(0)
+    setOfferWood(0)
+    setOfferRock(0)
+    setOfferClay(0)
+    setOfferWheat(0)
+    setOfferSheep(0)
+  }
+
   return (
     <div>
       {active && rolledDice && !tradePending && (
@@ -94,6 +107,7 @@ const OfferTrade = () => {
                   request: { forClay, forWood, forWheat, forRock, forSheep },
                   room,
                 })
+                resetFields()
                 dispatch(updateTradePending(true))
               }
             }}
