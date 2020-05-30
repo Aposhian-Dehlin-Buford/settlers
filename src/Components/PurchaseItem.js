@@ -19,11 +19,6 @@ const PurchaseItem = ({ cost, name }) => {
         rock: 0-cost.rock
     }))
   }
-  console.log(wood, cost.wood)
-  console.log(clay, cost.clay)
-  console.log(sheep, cost.sheep)
-  console.log(wheat, cost.wheat)
-  console.log(rock, cost.rock)
 
   return (
     <div>
