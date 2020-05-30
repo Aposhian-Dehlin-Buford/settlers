@@ -51,14 +51,9 @@ const Game = () => {
   }, [socket])
   return (
     <div className="game-container">
-      {/* <EndTurnButton /> */}
-      {/* <DiceButton /> */}
-      {/* <MyHand /> */}
-      {/* <Dice /> */}
       {active && rolledDice && !tradePending && <OfferTrade />}
       {active && rolledDice && !tradePending && <Purchase />}
       {incomingTrade && <IncomingTrade />}
-      {/* <Map /> */}
       <div className="top-container"></div>
       <div className="middle-container">
         <div className="p3-container">P3</div>
