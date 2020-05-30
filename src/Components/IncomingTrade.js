@@ -14,6 +14,25 @@ const IncomingTrade = () => {
   )
   const { offerWood, offerClay, offerWheat, offerSheep, offerRock } = offer
   const { forWood, forClay, forWheat, forSheep, forRock } = request
+
+  const acceptTrade = () => {
+    socket.emit("accept-offer", { room, offer, request })
+    dispatch(updateIncomingTrade(null))
+    dispatch(
+      updateResources({
+        wood: offer.offerWood - request.forWood,
+        clay: offer.offerClay - request.forClay,
+        wheat: offer.offerWheat - request.forWheat,
+        sheep: offer.offerSheep - request.forSheep,
+        rock: offer.offerRock - request.forRock,
+      })
+    )
+  }
+  const rejectTrade = () => {
+    socket.emit("reject-offer", { room })
+    dispatch(updateIncomingTrade(null))
+  }
+
   return (
     <div>
       {offer && (
@@ -35,33 +54,8 @@ const IncomingTrade = () => {
             wheat > forWheat &&
             clay > forClay &&
             sheep > forSheep &&
-            rock > forRock && (
-              <button
-                onClick={() => {
-                  socket.emit("accept-offer", { room, offer, request })
-                  dispatch(updateIncomingTrade(null))
-                  dispatch(
-                    updateResources({
-                      wood: offer.offerWood - request.forWood,
-                      clay: offer.offerClay - request.forClay,
-                      wheat: offer.offerWheat - request.forWheat,
-                      sheep: offer.offerSheep - request.forSheep,
-                      rock: offer.offerRock - request.forRock,
-                    })
-                  )
-                }}
-              >
-                Accept
-              </button>
-            )}
-          <button
-            onClick={() => {
-              socket.emit("reject-offer", { room })
-              dispatch(updateIncomingTrade(null))
-            }}
-          >
-            Reject
-          </button>
+            rock > forRock && <button onClick={acceptTrade}>Accept</button>}
+          <button onClick={rejectTrade}>Reject</button>
         </div>
       )}
     </div>
