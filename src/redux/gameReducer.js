@@ -6,7 +6,8 @@ const {
   SET_ROLLED_DICE,
   UPDATE_DICE_RESULT,
   UPDATE_TRADE_PENDING,
-  UPDATE_INCOMING_TRADE
+  UPDATE_INCOMING_TRADE,
+  UPDATE_RESOURCES,
 } = actionTypes
 
 const initialState = {
@@ -15,7 +16,7 @@ const initialState = {
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
-  incomingTrade: null
+  incomingTrade: null,
 }
 
 export function setGameState(payload, user_id) {
@@ -43,12 +44,17 @@ export function updateDiceResult(payload) {
   return { type: UPDATE_DICE_RESULT, payload }
 }
 
-export function updateTradePending(payload){
-  return {type: UPDATE_TRADE_PENDING, payload}
+export function updateTradePending(payload) {
+  return { type: UPDATE_TRADE_PENDING, payload }
 }
 
-export function updateIncomingTrade(payload){
-  return {type: UPDATE_INCOMING_TRADE, payload}
+export function updateIncomingTrade(payload) {
+  return { type: UPDATE_INCOMING_TRADE, payload }
+}
+
+export function updateResources(payload) {
+  console.log(payload)
+  return { type: UPDATE_RESOURCES, payload }
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -63,9 +69,20 @@ export default function gameReducer(state = initialState, action) {
     case UPDATE_DICE_RESULT:
       return { ...state, diceResult: payload }
     case UPDATE_TRADE_PENDING:
-      return {...state, tradePending: payload}
+      return { ...state, tradePending: payload }
     case UPDATE_INCOMING_TRADE:
-      return {...state, incomingTrade: payload}
+      return { ...state, incomingTrade: payload }
+    case UPDATE_RESOURCES:
+      return {
+        ...state,
+        resources: {
+          wood: state.resources.wood + payload.wood,
+          clay: state.resources.clay + payload.clay,
+          wheat: state.resources.wheat + payload.wheat,
+          sheep: state.resources.sheep + payload.sheep,
+          rock: state.resources.rock + payload.rock,
+        },
+      }
     default:
       return state
   }

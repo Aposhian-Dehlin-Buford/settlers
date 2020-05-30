@@ -12,32 +12,22 @@ const OfferTrade = () => {
   const { sheep, wheat, wood, clay, rock } = useSelector(
     ({ gameReducer }) => gameReducer.resources
   )
-  const [offerSheep, setOfferSheep] = useState(0)
-  const [offerWood, setOfferWood] = useState(0)
-  const [offerClay, setOfferClay] = useState(0)
-  const [offerWheat, setOfferWheat] = useState(0)
-  const [offerRock, setOfferRock] = useState(0)
+  const [offerSheep, setOffSheep] = useState(0)
+  const [offerWood, setOffWood] = useState(0)
+  const [offerClay, setOffClay] = useState(0)
+  const [offerWheat, setOffWheat] = useState(0)
+  const [offerRock, setOffRock] = useState(0)
   const [forSheep, setForSheep] = useState(0)
   const [forWood, setForWood] = useState(0)
   const [forClay, setForClay] = useState(0)
   const [forWheat, setForWheat] = useState(0)
   const [forRock, setForRock] = useState(0)
   const resources = [
-    {
-      name: "Sheep",
-      resource: sheep,
-      offer: offerSheep,
-      action: setOfferSheep,
-    },
-    {
-      name: "Wheat",
-      resource: wheat,
-      offer: offerWheat,
-      action: setOfferWheat,
-    },
-    { name: "Wood", resource: wood, offer: offerWood, action: setOfferWood },
-    { name: "Clay", resource: clay, offer: offerClay, action: setOfferClay },
-    { name: "Rock", resource: rock, offer: offerRock, action: setOfferRock },
+    { name: "Sheep", resource: sheep, offer: offerSheep, action: setOffSheep },
+    { name: "Wheat", resource: wheat, offer: offerWheat, action: setOffWheat },
+    { name: "Wood", resource: wood, offer: offerWood, action: setOffWood },
+    { name: "Clay", resource: clay, offer: offerClay, action: setOffClay },
+    { name: "Rock", resource: rock, offer: offerRock, action: setOffRock },
   ]
 
   const forResources = [
@@ -47,6 +37,35 @@ const OfferTrade = () => {
     { name: "Clay", resource: 4, offer: forClay, action: setForClay },
     { name: "Rock", resource: 4, offer: forRock, action: setForRock },
   ]
+
+  const resetFields = () => {
+    setForSheep(0)
+    setForWheat(0)
+    setForClay(0)
+    setForRock(0)
+    setForWood(0)
+    setOffWood(0)
+    setOffRock(0)
+    setOffClay(0)
+    setOffWheat(0)
+    setOffSheep(0)
+  }
+
+  const requestTrade = () => {
+    socket.emit("request-trade", {
+      offer: {
+        offerClay,
+        offerWood,
+        offerWheat,
+        offerRock,
+        offerSheep,
+      },
+      request: { forClay, forWood, forWheat, forRock, forSheep },
+      room,
+    })
+    resetFields()
+    dispatch(updateTradePending(true))
+  }
 
   return (
     <div>
@@ -76,30 +95,10 @@ const OfferTrade = () => {
               />
             ))}
           </div>
-          <button
-            onClick={() => {
-              if (
-                offerClay + offerWood + offerWheat + offerRock + offerSheep >
-                  0 &&
-                forClay + forWood + forWheat + forRock + forSheep > 0
-              ) {
-                socket.emit("request-trade", {
-                  offer: {
-                    offerClay,
-                    offerWood,
-                    offerWheat,
-                    offerRock,
-                    offerSheep,
-                  },
-                  request: { forClay, forWood, forWheat, forRock, forSheep },
-                  room,
-                })
-                dispatch(updateTradePending(true))
-              }
-            }}
-          >
-            Request Trade
-          </button>
+          {offerClay + offerWood + offerWheat + offerRock + offerSheep > 0 &&
+            forClay + forWood + forWheat + forRock + forSheep > 0 && (
+              <button onClick={requestTrade}>Request Trade</button>
+            )}
         </div>
       )}
     </div>

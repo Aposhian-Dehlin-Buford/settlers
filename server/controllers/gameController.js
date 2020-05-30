@@ -16,8 +16,8 @@ const requestTrade = (socket, { offer, request, room }) => {
   socket.to(room).emit("request-trade", { offer, request })
 }
 
-const acceptTrade = (socket, { room }) => {
-  socket.to(room).emit("accept-offer")
+const acceptTrade = (socket, { room, offer, request }) => {
+  socket.to(room).emit("accept-offer", {offer, request})
 }
 const rejectTrade = (socket, { room }) => {
   socket.to(room).emit("reject-offer")
