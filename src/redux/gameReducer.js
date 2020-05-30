@@ -1,5 +1,4 @@
 import actionTypes from "./actionTypes"
-// import UserList from "../Components/UserList"
 const {
   SET_GAME_STATE,
   UPDATE_ACTIVE_PLAYER,
@@ -8,6 +7,8 @@ const {
   UPDATE_TRADE_PENDING,
   UPDATE_INCOMING_TRADE,
   UPDATE_RESOURCES,
+  UPDATE_DEVELOPMENT_DECK,
+  UPDATE_DEVELOPMENT_HAND,
 } = actionTypes
 
 const initialState = {
@@ -17,6 +18,8 @@ const initialState = {
   diceResult: [0, 0],
   tradePending: false,
   incomingTrade: null,
+  developmentDeck: [],
+  developmentHand: [],
 }
 
 export function setGameState(payload, user_id) {
@@ -53,8 +56,15 @@ export function updateIncomingTrade(payload) {
 }
 
 export function updateResources(payload) {
-  console.log(payload)
   return { type: UPDATE_RESOURCES, payload }
+}
+
+export function updateDevelopmentDeck(payload){
+  return {type: UPDATE_DEVELOPMENT_DECK, payload: payload}
+}
+
+export function updateDevelopmentHand(payload){
+  return {type: UPDATE_DEVELOPMENT_HAND, payload: payload}
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -83,6 +93,10 @@ export default function gameReducer(state = initialState, action) {
           rock: state.resources.rock + payload.rock,
         },
       }
+    case UPDATE_DEVELOPMENT_DECK:
+      return {...state, developmentDeck: payload}
+    case UPDATE_DEVELOPMENT_HAND:
+      return {...state, developmentHand: payload}
     default:
       return state
   }

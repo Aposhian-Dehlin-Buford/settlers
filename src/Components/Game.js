@@ -9,6 +9,7 @@ import {
   updateIncomingTrade,
   updateTradePending,
   updateResources,
+  updateDevelopmentDeck,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -17,21 +18,23 @@ import OfferTrade from "./OfferTrade"
 import IncomingTrade from "./IncomingTrade"
 import Dice from "./Dice/Dice"
 import "./Dice/Dice.scss"
+import Purchase from "./Purchase"
+import DevelopmentDeck from "./DevelopmentDeck"
 
 const Game = () => {
   const dispatch = useDispatch()
   const { socket } = useSelector(({ authReducer }) => authReducer)
-  const { incomingTrade } = useSelector(({ gameReducer }) => gameReducer)
+  const { incomingTrade, active, rolledDice, tradePending } = useSelector(
+    ({ gameReducer }) => gameReducer
+  )
   useEffect(() => {
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
     socket.on("dice-result", ({ diceResult }) =>
       dispatch(updateDiceResult(diceResult))
     )
-    socket.on("request-trade", (body) => {
-      dispatch(updateIncomingTrade(body))
-    })
+    socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
     socket.on("accept-offer", (body) => {
-      const {offer, request, room} = body
+      const { offer, request, room } = body
       dispatch(
         updateResources({
           wood: request.forWood - offer.offerWood,
@@ -44,19 +47,14 @@ const Game = () => {
       dispatch(updateTradePending(false))
     })
 
-    socket.on("reject-offer", () => {
-      dispatch(updateTradePending(false))
-    })
+    socket.on("reject-offer", () => dispatch(updateTradePending(false)))
+    socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
   }, [socket])
   return (
     <div className="game-container">
-      {/* <EndTurnButton /> */}
-      {/* <DiceButton /> */}
-      {/* <MyHand /> */}
-      {/* <Dice /> */}
-      <OfferTrade />
+      {active && rolledDice && !tradePending && <OfferTrade />}
+      {active && rolledDice && !tradePending && <Purchase />}
       {incomingTrade && <IncomingTrade />}
-      {/* <Map /> */}
       <div className="top-container"></div>
       <div className="middle-container">
         <div className="p3-container">P3</div>
@@ -72,6 +70,7 @@ const Game = () => {
               <div className="rock">Rock</div>
             </div>
           </div>
+          <DevelopmentDeck />
           <div className="dice-container">
             <DiceButton />
             <Dice />

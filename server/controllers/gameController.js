@@ -23,10 +23,15 @@ const rejectTrade = (socket, { room }) => {
   socket.to(room).emit("reject-offer")
 }
 
+const buyCard = (socket, {room, deck}) => {
+  socket.to(room).emit('buy-card', {deck})
+}
+
 module.exports = {
   endTurn,
   rollDice,
   requestTrade,
   acceptTrade,
-  rejectTrade
+  rejectTrade,
+  buyCard
 }
