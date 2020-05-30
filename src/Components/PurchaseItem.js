@@ -1,9 +1,11 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { updateResources } from "../redux/gameReducer"
+import { updateResources, updateDevelopmentDeck, updateDevelopmentHand } from "../redux/gameReducer"
 
 const PurchaseItem = ({ cost, name }) => {
     const dispatch = useDispatch()
+    const {socket} = useSelector(({authReducer}) => authReducer)
+    const {developmentDeck, developmentHand, room} = useSelector(({gameReducer}) => gameReducer)
   const { wood, sheep, wheat, rock, clay } = useSelector(
     ({ gameReducer }) => gameReducer.resources
   )
@@ -18,6 +20,19 @@ const PurchaseItem = ({ cost, name }) => {
         wheat: 0-cost.wheat,
         rock: 0-cost.rock
     }))
+    switch(name){
+      case 'Development':
+        const deck = [...developmentDeck]
+        const hand = [...developmentHand]
+        const card = deck.splice(0, 1)
+        hand.push(card)
+        socket.emit('buy-card', {deck, room})
+        console.log(deck)
+        dispatch(updateDevelopmentDeck(deck))
+        dispatch(updateDevelopmentHand(hand))
+        default:
+          return
+    }
   }
 
   return (

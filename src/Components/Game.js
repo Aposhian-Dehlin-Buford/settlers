@@ -9,6 +9,7 @@ import {
   updateIncomingTrade,
   updateTradePending,
   updateResources,
+  updateDevelopmentDeck,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -18,21 +19,22 @@ import IncomingTrade from "./IncomingTrade"
 import Dice from "./Dice/Dice"
 import "./Dice/Dice.scss"
 import Purchase from "./Purchase"
+import DevelopmentDeck from "./DevelopmentDeck"
 
 const Game = () => {
   const dispatch = useDispatch()
   const { socket } = useSelector(({ authReducer }) => authReducer)
-  const { incomingTrade, active, rolledDice, tradePending } = useSelector(({ gameReducer }) => gameReducer)
+  const { incomingTrade, active, rolledDice, tradePending } = useSelector(
+    ({ gameReducer }) => gameReducer
+  )
   useEffect(() => {
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
     socket.on("dice-result", ({ diceResult }) =>
       dispatch(updateDiceResult(diceResult))
     )
-    socket.on("request-trade", (body) => {
-      dispatch(updateIncomingTrade(body))
-    })
+    socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
     socket.on("accept-offer", (body) => {
-      const {offer, request, room} = body
+      const { offer, request, room } = body
       dispatch(
         updateResources({
           wood: request.forWood - offer.offerWood,
@@ -45,9 +47,8 @@ const Game = () => {
       dispatch(updateTradePending(false))
     })
 
-    socket.on("reject-offer", () => {
-      dispatch(updateTradePending(false))
-    })
+    socket.on("reject-offer", () => dispatch(updateTradePending(false)))
+    socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
   }, [socket])
   return (
     <div className="game-container">
@@ -69,6 +70,7 @@ const Game = () => {
               <div className="rock">Rock</div>
             </div>
           </div>
+          <DevelopmentDeck />
           <div className="dice-container">
             <DiceButton />
             <Dice />
