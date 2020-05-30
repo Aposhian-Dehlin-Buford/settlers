@@ -17,11 +17,12 @@ import OfferTrade from "./OfferTrade"
 import IncomingTrade from "./IncomingTrade"
 import Dice from "./Dice/Dice"
 import "./Dice/Dice.scss"
+import Purchase from "./Purchase"
 
 const Game = () => {
   const dispatch = useDispatch()
   const { socket } = useSelector(({ authReducer }) => authReducer)
-  const { incomingTrade } = useSelector(({ gameReducer }) => gameReducer)
+  const { incomingTrade, active, rolledDice, tradePending } = useSelector(({ gameReducer }) => gameReducer)
   useEffect(() => {
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
     socket.on("dice-result", ({ diceResult }) =>
@@ -54,7 +55,8 @@ const Game = () => {
       {/* <DiceButton /> */}
       {/* <MyHand /> */}
       {/* <Dice /> */}
-      <OfferTrade />
+      {active && rolledDice && !tradePending && <OfferTrade />}
+      {active && rolledDice && !tradePending && <Purchase />}
       {incomingTrade && <IncomingTrade />}
       {/* <Map /> */}
       <div className="top-container"></div>
