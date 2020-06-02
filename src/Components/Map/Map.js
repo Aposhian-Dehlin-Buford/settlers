@@ -9,6 +9,7 @@ const Map = () => {
     e.map((f, j) => {
       return (
         <div
+          key={j}
           className={i % 2 ? "hexagon" : "hexagon-odd"}
           style={{
             background:
@@ -33,7 +34,7 @@ const Map = () => {
                 : "blue",
           }}
         >
-          {f.number ? <div className="number-container">{f.number}</div> : null}
+          {f.number ? <div key={`${i}-${j}`} className="number-container">{f.number}</div> : null}
         </div>
       )
     })

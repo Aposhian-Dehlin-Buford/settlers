@@ -9,6 +9,7 @@ const {
   UPDATE_RESOURCES,
   UPDATE_DEVELOPMENT_DECK,
   UPDATE_DEVELOPMENT_HAND,
+  END_GAME,
 } = actionTypes
 
 const initialState = {
@@ -59,12 +60,16 @@ export function updateResources(payload) {
   return { type: UPDATE_RESOURCES, payload }
 }
 
-export function updateDevelopmentDeck(payload){
-  return {type: UPDATE_DEVELOPMENT_DECK, payload: payload}
+export function updateDevelopmentDeck(payload) {
+  return { type: UPDATE_DEVELOPMENT_DECK, payload: payload }
 }
 
-export function updateDevelopmentHand(payload){
-  return {type: UPDATE_DEVELOPMENT_HAND, payload: payload}
+export function updateDevelopmentHand(payload) {
+  return { type: UPDATE_DEVELOPMENT_HAND, payload: payload }
+}
+
+export function endGame() {
+  return { type: END_GAME, payload: initialState }
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -94,9 +99,11 @@ export default function gameReducer(state = initialState, action) {
         },
       }
     case UPDATE_DEVELOPMENT_DECK:
-      return {...state, developmentDeck: payload}
+      return { ...state, developmentDeck: payload }
     case UPDATE_DEVELOPMENT_HAND:
-      return {...state, developmentHand: payload}
+      return { ...state, developmentHand: payload }
+    case END_GAME:
+      return { ...payload }
     default:
       return state
   }

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import Map from "./Map/Map"
 import "./Map/Map.scss"
@@ -10,6 +11,7 @@ import {
   updateTradePending,
   updateResources,
   updateDevelopmentDeck,
+  endGame,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -20,14 +22,30 @@ import Dice from "./Dice/Dice"
 import "./Dice/Dice.scss"
 import Purchase from "./Purchase"
 import DevelopmentDeck from "./DevelopmentDeck"
+import { useHistory } from "react-router-dom"
 
 const Game = () => {
+  const { push } = useHistory()
   const dispatch = useDispatch()
   const { socket } = useSelector(({ authReducer }) => authReducer)
   const { incomingTrade, active, rolledDice, tradePending } = useSelector(
     ({ gameReducer }) => gameReducer
   )
   useEffect(() => {
+    socket.on("disconnect", () => {
+      dispatch(endGame())
+      // socket.emit("leave")
+      axios.post("/auth/logout").then(() => {
+        push("/")
+      })
+    })
+    socket.on("opponent-left", () => {
+      dispatch(endGame())
+      axios.post("/auth/logout").then(() => {
+        socket.emit("leave")
+        push("/")
+      })
+    })
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
     socket.on("dice-result", ({ diceResult }) =>
       dispatch(updateDiceResult(diceResult))

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 
 const UserList = () => {
   const dispatch = useDispatch()
+  const activeComponent = useRef(true)
   const [users, setUsers] = useState([])
   const { socket, user } = useSelector(({ authReducer }) => authReducer)
   const {gameStart} = useSelector(({gameReducer}) => gameReducer)
@@ -11,13 +12,22 @@ const UserList = () => {
     axios
       .get("/api/users")
       .then((results) => {
-        setUsers(results.data)
+        if(activeComponent.current){
+          setUsers(results.data)
+        }
       })
       .catch((err) => console.log(err))
+      return () => {
+        activeComponent.current = false
+      }
   }, [])
   useEffect(() => {
     socket.emit("join", user)
-    socket.on("users", (body) => setUsers(body))
+    socket.on("users", (body) => {
+      if(activeComponent.current){
+        setUsers(body)
+      }
+    })
     // socket.on('send-challenge', (body) => console.log(body))
     // socket.on('remove-challenge', (body) => console.log(body))
     // socket.on('game-start', (body) => console.log(body))
