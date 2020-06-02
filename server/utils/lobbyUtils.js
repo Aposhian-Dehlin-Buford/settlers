@@ -11,24 +11,24 @@ const removeSocketId = (users) =>
 const removeUserFromList = (app, socket) => {
   const io = app.get("io")
   const users = app.get("users")
-  const { userIndex, user_id } = users.reduce(
-    (acc, e, i) => {
-      if (e.socket_id === socket.id) {
-        acc.userIndex = i
-        acc.user_id = e.user_id
-      }
-      return acc
-    },
-    { userIndex: null, user_id: null }
-  )
-  // const {user_id} = users.find(e => e.socket_id === socket.id)
-  const filteredUsers = users.filter(e => e.user_id !== user_id)
+  // const { userIndex, user_id } = users.reduce(
+  //   (acc, e, i) => {
+  //     if (e.socket_id === socket.id) {
+  //       acc.userIndex = i
+  //       acc.user_id = e.user_id
+  //     }
+  //     return acc
+  //   },
+  //   { userIndex: null, user_id: null }
+  // )
+  const user = users.find(e => e.socket_id === socket.id)
+  const filteredUsers = users.filter(e => e.user_id !== user.user_id)
   // users.splice(userIndex, 1)
   // console.log(filteredUsers)
   app.set("users", filteredUsers)
   socket.leave("userlist")
   io.in("userlist").emit("users", removeSocketId(users))
-  return user_id
+  return user.user_id
 }
 const removeUserChallenges = (user_id, app) => {
   const io = app.get("io")
