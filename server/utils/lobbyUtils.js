@@ -88,6 +88,7 @@ const generateInitialGameState = (
   const state = {
     active: false,
     gameStart: true,
+    buildSettlement: false,
     room: `${challenger.user_id}-${opponent.user_id}`,
     activePlayer,
     rolledDice: false,
@@ -97,6 +98,7 @@ const generateInitialGameState = (
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
+    buildings: [],
     developmentDeck: seedDeck(),
     developmentHand: [],
     map: seedMap(),

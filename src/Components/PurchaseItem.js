@@ -1,9 +1,8 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { updateResources, updateDevelopmentDeck, updateDevelopmentHand } from "../redux/gameReducer"
+import { updateResources, updateDevelopmentDeck, updateDevelopmentHand, setBuildSettlement } from "../redux/gameReducer"
 
-const PurchaseItem = ({ cost, name, buildSettlement, setBuildSettlement }) => {
-    console.log("name", name, buildSettlement)
+const PurchaseItem = ({ cost, name }) => {
     const dispatch = useDispatch()
     const {socket} = useSelector(({authReducer}) => authReducer)
     const {developmentDeck, developmentHand, room} = useSelector(({gameReducer}) => gameReducer)
@@ -13,7 +12,7 @@ const PurchaseItem = ({ cost, name, buildSettlement, setBuildSettlement }) => {
 
   const purchase = () => {
     if(name === 'Settlement'){
-      setBuildSettlement(true)
+      dispatch(setBuildSettlement(true))
     }
 
     console.log(`purchased ${name}`)

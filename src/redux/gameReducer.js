@@ -10,17 +10,22 @@ const {
   UPDATE_DEVELOPMENT_DECK,
   UPDATE_DEVELOPMENT_HAND,
   END_GAME,
+  SET_BUILD_SETTLEMENT,
+  UPDATE_BUILDINGS,
 } = actionTypes
 
 const initialState = {
   active: false,
   gameStart: false,
+  buildSettlement: false,
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
   incomingTrade: null,
+  buildings: [],
   developmentDeck: [],
   developmentHand: [],
+  map: [],
 }
 
 export function setGameState(payload, user_id) {
@@ -72,6 +77,14 @@ export function endGame() {
   return { type: END_GAME, payload: initialState }
 }
 
+export function setBuildSettlement(payload){
+  return {type: SET_BUILD_SETTLEMENT, payload}
+}
+
+export function updateBuildings(payload){
+  return {type: UPDATE_BUILDINGS, payload}
+}
+
 export default function gameReducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
@@ -104,6 +117,10 @@ export default function gameReducer(state = initialState, action) {
       return { ...state, developmentHand: payload }
     case END_GAME:
       return { ...payload }
+    case SET_BUILD_SETTLEMENT:
+      return {...state, buildSettlement: payload}
+    case UPDATE_BUILDINGS:
+      return {...state, buildings: [...state.buildings, payload]}
     default:
       return state
   }
