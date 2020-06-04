@@ -1,0 +1,27 @@
+@import '../variables';
+
+.offer-trade-container {
+    height: 100%;
+    width: 20%;
+    border: 3px solid green;
+    display: flex;
+}
+
+.offer-container {
+    border: 1px solid blue;
+    display: flex;
+    width: 100%;
+    overflow: auto;
+}
+
+.offers {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+
+}
+
+.for {
+    display: flex;
+    flex-direction: column;
+}

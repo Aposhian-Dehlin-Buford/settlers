@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import Map from "./Map/Map"
@@ -25,6 +25,7 @@ import DevelopmentDeck from "./DevelopmentDeck"
 import { useHistory } from "react-router-dom"
 
 const Game = () => {
+  const [buildSettlement, setBuildSettlement] = useState(false)
   const { push } = useHistory()
   const dispatch = useDispatch()
   const { socket } = useSelector(({ authReducer }) => authReducer)
@@ -70,12 +71,16 @@ const Game = () => {
   }, [socket])
   return (
     <div className="game-container">
+      <div className="top-container">
+        {
+          buildSettlement ? <div className="top-container-overlay"></div> : null
+        }
       {active && rolledDice && !tradePending && <OfferTrade />}
-      {active && rolledDice && !tradePending && <Purchase />}
+      {active && rolledDice && !tradePending && <Purchase buildSettlement={buildSettlement} setBuildSettlement={setBuildSettlement} />}
       {incomingTrade && <IncomingTrade />}
-      <div className="top-container"></div>
+      </div>
       <div className="middle-container">
-        <div className="p3-container">P3</div>
+        <div className="p3-container"></div>
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
@@ -94,12 +99,12 @@ const Game = () => {
             <Dice />
           </div>
         </div>
-        <Map />
-        <div className="p4-container">P4</div>
+        <Map buildSettlement={buildSettlement} setBuildSettlement={setBuildSettlement} />
+        <EndTurnButton buildSettlement={buildSettlement} setBuildSettlement={setBuildSettlement} />
+        <div className="p4-container"></div>
       </div>
       <div className="bottom-container">
         <MyHand />
-        <EndTurnButton />
       </div>
     </div>
   )

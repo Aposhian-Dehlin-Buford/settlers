@@ -2,9 +2,13 @@
 
 .map-container {
     display: grid;
-    grid-template-rows: repeat(7, ($size*.8));
-    grid-template-columns: repeat(7, $size);
-    padding: 200px;
+    grid-template-rows: repeat(5, ($size*.855));
+    // padding: $size/3;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 }
 
 .number-container {
@@ -13,12 +17,78 @@
   align-items: center;
   font-size: ($size*.35);
   position: absolute;
-  z-index: 15;
+  z-index: 25;
   height: ($size*.5);
   width: ($size*.5);
   background: rgb(184, 138, 77);
   border-radius: 50%;
 }
+
+.settlement-container {
+  div:hover {
+    background: black;
+  }
+}
+
+.settlement-container1 {
+  font-size: 12px;
+  background: white;
+  color: white;
+  z-index: 10000;
+  height: $size/5;
+  width: $size/5;
+  border-radius: 50%;
+  position: absolute;
+  left: -($size/5)/2;
+  top: -($size/5)/2;
+}.settlement-container2 {
+  z-index: 10000;
+  background: white;
+  height: $size/5;
+  width: $size/5;
+  border-radius: 50%;
+  position: absolute;
+  left: center;
+  bottom: ($size*.74);
+}.settlement-container3 {
+  z-index: 10000;
+  background: white;
+
+  height: $size/5;
+  width: $size/5;
+  border-radius: 50%;
+  position: absolute;
+  right: -($size/5)/2;
+  top: -($size/5)/2;
+}.settlement-container4 {
+  background: white;
+  z-index: 10000;
+  height: $size/5;
+  width: $size/5;
+  border-radius: 50%;
+  position: absolute;
+  left: -($size/5)/2;
+  bottom: -($size/5)/2;
+}.settlement-container5 {
+  background: white;
+  z-index: 10000;
+  height: $size/5;
+  width: $size/5;
+  border-radius: 50%;
+  position: absolute;
+  left: center;
+  top: ($size*.74);
+}.settlement-container6 {
+  background: white;
+  z-index: 10000;
+  height: $size/5;
+  width: $size/5;
+  border-radius: 50%;
+  position: absolute;
+  right: -($size/5)/2;
+  bottom: -($size/5)/2;
+}
+
 
 .hexagon {
     position: relative;
@@ -31,14 +101,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: inherit;
   }
   .hexagon:hover {
     z-index: 11;
-    background: radial-gradient(black, rgb(22, 22, 22)) !important;
+    // background: radial-gradient(black, rgb(22, 22, 22)) !important;
 }
 .hexagon:focus {
-    background: radial-gradient(black, rgb(22, 22, 22)) !important;
+    // background: radial-gradient(black, rgb(22, 22, 22)) !important;
 }
   
   .hexagon:before,
@@ -69,51 +139,51 @@
 
 
 
-  .hexagon-odd {
-    position: relative;
-    width: $size; 
-    height: ($size*.57736667);
-    background:white;
-    margin: 0px 0;
-    border-left: solid 1px #333333;
-    border-right: solid 1px #333333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: ($size/2);
-  }
+//   .hexagon-odd {
+//     position: relative;
+//     width: $size; 
+//     height: ($size*.57736667);
+//     background:white;
+//     margin: 0px 0;
+//     border-left: solid 1px #333333;
+//     border-right: solid 1px #333333;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     // margin-left: ($size/2);
+//   }
 
-  .hexagon-odd:hover {
-      /* z-index: 10; */
-      background: radial-gradient(black, rgb(22, 22, 22)) !important;
-  }
-  .hexagon-odd:focus {
-    background: radial-gradient(black, rgb(22, 22, 22)) !important;
-}
+//   .hexagon-odd:hover {
+//       /* z-index: 10; */
+//       background: radial-gradient(black, rgb(22, 22, 22)) !important;
+//   }
+//   .hexagon-odd:focus {
+//     background: radial-gradient(black, rgb(22, 22, 22)) !important;
+// }
   
   
-  .hexagon-odd:before,
-  .hexagon-odd:after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    width: ($size*.7071);
-    height: ($size*.7071);
-    -webkit-transform: scaleY(0.5774) rotate(-45deg);
-    -ms-transform: scaleY(0.5774) rotate(-45deg);
-    transform: scaleY(0.5774) rotate(-45deg);
-    background: inherit;
-    left: ($size*.14311333);
-  }
+//   .hexagon-odd:before,
+//   .hexagon-odd:after {
+//     content: "";
+//     position: absolute;
+//     z-index: 1;
+//     width: ($size*.7071);
+//     height: ($size*.7071);
+//     -webkit-transform: scaleY(0.5774) rotate(-45deg);
+//     -ms-transform: scaleY(0.5774) rotate(-45deg);
+//     transform: scaleY(0.5774) rotate(-45deg);
+//     background: inherit;
+//     left: ($size*.14311333);
+//   }
   
-  .hexagon-odd:before {
-    top: ($size*-.35355333);
-    border-top: solid 1px #333333;
-    border-right: solid 1px #333333;
-  }
+//   .hexagon-odd:before {
+//     top: ($size*-.35355333);
+//     border-top: solid 1px #333333;
+//     border-right: solid 1px #333333;
+//   }
   
-  .hexagon-odd:after {
-    bottom: ($size*-.35355333);
-    border-bottom: solid 1px #333333;
-    border-left: solid 1px #333333;
-  }
+//   .hexagon-odd:after {
+//     bottom: ($size*-.35355333);
+//     border-bottom: solid 1px #333333;
+//     border-left: solid 1px #333333;
+//   }

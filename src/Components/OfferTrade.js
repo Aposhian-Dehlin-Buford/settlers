@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import OfferResource from "./OfferResource"
 import { updateTradePending } from "../redux/gameReducer"
+import './Trade.scss'
 
 const OfferTrade = () => {
   const dispatch = useDispatch()
@@ -68,11 +69,11 @@ const OfferTrade = () => {
   }
 
   return (
-    <div>
+    <div className="offer-trade-container">
       {active && rolledDice && !tradePending && (
-        <div>
-          <div>
-            <div>Offer:</div>
+        <div className="offer-container">
+          <div className="offers">
+            <div style={{textAlign: 'center'}}>Offer:</div>
             {resources.map(({ name, resource, offer, action }, i) => (
               <OfferResource
                 key={i}
@@ -83,8 +84,8 @@ const OfferTrade = () => {
               />
             ))}
           </div>
-          <div>
-            <div>For: </div>
+          <div className="for">
+            <div style={{textAlign: 'center'}}>For: </div>
             {forResources.map(({ name, resource, offer, action }, i) => (
               <OfferResource
                 key={i}
