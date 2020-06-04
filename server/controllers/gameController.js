@@ -27,11 +27,16 @@ const buyCard = (socket, {room, deck}) => {
   socket.to(room).emit('buy-card', {deck})
 }
 
+const buyBuilding = (socket, {room, building}) => {
+  socket.to(room).emit('buy-building', {building})
+}
+
 module.exports = {
   endTurn,
   rollDice,
   requestTrade,
   acceptTrade,
   rejectTrade,
-  buyCard
+  buyCard,
+  buyBuilding
 }

@@ -53,6 +53,7 @@ massive({
     socket.on('accept-offer', (body) => gameCtrl.acceptTrade(socket, body))
     socket.on('reject-offer', (body) => gameCtrl.rejectTrade(socket, body))
     socket.on('buy-card', (body) => gameCtrl.buyCard(socket, body))
+    socket.on('buy-building', (body) => gameCtrl.buyBuilding(socket, body))
   })
 })
 
