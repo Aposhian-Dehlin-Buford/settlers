@@ -57,7 +57,7 @@ const Game = () => {
       {incomingTrade && <IncomingTrade />}
       <div className="top-container"></div>
       <div className="middle-container">
-        <div className="p3-container">P3</div>
+        <div className="p3-container"></div>
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
@@ -77,7 +77,7 @@ const Game = () => {
           </div>
         </div>
         <Map />
-        <div className="p4-container">P4</div>
+        <div className="p4-container"></div>
       </div>
       <div className="bottom-container">
         <MyHand />

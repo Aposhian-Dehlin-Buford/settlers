@@ -1,45 +1,30 @@
 import React from "react"
 import "./Map.scss"
 import { useSelector } from "react-redux"
+import Hexagon from './Hexagon';
 
 const Map = () => {
   const { map } = useSelector(({ gameReducer }) => gameReducer)
-
-  const mappedMap = map.map((e, i) =>
-    e.map((f, j) => {
-      return (
-        <div
-          className={i % 2 ? "hexagon" : "hexagon-odd"}
-          style={{
-            background:
-              i % 2 === 0 && j === 8
-                ? "blue"
-                : f.terrain === "water"
-                ? "blue"
-                : f.terrain === "wheat"
-                ? "khaki"
-                : f.terrain === "sheep"
-                ? "green"
-                : f.terrain === "wood"
-                ? "darkgreen"
-                : f.terrain === "rock"
-                ? "grey"
-                : f.terrain === "clay"
-                ? "brown"
-                : f.terrain === "desert"
-                ? "tan"
-                : f.terrain === "port"
-                ? "radial-gradient(blue, black)"
-                : "blue",
-          }}
-        >
-          {f.number ? <div className="number-container">{f.number}</div> : null}
-        </div>
-      )
-    })
-  )
-
-  return <div className="map-container">{mappedMap}</div>
+  console.log("map", map)
+  return (
+    <div className="map-container">
+      <div className="hexagon-row1">
+        {map.slice(0, 3).map((e,i) => <Hexagon map={map} e={e} i={i} id={e.id} />)}
+      </div>
+      <div className="hexagon-row2">
+        {map.slice(3, 7).map((e,i) => <Hexagon map={map} e={e} i={i}  id={e.id} />)}
+      </div>
+      <div className="hexagon-row3">
+        {map.slice(7, 12).map((e,i) => <Hexagon map={map} e={e} i={i}  id={e.id} />)}
+      </div>
+      <div className="hexagon-row4">
+        {map.slice(12, 16).map((e,i) => <Hexagon map={map} e={e} i={i}  id={e.id} />)}
+      </div>
+      <div className="hexagon-row5">
+        {map.slice(16, 19).map((e,i) => <Hexagon map={map} e={e} i={i}  id={e.id} />)}
+      </div>
+    </div>
+    )
 }
 
-export default Map
+export default Map;

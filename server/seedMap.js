@@ -1,38 +1,53 @@
 const seedMap = () => {
     let terrain = ['sheep', 'sheep', 'sheep', 'sheep', 'wheat', 'wheat', 'wheat', 'wheat',  'wood', 'wood', 'wood', 'wood', 'clay', 'clay', 'clay', 'rock', 'rock', 'rock', 'desert']
-    let numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 13]
+    let numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12]
+    let ports = ["3 for 1"]
 
-    const getTerrain = (x, y) => {
-        return (y === 0 || y === 6) ? (x === 1 || x === 3) ? 'port' : 'water' :
-        (y === 1 || y === 5) ? (x < 2 || x > 4) ? x === 5 ? 'port' : 'water' : terrainType() :
-        (y === 2 || y === 4) ? (x < 1 || x > 4) ? x === 0 ? 'port' : 'water' : terrainType() :
-        y === 3 ? (x < 1 || x > 5) ? x === 6 ? 'port' : 'water' : terrainType() : 'water'
-    }
+    const getSlots = (id, x, y, grid) => {
+        let idTile = grid.filter((f,j) => f.id=== id)[0]
 
-    const getNumber = (x, y) => {
-        return y === 0 || y === 7 ? null :
-        (y === 1 || y === 5) ? ((x < 2 || x > 4) ? null : numberType()) :
-        (y === 2 || y === 4) ? ((x < 1 || x > 4) ? null : numberType()) :
-        y === 3 ? ((x < 1 || x > 5) ? null : numberType()) : null
+        return {
+            one: [idTile, grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === y))[0], id < 13 ? grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === (y-1 & y-1)))[0] : grid.filter((f,j) => (f.x === x && f.y === (y-1 & y-1)))[0]],
+
+            two: [idTile, id  < 13 ? grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0]],
+
+            three: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 13 ? grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0]],
+
+            four: [idTile, grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0]],
+
+            five: [idTile, grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0]],
+
+            six: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 &  x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0]]
+        }
+
     }
 
     const numberType = (x,y) => {
-        return numbers.splice(Math.floor(Math.random() * terrain.length), 1)[0]
+        return numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
     }
 
     const terrainType = () => {
         return terrain.splice(Math.floor(Math.random() * terrain.length), 1)[0]
     }
 
-    return [...Array(7)].map((e,i) => [...Array(7)].map((f,j) => {
-        
+    let grid = [...Array(19)].map((e,i) => {
         return {
-            x: j,
-            y: i,
-            terrain: getTerrain(j, i),
-            number: getNumber(j, i)
+            x: (i < 3 ? i + 1 : i < 7 ? i - 2 : i < 12 ? i - 6 : i < 16 ? i - 11 : i - 15),
+            y: (i < 3 ? 1 : i < 7 ? 2 : i < 12 ? 3 : i < 16 ? 4 : 5),
+            id: i+1,
+            terrain: terrain[0] ? terrainType() : ports[0]
         }
-    }))
+    })
+
+    let newGrid = grid.map((e,i) => {
+        return {
+            ...e,
+            number: e.terrain !== 'desert' ? numberType() : null,
+            slots: getSlots(e.id, e.x, e.y, grid)
+        }
+    })
+
+    return newGrid;
 }
 
 module.exports = {seedMap}
