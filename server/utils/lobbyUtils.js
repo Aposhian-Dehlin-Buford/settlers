@@ -1,5 +1,5 @@
 const { seedMap } = require("../seedMap")
-const {seedDeck} = require('./seedDeck')
+const { seedDeck } = require("./seedDeck")
 
 const removeSocketId = (users) =>
   users.map(({ username, email, user_id }) => ({
@@ -11,21 +11,24 @@ const removeSocketId = (users) =>
 const removeUserFromList = (app, socket) => {
   const io = app.get("io")
   const users = app.get("users")
-  const { userIndex, user_id } = users.reduce(
-    (acc, e, i) => {
-      if (e.socket_id === socket.id) {
-        acc.userIndex = i
-        acc.user_id = e.user_id
-      }
-      return acc
-    },
-    { userIndex: null, user_id: null }
-  )
-  users.splice(userIndex, 1)
-  app.set("users", users)
+  // const { userIndex, user_id } = users.reduce(
+  //   (acc, e, i) => {
+  //     if (e.socket_id === socket.id) {
+  //       acc.userIndex = i
+  //       acc.user_id = e.user_id
+  //     }
+  //     return acc
+  //   },
+  //   { userIndex: null, user_id: null }
+  // )
+  const user = users.find(e => e.socket_id === socket.id)
+  const filteredUsers = users.filter(e => e.user_id !== user.user_id)
+  // users.splice(userIndex, 1)
+  // console.log(filteredUsers)
+  app.set("users", filteredUsers)
   socket.leave("userlist")
   io.in("userlist").emit("users", removeSocketId(users))
-  return user_id
+  return user.user_id
 }
 const removeUserChallenges = (user_id, app) => {
   const io = app.get("io")
@@ -42,10 +45,37 @@ const removeUserChallenges = (user_id, app) => {
 }
 const removeUserFromGame = (user_id, app) => {
   const lobbies = app.get("lobbies")
+  const io = app.get("io")
+  const users = app.get("users")
   const newLobbies = lobbies.filter(
     (e) => e.players[0].user_id !== user_id && e.players[1].user_id !== user_id
   )
-  app.set('lobbies', newLobbies)
+  app.set("lobbies", newLobbies)
+  const removeLobbies = lobbies
+    .filter(
+      (e) =>
+        e &&
+        e.players &&
+        e.players[0] &&
+        e.players[1] &&
+        (e.players[0].user_id === user_id || e.players[1].user_id === user_id)
+    )
+    .reduce((acc, e) => {
+      if (e.players[0].user_id === user_id) {
+        acc.push(e.players[1])
+      } else {
+        acc.push(e.players[0])
+      }
+      return acc
+    }, [])
+  if (removeLobbies.length > 0) {
+    const opponentSocket = users.find(
+      (u) => +removeLobbies[0].user_id === +u.user_id
+    )
+    if (opponentSocket && opponentSocket.socket_id) {
+      io.to(opponentSocket.socket_id).emit("opponent-left")
+    }
+  }
   //emit remove game command to remove other user from game
 }
 const generateInitialGameState = (
@@ -61,7 +91,7 @@ const generateInitialGameState = (
     room: `${challenger.user_id}-${opponent.user_id}`,
     activePlayer,
     rolledDice: false,
-    diceResult: [0,0],
+    diceResult: [0, 0],
     players: [challenger, opponent],
     resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 },
     // opponentsInfo: [

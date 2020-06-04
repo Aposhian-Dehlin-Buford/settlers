@@ -27,7 +27,6 @@ const PurchaseItem = ({ cost, name }) => {
         const card = deck.splice(0, 1)
         hand.push(card)
         socket.emit('buy-card', {deck, room})
-        console.log(deck)
         dispatch(updateDevelopmentDeck(deck))
         dispatch(updateDevelopmentHand(hand))
         default:

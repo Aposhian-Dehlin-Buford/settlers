@@ -26,7 +26,7 @@ const MyHand = () => {
       )
       .flat()
     return resHand.map((e, i) => {
-      return <div className={e}>{e}</div>
+      return <div key={i} className={e}>{e}</div>
     })
   }
   let myHand = newHand()
