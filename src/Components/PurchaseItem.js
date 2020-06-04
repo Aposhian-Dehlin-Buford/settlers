@@ -2,7 +2,8 @@ import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { updateResources, updateDevelopmentDeck, updateDevelopmentHand } from "../redux/gameReducer"
 
-const PurchaseItem = ({ cost, name }) => {
+const PurchaseItem = ({ cost, name, buildSettlement, setBuildSettlement }) => {
+    console.log("name", name, buildSettlement)
     const dispatch = useDispatch()
     const {socket} = useSelector(({authReducer}) => authReducer)
     const {developmentDeck, developmentHand, room} = useSelector(({gameReducer}) => gameReducer)
@@ -11,6 +12,10 @@ const PurchaseItem = ({ cost, name }) => {
   )
 
   const purchase = () => {
+    if(name === 'Settlement'){
+      setBuildSettlement(true)
+    }
+
     console.log(`purchased ${name}`)
     //add functionality to purchase the item
     dispatch(updateResources({

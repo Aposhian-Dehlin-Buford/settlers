@@ -24,6 +24,12 @@
   border-radius: 50%;
 }
 
+.settlement-container {
+  div:hover {
+    background: black;
+  }
+}
+
 .settlement-container1 {
   font-size: 12px;
   background: white;
@@ -99,10 +105,10 @@
   }
   .hexagon:hover {
     z-index: 11;
-    background: radial-gradient(black, rgb(22, 22, 22)) !important;
+    // background: radial-gradient(black, rgb(22, 22, 22)) !important;
 }
 .hexagon:focus {
-    background: radial-gradient(black, rgb(22, 22, 22)) !important;
+    // background: radial-gradient(black, rgb(22, 22, 22)) !important;
 }
   
   .hexagon:before,

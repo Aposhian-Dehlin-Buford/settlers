@@ -72,6 +72,9 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="top-container">
+        {
+          buildSettlement ? <div className="top-container-overlay"></div> : null
+        }
       {active && rolledDice && !tradePending && <OfferTrade />}
       {active && rolledDice && !tradePending && <Purchase buildSettlement={buildSettlement} setBuildSettlement={setBuildSettlement} />}
       {incomingTrade && <IncomingTrade />}
@@ -97,7 +100,7 @@ const Game = () => {
           </div>
         </div>
         <Map buildSettlement={buildSettlement} setBuildSettlement={setBuildSettlement} />
-        <EndTurnButton />
+        <EndTurnButton buildSettlement={buildSettlement} setBuildSettlement={setBuildSettlement} />
         <div className="p4-container"></div>
       </div>
       <div className="bottom-container">
