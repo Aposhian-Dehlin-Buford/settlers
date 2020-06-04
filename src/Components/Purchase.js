@@ -1,5 +1,7 @@
 import React from "react"
 import PurchaseItem from "./PurchaseItem"
+import './Purchase.scss'
+
 const options = [
   { name: "Road", cost: { wood: 1, clay: 1, sheep: 0, wheat: 0, rock: 0 } },
   {
@@ -13,11 +15,12 @@ const options = [
   },
 ]
 
-const Purchase = () => {
+const Purchase = (props) => {
+  const {buildSettlement, setBuildSettlement} = props
   return (
-    <div>
+    <div className="purchase-container">
       {options.map(({ cost, name }, i) => (
-        <PurchaseItem key={i} cost={cost} name={name} />
+        <PurchaseItem buildSettlement={buildSettlement} setBuildSettlement={setBuildSettlement} key={i} cost={cost} name={name} />
       ))}
     </div>
   )

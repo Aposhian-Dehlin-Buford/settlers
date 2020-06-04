@@ -35,7 +35,7 @@ const PurchaseItem = ({ cost, name }) => {
   }
 
   return (
-    <div>
+    <div className="purchase-item-container">
       <div>Purchase {name}</div>
       <div>Cost:</div>
       {cost.wood > 0 && <span>Wood: {cost.wood}</span>}

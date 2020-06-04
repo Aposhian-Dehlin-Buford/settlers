@@ -1,15 +1,12 @@
 import React from 'react';
 
 const Hexagon = (props) => {
-    const {e, i, map, id} = props
+    const {e, i, map, id, buildSettlement, setBuildSettlement} = props
     return (
         <div
           className="hexagon"
           style={{
             background:
-              // i % 2 === 0 && j === 8
-              //   ? "blue"
-              //   : 
                 e.terrain === "water"
                 ? "blue"
                 : e.terrain === "wheat"
@@ -31,6 +28,7 @@ const Hexagon = (props) => {
         >
             {e.number ? <div className="number-container">{e.number}</div> : null}
             {
+              buildSettlement ?
                 id === 1 || id === 3 || id === 8 || id === 10 || id === 12 || id === 17 || id === 19 ? 
                 <><div className="settlement-container1"></div>
                 <div className="settlement-container2"></div>
@@ -43,26 +41,7 @@ const Hexagon = (props) => {
                 id === 7 ? <div className="settlement-container3"></div> :
                 id === 13 ? <div className="settlement-container4"></div> :
                 id === 16 ? <div className="settlement-container6"></div> : null
-
-
-
-
-
-
-                // id < 8 ? 
-                //     <><div className="settlement-container1"></div>
-                //     <div className="settlement-container2"></div>
-                //     <div className="settlement-container3"></div></div> :
-                // id > 7 && id < 13 ?
-                //     <><div className="settlement-container1"></div>
-                //     <div className="settlement-container2"></div>
-                //     <div className="settlement-container3"></div><div className="settlement-container4"></div>
-                //     <div className="settlement-container5"></div>
-                //     <div className="settlement-container6"></div></> :
-                // id > 12 ? 
-                //     <><div className="settlement-container4"></div>
-                //     <div className="settlement-container5"></div>
-                //     <div className="settlement-container6"></div></> : null
+                : null
             }
         </div>
     )

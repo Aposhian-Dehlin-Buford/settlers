@@ -5,7 +5,7 @@ const EndTurnButton = () => {
   const { socket } = useSelector(({ authReducer }) => authReducer)
   const { active, room, rolledDice, tradePending } = useSelector(({ gameReducer }) => gameReducer)
   return (
-    <div>
+    <div className="end-button-container">
       {active && rolledDice && !tradePending && (
         <button
           onClick={() => {
