@@ -1,12 +1,14 @@
-import React from "react"
+import React, {useContext} from "react"
 import { useDispatch } from "react-redux"
 import useInput from "../hooks/useInput"
 import axios from "axios"
 import { setUser } from "../redux/authReducer"
 import { useHistory } from "react-router-dom"
+import {UserContext} from '../context/UserContext'
 
 const Login = () => {
     const dispatch = useDispatch()
+    // const {login} = useContext(UserContext)
     const {push} = useHistory()
   const [{ username, password }, {setInput}] = useInput({
     username: "",
@@ -17,6 +19,7 @@ const Login = () => {
       <form
         onSubmit={(e) => {
             e.preventDefault()
+            // login({username, password})
           axios.post("/auth/login", { username, password }).then((results) => {
             dispatch(setUser(results.data))
             push('/dashboard')

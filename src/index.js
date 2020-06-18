@@ -6,14 +6,17 @@ import * as serviceWorker from "./serviceWorker"
 import { HashRouter as Router } from "react-router-dom"
 import { Provider } from "react-redux"
 import store from "./redux/store"
+import { UserProvider } from "./context/UserContext"
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>
+    <Router>
+      <Provider store={store}>
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </Provider>
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 )
