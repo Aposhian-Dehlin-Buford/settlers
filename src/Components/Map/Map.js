@@ -1,5 +1,6 @@
 import React from "react"
 import "./Map.scss"
+import "./Settlements.scss"
 import { useSelector } from "react-redux"
 import Hexagon from './Hexagon';
 

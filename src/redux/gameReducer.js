@@ -22,7 +22,7 @@ const initialState = {
   diceResult: [0, 0],
   tradePending: false,
   incomingTrade: null,
-  buildings: [],
+  buildings: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
   developmentDeck: [],
   developmentHand: [],
   map: [],
@@ -120,7 +120,7 @@ export default function gameReducer(state = initialState, action) {
     case SET_BUILD_SETTLEMENT:
       return {...state, buildSettlement: payload}
     case UPDATE_BUILDINGS:
-      return {...state, buildings: [...state.buildings, payload]}
+      return {...state, buildings: payload}
     default:
       return state
   }
