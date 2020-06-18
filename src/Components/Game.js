@@ -72,8 +72,8 @@ const Game = () => {
 
     socket.on("reject-offer", () => dispatch(updateTradePending(false)))
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
-    socket.on("buy-building", ({ building }) =>
-      dispatch(updateBuildings(building))
+    socket.on("buy-building", ({ buildingsArray }) =>
+      dispatch(updateBuildings(buildingsArray))
     )
   }, [socket])
   console.log(buildings)
