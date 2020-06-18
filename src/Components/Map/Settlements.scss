@@ -1,0 +1,64 @@
+@import '../../variables';
+
+// .settlements {
+//     div:hover {
+//       outline: 1px solid black;
+//     }
+//   }
+
+.settlement1 {
+    background: transparent;
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    top: -($size/5)/2;
+  }.settlement2 {
+    z-index: 10000;
+    background: transparent;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    bottom: ($size*.74);
+  }.settlement3 {
+    z-index: 10000;
+    background: transparent;
+  
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/2;
+    top: -($size/5)/2;
+  }.settlement4 {
+    background: transparent;
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    bottom: -($size/5)/2;
+  }.settlement5 {
+    background: transparent;
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    top: ($size*.74);
+  }.settlement6 {
+    background: transparent;
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/2;
+    bottom: -($size/5)/2;
+  }
