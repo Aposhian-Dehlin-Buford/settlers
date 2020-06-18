@@ -8,7 +8,9 @@ const ChallengeList = () => {
   const [challenges, setChallenges] = useState([])
   const { socket, user } = useSelector(({ authReducer }) => authReducer)
   useEffect(() => {
-    return () => activeComponent.current = false
+    return () => {
+      activeComponent.current = false
+    }
   }, [])
   useEffect(() => {
     socket.on("send-challenge", (body) => {
@@ -33,9 +35,7 @@ const ChallengeList = () => {
       }
     })
     socket.on("game-start", (body) => {
-      if (activeComponent.current) {
-        dispatch(setGameState(body, user.user_id))
-      }
+      activeComponent.current && dispatch(setGameState(body, user.user_id))
     })
   }, [socket])
   return (
