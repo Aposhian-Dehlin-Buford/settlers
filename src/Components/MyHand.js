@@ -8,20 +8,21 @@ const MyHand = () => {
 
   const newHand = () => {
     let resArr = [sheep, wood, clay, wheat, rock]
+    console.log(resArr)
     let resHand = resArr
       .map(
         (e, i) =>(
           e > 0 ?
           [...Array(e)].map((f, j) =>
             i === 0
-              ? "wheat"
-              : i === 1
               ? "sheep"
-              : i === 2
+              : i === 1
               ? "wood"
+              : i === 2
+              ? "clay"
               : i === 3
-              ? "rock"
-              : "clay"
+              ? "wheat"
+              : "rock"
           ): null)
       )
       .flat()
