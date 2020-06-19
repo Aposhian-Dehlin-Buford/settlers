@@ -12,6 +12,7 @@ const {
   END_GAME,
   SET_BUILD_SETTLEMENT,
   UPDATE_BUILDINGS,
+  SET_MAP_STATE
 } = actionTypes
 
 const initialState = {
@@ -39,6 +40,10 @@ export function setGameState(payload, user_id) {
           : false,
     },
   }
+}
+
+export function setMapState(payload) {
+  return {type: SET_MAP_STATE, payload}
 }
 
 export function updateActivePlayer() {
@@ -121,6 +126,8 @@ export default function gameReducer(state = initialState, action) {
       return {...state, buildSettlement: payload}
     case UPDATE_BUILDINGS:
       return {...state, buildings: payload}
+    case SET_MAP_STATE:
+      return {...state, map: payload}
     default:
       return state
   }
