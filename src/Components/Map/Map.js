@@ -7,7 +7,7 @@ import Hexagon from './Hexagon';
 const Map = () => {
   const { map } = useSelector(({ gameReducer }) => gameReducer)
   // const {buildSettlement, setBuildSettlement} = props
-  console.log("map", map)
+  // console.log("map", map)
   return (
     <div className="map-container">
       <div className="hexagon-row1">

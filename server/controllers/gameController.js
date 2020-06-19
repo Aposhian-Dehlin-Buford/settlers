@@ -27,8 +27,8 @@ const buyCard = (socket, {room, deck}) => {
   socket.to(room).emit('buy-card', {deck})
 }
 
-const buyBuilding = (socket, {room, buildingsArray}) => {
-  socket.to(room).emit('buy-building', {buildingsArray})
+const buyBuilding = (socket, {room, buildingsArray, map}) => {
+  socket.to(room).emit('buy-building', {buildingsArray, map})
 }
 
 module.exports = {

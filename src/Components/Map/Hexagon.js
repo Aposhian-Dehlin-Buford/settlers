@@ -25,13 +25,13 @@ const Hexagon = ({e, id}) => {
     ({ gameReducer }) => gameReducer
     )
 
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, [buildings[id]])
+  // }, [buildings[id]])
 
   const handleClick = (id, slotNum) => {
     let buildingsArray = buildings.slice()
-    console.log("click", buildingsArray)
+    // console.log("click", buildingsArray)
     const building = {
       hexagon_id: id,
       slot_id: slotNum,
@@ -43,14 +43,14 @@ const Hexagon = ({e, id}) => {
     map[id-1].slots[slotNum][4] = user.user_id
     dispatch(setMapState(map))
     buildingsArray[id] = building
-    console.log("click2", buildingsArray)
+    // console.log("click2", buildingsArray)
     dispatch(setBuildSettlement(false))
     dispatch(updateBuildings(buildingsArray))
-    socket.emit("buy-building", { room, buildingsArray })
+    socket.emit("buy-building", { room, buildingsArray, map })
   }
 
-  console.log("buildings", buildings)
-  console.log("map2", map)
+  // console.log("buildings", buildings)
+  // console.log("map2", map)
   return (
     <div
       className="hexagon"

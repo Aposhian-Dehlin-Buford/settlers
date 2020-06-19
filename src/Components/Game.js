@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import Map from "./Map/Map"
@@ -13,6 +13,7 @@ import {
   updateDevelopmentDeck,
   endGame,
   updateBuildings,
+  setMapState,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -24,10 +25,13 @@ import "./Dice/Dice.scss"
 import Purchase from "./Purchase"
 import DevelopmentDeck from "./DevelopmentDeck"
 import { useHistory } from "react-router-dom"
+import { UserContext } from "../context/UserContext"
 
 const Game = () => {
   const { push } = useHistory()
   const dispatch = useDispatch()
+  // const {user} = useContext(UserContext)
+  const { user } = useSelector(({ authReducer }) => authReducer)
   const { socket } = useSelector(({ authReducer }) => authReducer)
   const {
     incomingTrade,
@@ -35,7 +39,7 @@ const Game = () => {
     rolledDice,
     tradePending,
     buildSettlement,
-    buildings,
+    map,
   } = useSelector(({ gameReducer }) => gameReducer)
   useEffect(() => {
     socket.on("disconnect", () => {
@@ -52,9 +56,28 @@ const Game = () => {
       })
     })
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
-    socket.on("dice-result", ({ diceResult }) =>
+    socket.on("dice-result", ({ diceResult }) => {
+      console.log(map)
+      map.forEach((e) => {
+        // console.log(e)
+        if (e.number === diceResult) {
+          for (let key in e.slots) {
+            if ((e.slots[key][3] === 1 || 2) && e.slots[key][4] === user.user_id) {
+              console.log("TEST")
+              console.log(e)
+              console.log(e.slots[key])
+              dispatch(updateResources({[e.terrain]: e.slots[key][3]}))
+            }
+          }
+        }
+        // e.slots.forEach(el => {
+        //   if(el[3] === 1 && el[4] === user.user_id){
+        //     console.log(el)
+        //   }
+        // })
+      })
       dispatch(updateDiceResult(diceResult))
-    )
+    })
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
     socket.on("accept-offer", (body) => {
       const { offer, request, room } = body
@@ -72,15 +95,16 @@ const Game = () => {
 
     socket.on("reject-offer", () => dispatch(updateTradePending(false)))
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
-    socket.on("buy-building", ({ buildingsArray }) =>
+    socket.on("buy-building", ({ buildingsArray, map }) => {
+      dispatch(setMapState(map))
       dispatch(updateBuildings(buildingsArray))
-    )
+    })
   }, [socket])
-  console.log(buildings)
+  // console.log(buildings)
   return (
     <div className="game-container">
       <div className="top-container">
-        {buildSettlement ? <div className="top-container-overlay"></div> : null}
+        {buildSettlement && <div className="top-container-overlay"></div>}
         {active && rolledDice && !tradePending && <OfferTrade />}
         {active && rolledDice && !tradePending && <Purchase />}
         {incomingTrade && <IncomingTrade />}
