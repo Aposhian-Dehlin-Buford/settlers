@@ -43,6 +43,7 @@ export function setGameState(payload, user_id) {
 }
 
 export function setMapState(payload) {
+  console.log(payload)
   return {type: SET_MAP_STATE, payload}
 }
 
@@ -67,6 +68,7 @@ export function updateIncomingTrade(payload) {
 }
 
 export function updateResources(payload) {
+  console.log(payload)
   return { type: UPDATE_RESOURCES, payload }
 }
 

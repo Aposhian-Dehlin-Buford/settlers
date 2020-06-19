@@ -6,8 +6,8 @@ import {UserContext} from '../context/UserContext'
 const UserList = () => {
   const activeComponent = useRef(true)
   const [users, setUsers] = useState([])
-  // const {user} = useContext(UserContext)
-  const { socket, user } = useSelector(({ authReducer }) => authReducer)
+  const {user, socket} = useContext(UserContext)
+  // const { socket, user } = useSelector(({ authReducer }) => authReducer)
   const { gameStart } = useSelector(({ gameReducer }) => gameReducer)
   useEffect(() => {
     axios

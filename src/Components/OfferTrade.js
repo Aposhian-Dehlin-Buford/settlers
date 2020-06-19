@@ -1,12 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import OfferResource from "./OfferResource"
 import { updateTradePending } from "../redux/gameReducer"
+import {UserContext} from '../context/UserContext'
 import './Trade.scss'
 
 const OfferTrade = () => {
   const dispatch = useDispatch()
-  const { socket } = useSelector(({ authReducer }) => authReducer)
+  const {socket} = useContext(UserContext)
+  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const { active, rolledDice, room, tradePending } = useSelector(
     ({ gameReducer }) => gameReducer
   )

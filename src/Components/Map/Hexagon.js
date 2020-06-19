@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useContext} from "react"
 import { BsHouseFill } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -6,6 +6,7 @@ import {
   updateBuildings,
   setMapState
 } from "../../redux/gameReducer"
+import {UserContext} from '../../context/UserContext'
 
 const buildingArrayExample = [
   {
@@ -20,18 +21,20 @@ const buildingArrayExample = [
 const Hexagon = ({e, id}) => {
   
   const dispatch = useDispatch()
-  const { user, socket } = useSelector(({ authReducer }) => authReducer)
+  const {user, socket} = useContext(UserContext)
+  // const { user, socket } = useSelector(({ authReducer }) => authReducer)
   const { buildSettlement, room, buildings, map } = useSelector(
     ({ gameReducer }) => gameReducer
     )
 
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, [buildings[id]])
+  // }, [buildings[id]])
 
   const handleClick = (id, slotNum) => {
     let buildingsArray = buildings.slice()
-    console.log("click", buildingsArray)
+    const mapArray = [...map]
+    // console.log("click", buildingsArray)
     const building = {
       hexagon_id: id,
       slot_id: slotNum,
@@ -39,18 +42,20 @@ const Hexagon = ({e, id}) => {
       building_type: 1,
       adjacent_numbers: [],
     }
-    map[id-1].slots[slotNum][3] = 1
-    map[id-1].slots[slotNum][4] = user.user_id
-    dispatch(setMapState(map))
+    console.log(slotNum)
+    mapArray[id-1].slots[slotNum][3] = 1
+    mapArray[id-1].slots[slotNum][4] = user.user_id
+    dispatch(setMapState(mapArray))
     buildingsArray[id] = building
-    console.log("click2", buildingsArray)
+    // console.log("click2", buildingsArray)
+    // console.log(mapArray)
     dispatch(setBuildSettlement(false))
     dispatch(updateBuildings(buildingsArray))
-    socket.emit("buy-building", { room, buildingsArray })
+    socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
-  console.log("buildings", buildings)
-  console.log("map2", map)
+  // console.log("buildings", buildings)
+  // console.log("map2", map)
   return (
     <div
       className="hexagon"
