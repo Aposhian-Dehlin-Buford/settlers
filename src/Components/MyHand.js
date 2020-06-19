@@ -8,7 +8,6 @@ const MyHand = () => {
 
   const newHand = () => {
     let resArr = [sheep, wood, clay, wheat, rock]
-    console.log(resArr)
     let resHand = resArr
       .map(
         (e, i) =>(

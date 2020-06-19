@@ -27,6 +27,14 @@ import DevelopmentDeck from "./DevelopmentDeck"
 import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 
+const resources = {
+  clay: 0,
+  wheat: 0,
+  rock: 0,
+  sheep: 0,
+  wood: 0
+}
+
 const Game = () => {
   const { push } = useHistory()
   const dispatch = useDispatch()
@@ -41,6 +49,7 @@ const Game = () => {
     buildSettlement,
     map,
   } = useSelector(({ gameReducer }) => gameReducer)
+  console.log(map)
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -57,16 +66,23 @@ const Game = () => {
     })
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
     socket.on("dice-result", ({ diceResult }) => {
-      console.log(map)
+      // console.log('testing')
+      // console.log(diceResult)
+      // console.log('test')
+      // console.log(map)
       map.forEach((e) => {
         // console.log(e)
-        if (e.number === diceResult) {
+        if (e.number === diceResult[0] + diceResult[1]) {
+          // console.log(e.number)
           for (let key in e.slots) {
-            if ((e.slots[key][3] === 1 || 2) && e.slots[key][4] === user.user_id) {
-              console.log("TEST")
-              console.log(e)
-              console.log(e.slots[key])
-              dispatch(updateResources({[e.terrain]: e.slots[key][3]}))
+            if (
+              (e.slots[key][3] === 1 || e.slots[key][3] === 2) &&
+              e.slots[key][4] === user.user_id
+            ) {
+              // console.log("TEST")
+              // console.log(e)
+              // console.log(e.slots[key])
+              dispatch(updateResources({ ...resources, [e.terrain]: e.slots[key][3] }))
             }
           }
         }

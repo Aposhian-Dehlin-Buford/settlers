@@ -31,6 +31,7 @@ const Hexagon = ({e, id}) => {
 
   const handleClick = (id, slotNum) => {
     let buildingsArray = buildings.slice()
+    const mapArray = [...map]
     // console.log("click", buildingsArray)
     const building = {
       hexagon_id: id,
@@ -39,14 +40,16 @@ const Hexagon = ({e, id}) => {
       building_type: 1,
       adjacent_numbers: [],
     }
-    map[id-1].slots[slotNum][3] = 1
-    map[id-1].slots[slotNum][4] = user.user_id
-    dispatch(setMapState(map))
+    console.log(slotNum)
+    mapArray[id-1].slots[slotNum][3] = 1
+    mapArray[id-1].slots[slotNum][4] = user.user_id
+    dispatch(setMapState(mapArray))
     buildingsArray[id] = building
     // console.log("click2", buildingsArray)
+    // console.log(mapArray)
     dispatch(setBuildSettlement(false))
     dispatch(updateBuildings(buildingsArray))
-    socket.emit("buy-building", { room, buildingsArray, map })
+    socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
   // console.log("buildings", buildings)
