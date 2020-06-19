@@ -7,17 +7,17 @@ const seedMap = () => {
         let idTile = grid.filter((f,j) => f.id=== id)[0]
 
         return {
-            one: [idTile, grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === y))[0], id < 13 ? grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === (y-1 & y-1)))[0] : grid.filter((f,j) => (f.x === x && f.y === (y-1 & y-1)))[0]],
+            1: [idTile, grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === y))[0], id < 13 ? grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === (y-1 & y-1)))[0] : grid.filter((f,j) => (f.x === x && f.y === (y-1 & y-1)))[0], 0, 0],
 
-            two: [idTile, id  < 13 ? grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0]],
+            2: [idTile, id  < 13 ? grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0], 0, 0],
 
-            three: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 13 ? grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0]],
+            3: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 13 ? grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], 0, 0],
 
-            four: [idTile, grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0]],
+            4: [idTile, grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0], 0, 0],
 
-            five: [idTile, grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0]],
+            5: [idTile, grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0], 0, 0],
 
-            six: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 &  x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0]]
+            6: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 &  x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], 0, 0]
         }
 
     }

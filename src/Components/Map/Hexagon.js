@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   setBuildSettlement,
   updateBuildings,
+  setMapState
 } from "../../redux/gameReducer"
 
 const buildingArrayExample = [
@@ -20,7 +21,7 @@ const Hexagon = ({e, id}) => {
   
   const dispatch = useDispatch()
   const { user, socket } = useSelector(({ authReducer }) => authReducer)
-  const { buildSettlement, room, buildings } = useSelector(
+  const { buildSettlement, room, buildings, map } = useSelector(
     ({ gameReducer }) => gameReducer
     )
 
@@ -38,6 +39,9 @@ const Hexagon = ({e, id}) => {
       building_type: 1,
       adjacent_numbers: [],
     }
+    map[id-1].slots[slotNum][3] = 1
+    map[id-1].slots[slotNum][4] = user.user_id
+    dispatch(setMapState(map))
     buildingsArray[id] = building
     console.log("click2", buildingsArray)
     dispatch(setBuildSettlement(false))
@@ -46,6 +50,7 @@ const Hexagon = ({e, id}) => {
   }
 
   console.log("buildings", buildings)
+  console.log("map2", map)
   return (
     <div
       className="hexagon"
@@ -171,7 +176,7 @@ const Hexagon = ({e, id}) => {
           id === 19 ? (
             <>
               <div className="settlement1"
-              >{buildings[id].hexagon_id && buildings[id].slot_id === 1 && <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />}</div>
+              >{buildings[id].hexagon_id && buildings[id].slot_id === 1 && <BsHouseFill color={buildings[id].user_id === 1 ? "blue" : "red"} />}</div>
               <div className="settlement2">{buildings[id].hexagon_id && buildings[id].slot_id === 2 && <BsHouseFill color={buildings[id].user_id === 1 ? "blue" : "red"} />}</div>
               <div className="settlement3">{buildings[id].hexagon_id && buildings[id].slot_id === 3 && <BsHouseFill color={buildings[id].user_id === 1 ? "blue" : "red"} />}</div>
               <div className="settlement4">{buildings[id].hexagon_id && buildings[id].slot_id === 4 && <BsHouseFill color={buildings[id].user_id === 1 ? "blue" : "red"} />}</div>
