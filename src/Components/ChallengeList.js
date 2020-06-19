@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { setGameState } from "../redux/gameReducer"
+import {UserContext} from '../context/UserContext'
 
 const ChallengeList = () => {
   const dispatch = useDispatch()
   const activeComponent = useRef(true)
+  // const {user} = useContext(UserContext)
   const [challenges, setChallenges] = useState([])
   const { socket, user } = useSelector(({ authReducer }) => authReducer)
   useEffect(() => {

@@ -22,12 +22,12 @@ const removeUserFromList = (app, socket) => {
   //   { userIndex: null, user_id: null }
   // )
   const user = users.find(e => e.socket_id === socket.id)
-  const filteredUsers = users.filter(e => e.user_id !== user.user_id)
+  const filteredUsers = users.filter(e => +e.user_id !== +user.user_id)
   // users.splice(userIndex, 1)
   // console.log(filteredUsers)
   app.set("users", filteredUsers)
   socket.leave("userlist")
-  io.in("userlist").emit("users", removeSocketId(users))
+  io.in("userlist").emit("users", removeSocketId(filteredUsers))
   return user.user_id
 }
 const removeUserChallenges = (user_id, app) => {
