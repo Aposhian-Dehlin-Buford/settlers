@@ -6,9 +6,9 @@ import {UserContext} from '../context/UserContext'
 const ChallengeList = () => {
   const dispatch = useDispatch()
   const activeComponent = useRef(true)
-  // const {user} = useContext(UserContext)
+  const {user, socket} = useContext(UserContext)
+  // const { socket, user } = useSelector(({ authReducer }) => authReducer)
   const [challenges, setChallenges] = useState([])
-  const { socket, user } = useSelector(({ authReducer }) => authReducer)
   useEffect(() => {
     return () => {
       activeComponent.current = false

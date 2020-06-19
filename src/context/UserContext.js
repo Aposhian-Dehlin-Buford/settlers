@@ -1,18 +1,20 @@
 import React, { useState, createContext } from "react"
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom"
 import axios from "axios"
 
 export const UserContext = createContext(null)
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const history = useHistory()
+  const [socket, setSocket] = useState(null)
+  const {push} = useHistory()
   const login = (body) => {
     axios
       .post("/auth/login", body)
       .then(({ data }) => {
-        history.push('/dashboard')
-        setUser(data)})
+        setUser(data)
+        push("/dashboard")
+      })
       .catch(({ message }) => console.log(message))
   }
   const register = (body) => {
@@ -43,6 +45,8 @@ export const UserProvider = ({ children }) => {
         register,
         logout,
         getUser,
+        socket,
+        setSocket,
       }}
     >
       {children}

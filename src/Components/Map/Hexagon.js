@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useContext} from "react"
 import { BsHouseFill } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -6,6 +6,7 @@ import {
   updateBuildings,
   setMapState
 } from "../../redux/gameReducer"
+import {UserContext} from '../../context/UserContext'
 
 const buildingArrayExample = [
   {
@@ -20,7 +21,8 @@ const buildingArrayExample = [
 const Hexagon = ({e, id}) => {
   
   const dispatch = useDispatch()
-  const { user, socket } = useSelector(({ authReducer }) => authReducer)
+  const {user, socket} = useContext(UserContext)
+  // const { user, socket } = useSelector(({ authReducer }) => authReducer)
   const { buildSettlement, room, buildings, map } = useSelector(
     ({ gameReducer }) => gameReducer
     )

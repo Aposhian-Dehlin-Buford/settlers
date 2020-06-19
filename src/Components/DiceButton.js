@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { setRolledDice } from '../redux/gameReducer'
 import {GiRollingDices} from 'react-icons/gi'
+import {UserContext} from '../context/UserContext'
 
 const DiceButton = () => {
     const dispatch = useDispatch()
-    const { socket } = useSelector(({ authReducer }) => authReducer)
+    const {socket} = useContext(UserContext)
+    // const { socket } = useSelector(({ authReducer }) => authReducer)
     const { active, rolledDice, room } = useSelector(({ gameReducer }) => gameReducer)
     return (
         <div>

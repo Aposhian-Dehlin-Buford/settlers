@@ -38,9 +38,9 @@ const resources = {
 const Game = () => {
   const { push } = useHistory()
   const dispatch = useDispatch()
-  // const {user} = useContext(UserContext)
-  const { user } = useSelector(({ authReducer }) => authReducer)
-  const { socket } = useSelector(({ authReducer }) => authReducer)
+  const {user, socket} = useContext(UserContext)
+  // const { user, socket } = useSelector(({ authReducer }) => authReducer)
+  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const {
     incomingTrade,
     active,

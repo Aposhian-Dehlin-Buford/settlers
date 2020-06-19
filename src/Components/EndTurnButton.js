@@ -1,8 +1,10 @@
-import React from "react"
+import React, {useContext} from "react"
 import { useSelector } from "react-redux"
+import {UserContext} from '../context/UserContext'
 
 const EndTurnButton = () => {
-  const { socket } = useSelector(({ authReducer }) => authReducer)
+  const {socket} = useContext(UserContext)
+  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const {
     active,
     room,

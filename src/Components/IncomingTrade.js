@@ -1,10 +1,12 @@
-import React from "react"
+import React, {useContext} from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { updateIncomingTrade, updateResources } from "../redux/gameReducer"
+import {UserContext} from '../context/UserContext'
 
 const IncomingTrade = () => {
   const dispatch = useDispatch()
-  const { socket } = useSelector(({ authReducer }) => authReducer)
+  const {socket} = useContext(UserContext)
+  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const { room } = useSelector(({ gameReducer }) => gameReducer)
   const { offer, request } = useSelector(
     ({ gameReducer }) => gameReducer.incomingTrade
