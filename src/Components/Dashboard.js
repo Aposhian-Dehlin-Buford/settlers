@@ -14,7 +14,7 @@ const Dashboard = () => {
   // const dispatch = useDispatch()
   const {socket, setSocket} = useContext(UserContext)
   // const {socket} = useSelector(({authReducer}) => authReducer)
-  const {gameStart} = useSelector(({gameReducer}) => gameReducer)
+  const {gameStart} = useSelector((redux) => redux)
   useEffect(() => {
     setSocket(sock)
   //   dispatch(setSocket(sock))

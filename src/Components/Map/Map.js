@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import Hexagon from './Hexagon';
 
 const Map = () => {
-  const { map } = useSelector(({ gameReducer }) => gameReducer)
+  const { map } = useSelector((redux) => redux)
   // const {buildSettlement, setBuildSettlement} = props
   // console.log("map", map)
   return (

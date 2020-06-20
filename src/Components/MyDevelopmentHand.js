@@ -2,7 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 
 const MyDevelopmentHand = () => {
-  const { developmentHand } = useSelector(({ gameReducer }) => gameReducer)
+  const { developmentHand } = useSelector((redux) => redux)
   return (
     <div>
       {developmentHand.map((e, i) => (

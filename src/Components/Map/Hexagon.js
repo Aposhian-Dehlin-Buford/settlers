@@ -23,7 +23,7 @@ const Hexagon = ({ e, id }) => {
   const { user, socket } = useContext(UserContext)
   // const { user, socket } = useSelector(({ authReducer }) => authReducer)
   const { buildSettlement, room, buildings, map } = useSelector(
-    ({ gameReducer }) => gameReducer
+    (redux) => redux
   )
 
   // useEffect(() => {

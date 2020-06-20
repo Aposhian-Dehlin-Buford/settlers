@@ -40,8 +40,7 @@ const Game = () => {
   const { push } = useHistory()
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
-  // const { user, socket } = useSelector(({ authReducer }) => authReducer)
-  // const { socket } = useSelector(({ authReducer }) => authReducer)
+  // const mapRef = useRef(false)
   const {
     incomingTrade,
     active,
@@ -49,7 +48,7 @@ const Game = () => {
     tradePending,
     buildSettlement,
     map,
-  } = useSelector(({ gameReducer }) => gameReducer)
+  } = useSelector((redux) => redux)
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -66,33 +65,19 @@ const Game = () => {
     })
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
     socket.on("dice-result", ({ diceResult }) => {
-      // console.log('testing')
-      // console.log(diceResult)
-      // console.log('test')
-      // console.log(map)
       map.forEach((e) => {
-        // console.log(e)
         if (e.number === diceResult[0] + diceResult[1]) {
-          // console.log(e.number)
           for (let key in e.slots) {
             if (
               (e.slots[key][3] === 1 || e.slots[key][3] === 2) &&
               e.slots[key][4] === user.user_id
             ) {
-              // console.log("TEST")
-              // console.log(e)
-              // console.log(e.slots[key])
               dispatch(
                 updateResources({ ...resources, [e.terrain]: e.slots[key][3] })
               )
             }
           }
         }
-        // e.slots.forEach(el => {
-        //   if(el[3] === 1 && el[4] === user.user_id){
-        //     console.log(el)
-        //   }
-        // })
       })
       dispatch(updateDiceResult(diceResult))
     })
@@ -116,11 +101,9 @@ const Game = () => {
     socket.on("buy-building", ({ buildingsArray, newMap }) => {
       dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
+      // mapRef required to force re-render when the map updates
+      // mapRef.current = !mapRef.current
     })
-    // in order to add map to dependency array we probably need to
-    // break this out into 2 useEffects or possibly use useRef in order
-    // to fix bug where passing turn doesn't happen. Not sure exact cause
-    // yet will take some investigating
   }, [socket, dispatch, push, user.user_id])
 
   return (

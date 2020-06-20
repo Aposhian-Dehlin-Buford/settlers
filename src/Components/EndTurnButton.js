@@ -11,7 +11,7 @@ const EndTurnButton = () => {
     rolledDice,
     tradePending,
     buildSettlement,
-  } = useSelector(({ gameReducer }) => gameReducer)
+  } = useSelector((redux) => redux)
   return (
     <div className="end-button-container">
       {!buildSettlement && active && rolledDice && !tradePending && (

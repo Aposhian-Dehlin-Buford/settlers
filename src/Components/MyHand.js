@@ -2,9 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 
 const MyHand = () => {
-  const { sheep, wood, clay, wheat, rock } = useSelector(
-    ({ gameReducer }) => gameReducer.resources
-  )
+  const { sheep, wood, clay, wheat, rock } = useSelector((redux) => redux.resources)
 
   const newHand = () => {
     return [sheep, wood, clay, wheat, rock]

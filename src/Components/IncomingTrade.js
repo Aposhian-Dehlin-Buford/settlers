@@ -7,13 +7,9 @@ const IncomingTrade = () => {
   const dispatch = useDispatch()
   const {socket} = useContext(UserContext)
   // const { socket } = useSelector(({ authReducer }) => authReducer)
-  const { room } = useSelector(({ gameReducer }) => gameReducer)
-  const { offer, request } = useSelector(
-    ({ gameReducer }) => gameReducer.incomingTrade
-  )
-  const { sheep, wheat, wood, clay, rock } = useSelector(
-    ({ gameReducer }) => gameReducer.resources
-  )
+  const { room } = useSelector((redux) => redux)
+  const { offer, request } = useSelector((redux) => redux.incomingTrade)
+  const { sheep, wheat, wood, clay, rock } = useSelector((redux) => redux.resources)
   const { offerWood, offerClay, offerWheat, offerSheep, offerRock } = offer
   const { forWood, forClay, forWheat, forSheep, forRock } = request
 

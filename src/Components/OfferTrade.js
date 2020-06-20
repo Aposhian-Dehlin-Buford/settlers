@@ -9,12 +9,8 @@ const OfferTrade = () => {
   const dispatch = useDispatch()
   const {socket} = useContext(UserContext)
   // const { socket } = useSelector(({ authReducer }) => authReducer)
-  const { active, rolledDice, room, tradePending } = useSelector(
-    ({ gameReducer }) => gameReducer
-  )
-  const { sheep, wheat, wood, clay, rock } = useSelector(
-    ({ gameReducer }) => gameReducer.resources
-  )
+  const { active, rolledDice, room, tradePending } = useSelector((redux) => redux)
+  const { sheep, wheat, wood, clay, rock } = useSelector((redux) => redux.resources)
   const [offerSheep, setOffSheep] = useState(0)
   const [offerWood, setOffWood] = useState(0)
   const [offerClay, setOffClay] = useState(0)
