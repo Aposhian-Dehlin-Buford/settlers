@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
-// import { useDispatch, useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { setGameState } from "../redux/gameReducer"
 import {UserContext} from '../context/UserContext'
@@ -8,7 +7,6 @@ const ChallengeList = () => {
   const dispatch = useDispatch()
   const activeComponent = useRef(true)
   const {user, socket} = useContext(UserContext)
-  // const { socket, user } = useSelector(({ authReducer }) => authReducer)
   const [challenges, setChallenges] = useState([])
   useEffect(() => {
     return () => {

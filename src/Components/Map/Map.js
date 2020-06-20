@@ -6,8 +6,6 @@ import Hexagon from './Hexagon';
 
 const Map = () => {
   const { map } = useSelector((redux) => redux)
-  // const {buildSettlement, setBuildSettlement} = props
-  // console.log("map", map)
   return (
     <div className="map-container">
       <div className="hexagon-row1">

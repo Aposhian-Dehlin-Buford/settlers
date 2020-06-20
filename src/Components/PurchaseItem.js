@@ -11,7 +11,6 @@ import {UserContext} from '../context/UserContext'
 const PurchaseItem = ({ cost, name }) => {
   const dispatch = useDispatch()
   const {socket} = useContext(UserContext)
-  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const { developmentDeck, developmentHand, room } = useSelector((redux) => redux)
   const { wood, sheep, wheat, rock, clay } = useSelector((redux) => redux.resources)
 

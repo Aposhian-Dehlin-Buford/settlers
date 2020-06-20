@@ -4,7 +4,6 @@ import {UserContext} from '../context/UserContext'
 
 const EndTurnButton = () => {
   const {socket} = useContext(UserContext)
-  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const {
     active,
     room,

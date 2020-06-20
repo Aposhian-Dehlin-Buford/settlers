@@ -6,7 +6,6 @@ import {UserContext} from '../context/UserContext'
 const IncomingTrade = () => {
   const dispatch = useDispatch()
   const {socket} = useContext(UserContext)
-  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const { room } = useSelector((redux) => redux)
   const { offer, request } = useSelector((redux) => redux.incomingTrade)
   const { sheep, wheat, wood, clay, rock } = useSelector((redux) => redux.resources)
