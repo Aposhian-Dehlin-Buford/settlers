@@ -11,19 +11,19 @@ const Map = () => {
   return (
     <div className="map-container">
       <div className="hexagon-row1">
-        {map.slice(0, 3).map((e,i) => <Hexagon e={e} i={i} id={e.id} />)}
+        {map.slice(0, 3).map((e,i) => <Hexagon e={e} i={i} id={e.id} key={e.id} />)}
       </div>
       <div className="hexagon-row2">
-        {map.slice(3, 7).map((e,i) => <Hexagon e={e} i={i}  id={e.id} />)}
+        {map.slice(3, 7).map((e,i) => <Hexagon e={e} i={i}  id={e.id} key={e.id} />)}
       </div>
       <div className="hexagon-row3">
-        {map.slice(7, 12).map((e,i) => <Hexagon e={e} i={i}  id={e.id} />)}
+        {map.slice(7, 12).map((e,i) => <Hexagon e={e} i={i}  id={e.id} key={e.id} />)}
       </div>
       <div className="hexagon-row4">
-        {map.slice(12, 16).map((e,i) => <Hexagon e={e} i={i}  id={e.id} />)}
+        {map.slice(12, 16).map((e,i) => <Hexagon e={e} i={i}  id={e.id} key={e.id} />)}
       </div>
       <div className="hexagon-row5">
-        {map.slice(16, 19).map((e,i) => <Hexagon e={e} i={i}  id={e.id} />)}
+        {map.slice(16, 19).map((e,i) => <Hexagon e={e} i={i}  id={e.id} key={e.id} />)}
       </div>
     </div>
     )

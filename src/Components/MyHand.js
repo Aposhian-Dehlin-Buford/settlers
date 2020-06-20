@@ -7,11 +7,10 @@ const MyHand = () => {
   )
 
   const newHand = () => {
-    let resArr = [sheep, wood, clay, wheat, rock]
-    let resHand = resArr
+    return [sheep, wood, clay, wheat, rock]
       .map(
-        (e, i) =>(
-          e > 0 ?
+        (e, i) =>
+          e > 0 &&
           [...Array(e)].map((f, j) =>
             i === 0
               ? "sheep"
@@ -22,16 +21,16 @@ const MyHand = () => {
               : i === 3
               ? "wheat"
               : "rock"
-          ): null)
+          )
       )
       .flat()
-    return resHand.map((e, i) => {
-      return <div key={i} className={e}>{e}</div>
-    })
+      .map((e, i) => (
+        <div key={i} className={e}>
+          {e}
+        </div>
+      ))
   }
-  let myHand = newHand()
-
-  return <div className="my-hand-container">{myHand}</div>
+  return <div className="my-hand-container">{newHand()}</div>
 }
 
 export default MyHand

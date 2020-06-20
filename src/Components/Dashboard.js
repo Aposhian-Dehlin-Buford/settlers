@@ -19,7 +19,7 @@ const Dashboard = () => {
     setSocket(sock)
   //   dispatch(setSocket(sock))
   // }, [dispatch])
-}, [setSocket, sock])
+}, [setSocket])
   return (
     <div>
       {socket && !gameStart && <UserList />}

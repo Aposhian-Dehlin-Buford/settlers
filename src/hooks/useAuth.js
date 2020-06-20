@@ -16,7 +16,7 @@ const useAuth = (adminRequired = false) => {
     // else if (user && adminRequired && !user.is_admin) {
     //   push("/dashboard")
     // }
-  }, [user])
+  }, [user, push])
 }
 
 export default useAuth

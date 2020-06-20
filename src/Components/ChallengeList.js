@@ -40,7 +40,7 @@ const ChallengeList = () => {
     socket.on("game-start", (body) => {
       activeComponent.current && dispatch(setGameState(body, user.user_id))
     })
-  }, [socket])
+  }, [socket, dispatch, user.user_id])
   return (
     <div>
       <div>Challenges</div>

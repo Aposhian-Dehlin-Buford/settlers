@@ -26,19 +26,20 @@ import Purchase from "./Purchase"
 import DevelopmentDeck from "./DevelopmentDeck"
 import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
+import MyDevelopmentHand from "./MyDevelopmentHand"
 
 const resources = {
   clay: 0,
   wheat: 0,
   rock: 0,
   sheep: 0,
-  wood: 0
+  wood: 0,
 }
 
 const Game = () => {
   const { push } = useHistory()
   const dispatch = useDispatch()
-  const {user, socket} = useContext(UserContext)
+  const { user, socket } = useContext(UserContext)
   // const { user, socket } = useSelector(({ authReducer }) => authReducer)
   // const { socket } = useSelector(({ authReducer }) => authReducer)
   const {
@@ -49,7 +50,6 @@ const Game = () => {
     buildSettlement,
     map,
   } = useSelector(({ gameReducer }) => gameReducer)
-  console.log(map)
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -82,7 +82,9 @@ const Game = () => {
               // console.log("TEST")
               // console.log(e)
               // console.log(e.slots[key])
-              dispatch(updateResources({ ...resources, [e.terrain]: e.slots[key][3] }))
+              dispatch(
+                updateResources({ ...resources, [e.terrain]: e.slots[key][3] })
+              )
             }
           }
         }
@@ -96,7 +98,7 @@ const Game = () => {
     })
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
     socket.on("accept-offer", (body) => {
-      const { offer, request, room } = body
+      const { offer, request } = body
       dispatch(
         updateResources({
           wood: request.forWood - offer.offerWood,
@@ -111,12 +113,16 @@ const Game = () => {
 
     socket.on("reject-offer", () => dispatch(updateTradePending(false)))
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
-    socket.on("buy-building", ({ buildingsArray, map }) => {
-      dispatch(setMapState(map))
+    socket.on("buy-building", ({ buildingsArray, newMap }) => {
+      dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
     })
-  }, [socket])
-  // console.log(buildings)
+    // in order to add map to dependency array we probably need to
+    // break this out into 2 useEffects or possibly use useRef in order
+    // to fix bug where passing turn doesn't happen. Not sure exact cause
+    // yet will take some investigating
+  }, [socket, dispatch, push, user.user_id])
+
   return (
     <div className="game-container">
       <div className="top-container">
@@ -124,6 +130,7 @@ const Game = () => {
         {active && rolledDice && !tradePending && <OfferTrade />}
         {active && rolledDice && !tradePending && <Purchase />}
         {incomingTrade && <IncomingTrade />}
+        {<MyDevelopmentHand />}
       </div>
       <div className="middle-container">
         <div className="p3-container"></div>
