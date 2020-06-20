@@ -4,14 +4,13 @@ import {UserContext} from '../context/UserContext'
 
 const EndTurnButton = () => {
   const {socket} = useContext(UserContext)
-  // const { socket } = useSelector(({ authReducer }) => authReducer)
   const {
     active,
     room,
     rolledDice,
     tradePending,
     buildSettlement,
-  } = useSelector(({ gameReducer }) => gameReducer)
+  } = useSelector((redux) => redux)
   return (
     <div className="end-button-container">
       {!buildSettlement && active && rolledDice && !tradePending && (

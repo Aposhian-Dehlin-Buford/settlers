@@ -21,19 +21,13 @@ import { UserContext } from "../../context/UserContext"
 const Hexagon = ({ e, id }) => {
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
-  // const { user, socket } = useSelector(({ authReducer }) => authReducer)
   const { buildSettlement, room, buildings, map } = useSelector(
-    ({ gameReducer }) => gameReducer
+    (redux) => redux
   )
-
-  // useEffect(() => {
-
-  // }, [buildings[id]])
 
   const handleClick = (id, slotNum) => {
     let buildingsArray = buildings.slice()
     const mapArray = [...map]
-    // console.log("click", buildingsArray)
     const building = {
       hexagon_id: id,
       slot_id: slotNum,
@@ -46,15 +40,10 @@ const Hexagon = ({ e, id }) => {
     mapArray[id - 1].slots[slotNum][4] = user.user_id
     dispatch(setMapState(mapArray))
     buildingsArray[id] = building
-    // console.log("click2", buildingsArray)
-    // console.log(mapArray)
     dispatch(setBuildSettlement(false))
     dispatch(updateBuildings(buildingsArray))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
-
-  // console.log("buildings", buildings)
-  // console.log("map2", map)
   return (
     <div
       className="hexagon"
