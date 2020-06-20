@@ -21,7 +21,7 @@ const UserList = () => {
   useEffect(() => {
     socket.emit("join", user)
     socket.on("users", (body) => activeComponent.current && setUsers(body))
-  }, [socket])
+  }, [socket, user])
   return (
     <div>
       <div>Active Users</div>

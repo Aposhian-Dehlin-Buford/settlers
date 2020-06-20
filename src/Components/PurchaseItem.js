@@ -44,6 +44,7 @@ const PurchaseItem = ({ cost, name }) => {
         socket.emit("buy-card", { deck, room })
         dispatch(updateDevelopmentDeck(deck))
         dispatch(updateDevelopmentHand(hand))
+        break
       default:
         return
     }
