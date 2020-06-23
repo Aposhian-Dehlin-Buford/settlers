@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
 import axios from "axios"
 import { useSelector } from "react-redux"
-import {UserContext} from '../context/UserContext'
+import { UserContext } from "../context/UserContext"
 
 const UserList = () => {
   const activeComponent = useRef(true)
