@@ -103,7 +103,8 @@ const generateInitialGameState = (
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
-    buildings: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+    buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
+    numBuildings: [],
     developmentDeck: seedDeck(),
     developmentHand: [],
     map: seedMap(),

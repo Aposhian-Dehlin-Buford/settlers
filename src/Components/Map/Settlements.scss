@@ -6,7 +6,7 @@
 //     }
 //   }
 
-.settlement1 {
+.settlement0 {
     background: transparent;
     z-index: 10000;
     height: $size/5;
@@ -15,7 +15,7 @@
     position: absolute;
     left: -($size/5)/2;
     top: -($size/5)/2;
-  }.settlement2 {
+  }.settlement1 {
     z-index: 10000;
     background: transparent;
     height: $size/5;
@@ -24,17 +24,16 @@
     position: absolute;
     left: center;
     bottom: ($size*.74);
-  }.settlement3 {
+  }.settlement2 {
     z-index: 10000;
     background: transparent;
-  
     height: $size/5;
     width: $size/5;
     border-radius: 50%;
     position: absolute;
     right: -($size/5)/2;
     top: -($size/5)/2;
-  }.settlement4 {
+  }.settlement3 {
     background: transparent;
     z-index: 10000;
     height: $size/5;
@@ -43,7 +42,7 @@
     position: absolute;
     left: -($size/5)/2;
     bottom: -($size/5)/2;
-  }.settlement5 {
+  }.settlement4 {
     background: transparent;
     z-index: 10000;
     height: $size/5;
@@ -52,7 +51,7 @@
     position: absolute;
     left: center;
     top: ($size*.74);
-  }.settlement6 {
+  }.settlement5 {
     background: transparent;
     z-index: 10000;
     height: $size/5;

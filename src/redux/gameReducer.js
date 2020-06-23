@@ -12,6 +12,7 @@ const {
   END_GAME,
   SET_BUILD_SETTLEMENT,
   UPDATE_BUILDINGS,
+  UPDATE_NUM_BUILDINGS,
   SET_MAP_STATE
 } = actionTypes
 
@@ -23,7 +24,8 @@ const initialState = {
   diceResult: [0, 0],
   tradePending: false,
   incomingTrade: null,
-  buildings: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+  buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
+  numBuildings: [],
   developmentDeck: [],
   developmentHand: [],
   map: [],
@@ -92,6 +94,10 @@ export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
 }
 
+export function updateNumBuildings(payload){
+  return {type: UPDATE_NUM_BUILDINGS, payload}
+}
+
 export default function gameReducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
@@ -110,6 +116,7 @@ export default function gameReducer(state = initialState, action) {
     case UPDATE_RESOURCES:
       return {
         ...state,
+        // resources: payload
         resources: {
           wood: state.resources.wood + payload.wood,
           clay: state.resources.clay + payload.clay,
@@ -128,6 +135,8 @@ export default function gameReducer(state = initialState, action) {
       return {...state, buildSettlement: payload}
     case UPDATE_BUILDINGS:
       return {...state, buildings: payload}
+    case UPDATE_NUM_BUILDINGS:
+      return {...state, numBuildings: payload}
     case SET_MAP_STATE:
       return {...state, map: payload}
     default:

@@ -4,21 +4,21 @@ const seedMap = () => {
     let ports = ["3 for 1"]
 
     const getSlots = (id, x, y, grid) => {
-        let idTile = grid.filter((f,j) => f.id=== id)[0]
+        let idTile = grid.filter((f,j) => f.id === id)[0]
 
-        return {
-            1: [idTile, grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === y))[0], id < 13 ? grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === (y-1 & y-1)))[0] : grid.filter((f,j) => (f.x === x && f.y === (y-1 & y-1)))[0], 0, 0],
+        return [
+            [idTile, grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === y))[0], id < 13 ? grid.filter((f,j) => (f.x === (x-1 & x-1) && f.y === (y-1 & y-1)))[0] : grid.filter((f,j) => (f.x === x && f.y === (y-1 & y-1)))[0], 0, 0],
 
-            2: [idTile, id  < 13 ? grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0], 0, 0],
+            [idTile, id  < 13 ? grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0], 0, 0],
 
-            3: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 13 ? grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], 0, 0],
+            [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 13 ? grid.filter((f,j) => f.x === x && f.y === (y-1 & y-1))[0] : grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y-1 & y-1))[0], 0, 0],
 
-            4: [idTile, grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0], 0, 0],
+            [idTile, grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0], 0, 0],
 
-            5: [idTile, grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0], 0, 0],
+            [idTile, grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === (x-1 & x-1) && f.y === (y+1 & y+1))[0], 0, 0],
 
-            6: [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 &  x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], 0, 0]
-        }
+            [idTile, grid.filter((f,j) => f.x === (x+1 & x+1) && f.y === y)[0], id < 8 ? grid.filter((f,j) => f.x === (x+1 &  x+1) && f.y === (y+1 & y+1))[0] : grid.filter((f,j) => f.x === x && f.y === (y+1 & y+1))[0], 0, 0]
+        ]
 
     }
 
@@ -39,15 +39,21 @@ const seedMap = () => {
         }
     })
 
-    let newGrid = grid.map((e,i) => {
+    let numGrid = grid.map((e,i) => {
         return {
-            ...e,
             number: e.terrain !== 'desert' ? numberType() : null,
-            slots: getSlots(e.id, e.x, e.y, grid)
+            ...e,
         }
     })
 
-    return newGrid;
+    let slotsGrid = numGrid.map((e,i) => {
+        return {
+            slots: getSlots(e.id, e.x, e.y, numGrid),
+            ...e
+        }
+    })
+
+    return slotsGrid;
 }
 
 module.exports = {seedMap}

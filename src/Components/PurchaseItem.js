@@ -1,4 +1,4 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect} from "react"
 import { useSelector, useDispatch } from "react-redux"
 import {
   updateResources,
@@ -44,7 +44,7 @@ const PurchaseItem = ({ cost, name }) => {
         return
     }
   }
-
+  console.log("wood", wood, "clay", clay, "sheep", clay, "wheat", wheat, "rock", rock)
   return (
     <div className="purchase-item-container">
       <div>Purchase {name}</div>
