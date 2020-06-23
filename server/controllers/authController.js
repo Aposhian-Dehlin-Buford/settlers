@@ -1,5 +1,4 @@
 const bcrypt = require("bcryptjs")
-const {leave} = require('./userController')
 
 module.exports = {
   register: async (req, res) => {

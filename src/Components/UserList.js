@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
 import axios from "axios"
 import { useSelector } from "react-redux"
-import {UserContext} from '../context/UserContext'
+import { UserContext } from "../context/UserContext"
 
 const UserList = () => {
   const activeComponent = useRef(true)
   const [users, setUsers] = useState([])
-  const {user, socket} = useContext(UserContext)
+  const { user, socket } = useContext(UserContext)
   // const { socket, user } = useSelector(({ authReducer }) => authReducer)
   const { gameStart } = useSelector(({ gameReducer }) => gameReducer)
   useEffect(() => {
