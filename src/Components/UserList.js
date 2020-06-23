@@ -6,9 +6,8 @@ import { UserContext } from "../context/UserContext"
 const UserList = () => {
   const activeComponent = useRef(true)
   const [users, setUsers] = useState([])
-  const { user, socket } = useContext(UserContext)
-  // const { socket, user } = useSelector(({ authReducer }) => authReducer)
-  const { gameStart } = useSelector(({ gameReducer }) => gameReducer)
+  const {user, socket} = useContext(UserContext)
+  const { gameStart } = useSelector((redux) => redux)
   useEffect(() => {
     axios
       .get("/api/users")
@@ -27,8 +26,8 @@ const UserList = () => {
       <div>Active Users</div>
       <div>
         {users.length > 0 &&
-          users.map(({ username, user_id, email }) => (
-            <div key={user_id}>
+          users.map(({ username, user_id, email }, i) => (
+            <div key={i}>
               <span>USERNAME: {username}</span>
               {user.user_id !== user_id && !gameStart && (
                 <button

@@ -42,6 +42,7 @@ massive({
   )
   app.set("io", io)
   io.on("connection", (socket) => {
+    console.log("connection")
     socket.on("join", (body) => userCtrl.join(app, body, socket))
     socket.on('leave', () => userCtrl.leave(app, socket))
     socket.on("disconnect", () => userCtrl.leave(app, socket))

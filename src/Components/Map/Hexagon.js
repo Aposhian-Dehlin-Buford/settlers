@@ -5,6 +5,7 @@ import {
   setBuildSettlement,
   updateBuildings,
   setMapState,
+  updateNumBuildings
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
@@ -19,42 +20,36 @@ import { UserContext } from "../../context/UserContext"
 // ]
 
 const Hexagon = ({ e, id }) => {
+  
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
-  // const { user, socket } = useSelector(({ authReducer }) => authReducer)
-  const { buildSettlement, room, buildings, map } = useSelector(
-    ({ gameReducer }) => gameReducer
+  const { buildSettlement, room, buildings, map, numBuildings } = useSelector(
+    (redux) => redux
   )
 
-  // useEffect(() => {
-
-  // }, [buildings[id]])
-
   const handleClick = (id, slotNum) => {
+    let numBuildingsArray = numBuildings.slice()
     let buildingsArray = buildings.slice()
     const mapArray = [...map]
-    // console.log("click", buildingsArray)
     const building = {
       hexagon_id: id,
       slot_id: slotNum,
       user_id: user.user_id,
       building_type: 1,
-      adjacent_numbers: [],
+      adjacent_numbers: mapArray[id-1].slots[slotNum],
     }
-    console.log(slotNum)
+
+    // console.log("slotNum", slotNum)
     mapArray[id - 1].slots[slotNum][3] = 1
     mapArray[id - 1].slots[slotNum][4] = user.user_id
     dispatch(setMapState(mapArray))
-    buildingsArray[id] = building
-    // console.log("click2", buildingsArray)
-    // console.log(mapArray)
+    numBuildings.push(building)
+    buildingsArray[id][slotNum] = building
     dispatch(setBuildSettlement(false))
     dispatch(updateBuildings(buildingsArray))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
-
   // console.log("buildings", buildings)
-  // console.log("map2", map)
   return (
     <div
       className="hexagon"
@@ -91,74 +86,74 @@ const Hexagon = ({ e, id }) => {
           id === 17 ||
           id === 19 ? (
             <>
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
+                <div
+                  className="settlement-container0"
+                  onClick={() => handleClick(id, 0)}
+                ></div>
+              ) : (
+                <div className="settlement0">
+                  {buildings[id][0].hexagon_id && buildings[id][0].slot_id === 0 && (
+                    <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
+                  )}
+                </div>
+              )}
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
                   className="settlement-container1"
                   onClick={() => handleClick(id, 1)}
                 ></div>
               ) : (
                 <div className="settlement1">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 1 && (
+                  {buildings[id][1].hexagon_id && buildings[id][1].slot_id === 1 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
               )}
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
                   className="settlement-container2"
                   onClick={() => handleClick(id, 2)}
                 ></div>
               ) : (
                 <div className="settlement2">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 2 && (
+                  {buildings[id][2].hexagon_id && buildings[id][2].slot_id === 2 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
               )}
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
                   className="settlement-container3"
                   onClick={() => handleClick(id, 3)}
                 ></div>
               ) : (
                 <div className="settlement3">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 3 && (
+                  {buildings[id][3].hexagon_id && buildings[id][3].slot_id === 3 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
               )}
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
                   className="settlement-container4"
                   onClick={() => handleClick(id, 4)}
                 ></div>
               ) : (
                 <div className="settlement4">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 4 && (
+                  {buildings[id][4].hexagon_id && buildings[id][4].slot_id === 4 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
               )}
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
                   className="settlement-container5"
                   onClick={() => handleClick(id, 5)}
                 ></div>
               ) : (
                 <div className="settlement5">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 5 && (
-                    <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
-                  )}
-                </div>
-              )}
-              {!buildings[id].slot_id ? (
-                <div
-                  className="settlement-container6"
-                  onClick={() => handleClick(id, 6)}
-                ></div>
-              ) : (
-                <div className="settlement6">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 6 && (
+                  {buildings[id][5].hexagon_id && buildings[id][5].slot_id === 5 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
@@ -166,26 +161,26 @@ const Hexagon = ({ e, id }) => {
             </>
           ) : id === 2 || id === 9 || id === 11 || id === 18 ? (
             <>
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
-                  className="settlement-container2"
-                  onClick={() => handleClick(id, 2)}
+                  className="settlement-container1"
+                  onClick={() => handleClick(id, 1)}
                 ></div>
               ) : (
-                <div className="settlement2">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 2 && (
+                <div className="settlement1">
+                  {buildings[id][1].hexagon_id && buildings[id][1].slot_id === 1 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
               )}
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
-                  className="settlement-container5"
-                  onClick={() => handleClick(id, 5)}
+                  className="settlement-container4"
+                  onClick={() => handleClick(id, 4)}
                 ></div>
               ) : (
-                <div className="settlement5">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 5 && (
+                <div className="settlement4">
+                  {buildings[id][4].hexagon_id && buildings[id][4].slot_id === 4 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
@@ -193,14 +188,14 @@ const Hexagon = ({ e, id }) => {
             </>
           ) : id === 4 ? (
             <>
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
-                  className="settlement-container1"
-                  onClick={() => handleClick(id, 1)}
+                  className="settlement-container0"
+                  onClick={() => handleClick(id, 0)}
                 ></div>
               ) : (
-                <div className="settlement1">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 1 && (
+                <div className="settlement0">
+                  {buildings[id][0].hexagon_id && buildings[id][0].slot_id === 0 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
@@ -208,14 +203,14 @@ const Hexagon = ({ e, id }) => {
             </>
           ) : id === 7 ? (
             <>
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
-                  className="settlement-container3"
-                  onClick={() => handleClick(id, 3)}
+                  className="settlement-container2"
+                  onClick={() => handleClick(id, 2)}
                 ></div>
               ) : (
-                <div className="settlement3">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 3 && (
+                <div className="settlement2">
+                  {buildings[id][2].hexagon_id && buildings[id][2].slot_id === 2 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
@@ -223,14 +218,14 @@ const Hexagon = ({ e, id }) => {
             </>
           ) : id === 13 ? (
             <>
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
-                  className="settlement-container4"
-                  onClick={() => handleClick(id, 4)}
+                  className="settlement-container3"
+                  onClick={() => handleClick(id, 3)}
                 ></div>
               ) : (
-                <div className="settlement4">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 4 && (
+                <div className="settlement3">
+                  {buildings[id][3].hexagon_id && buildings[id][3].slot_id === 3 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
@@ -238,14 +233,14 @@ const Hexagon = ({ e, id }) => {
             </>
           ) : id === 16 ? (
             <>
-              {!buildings[id].slot_id ? (
+              {!buildings[id].filter(e => e.length > 0)[0] ? (
                 <div
-                  className="settlement-container6"
-                  onClick={() => handleClick(id, 6)}
+                  className="settlement-container5"
+                  onClick={() => handleClick(id, 5)}
                 ></div>
               ) : (
-                <div className="settlement6">
-                  {buildings[id].hexagon_id && buildings[id].slot_id === 6 && (
+                <div className="settlement5">
+                  {buildings[id][5].hexagon_id && buildings[id][5].slot_id === 5 && (
                     <BsHouseFill color={user.user_id === 1 ? "blue" : "red"} />
                   )}
                 </div>
@@ -263,95 +258,95 @@ const Hexagon = ({ e, id }) => {
           id === 17 ||
           id === 19 ? (
             <>
-              <div className="settlement1">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 1 && (
+              <div className="settlement0">
+                {buildings[id][0].hexagon_id && buildings[id][0].slot_id === 0 && (
                   <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
+                    color={buildings[id][0].user_id === 1 ? "blue" : "red"}
+                  />
+                )}
+              </div>
+              <div className="settlement1">
+                {buildings[id][1].hexagon_id && buildings[id][1].slot_id === 1 && (
+                  <BsHouseFill
+                    color={buildings[id][1].user_id === 1 ? "blue" : "red"}
                   />
                 )}
               </div>
               <div className="settlement2">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 2 && (
+                {buildings[id][2].hexagon_id && buildings[id][2].slot_id === 2 && (
                   <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
+                    color={buildings[id][2].user_id === 1 ? "blue" : "red"}
                   />
                 )}
               </div>
               <div className="settlement3">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 3 && (
+                {buildings[id][3].hexagon_id && buildings[id][3].slot_id === 3 && (
                   <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
+                    color={buildings[id][3].user_id === 1 ? "blue" : "red"}
                   />
                 )}
               </div>
               <div className="settlement4">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 4 && (
+                {buildings[id][4].hexagon_id && buildings[id][4].slot_id === 4 && (
                   <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
+                    color={buildings[id][5].user_id === 1 ? "blue" : "red"}
                   />
                 )}
               </div>
               <div className="settlement5">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 5 && (
+                {buildings[id][5].hexagon_id && buildings[id][5].slot_id === 5 && (
                   <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
-                  />
-                )}
-              </div>
-              <div className="settlement6">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 6 && (
-                  <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
+                    color={buildings[id][5].user_id === 1 ? "blue" : "red"}
                   />
                 )}
               </div>
             </>
           ) : id === 2 || id === 9 || id === 11 || id === 18 ? (
             <>
-              <div className="settlement2">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 2 && (
+              <div className="settlement1">
+                {buildings[id][1].hexagon_id && buildings[id][1].slot_id === 1 && (
                   <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
+                    color={buildings[id][1].user_id === 1 ? "blue" : "red"}
                   />
                 )}
               </div>
-              <div className="settlement5">
-                {buildings[id].hexagon_id && buildings[id].slot_id === 5 && (
+              <div className="settlement4">
+                {buildings[id][4].hexagon_id && buildings[id][4].slot_id === 4 && (
                   <BsHouseFill
-                    color={buildings[id].user_id === 1 ? "blue" : "red"}
+                    color={buildings[id][5].user_id === 1 ? "blue" : "red"}
                   />
                 )}
               </div>
             </>
           ) : id === 4 ? (
-            <div className="settlement1">
-              {buildings[id].hexagon_id && buildings[id].slot_id === 1 && (
+            <div className="settlement0">
+              {buildings[id][0].hexagon_id && buildings[id][0].slot_id === 0 && (
                 <BsHouseFill
-                  color={buildings[id].user_id === 1 ? "blue" : "red"}
+                  color={buildings[id][0].user_id === 1 ? "blue" : "red"}
                 />
               )}
             </div>
           ) : id === 7 ? (
-            <div className="settlement3">
-              {buildings[id].hexagon_id && buildings[id].slot_id === 3 && (
+            <div className="settlement2">
+              {buildings[id][2].hexagon_id && buildings[id][2].slot_id === 2 && (
                 <BsHouseFill
-                  color={buildings[id].user_id === 1 ? "blue" : "red"}
+                  color={buildings[id][2].user_id === 1 ? "blue" : "red"}
                 />
               )}
             </div>
           ) : id === 13 ? (
-            <div className="settlement4">
-              {buildings[id].hexagon_id && buildings[id].slot_id === 4 && (
+            <div className="settlement3">
+              {buildings[id][3].hexagon_id && buildings[id][3].slot_id === 3 && (
                 <BsHouseFill
-                  color={buildings[id].user_id === 1 ? "blue" : "red"}
+                  color={buildings[id][3].user_id === 1 ? "blue" : "red"}
                 />
               )}
             </div>
           ) : id === 16 ? (
-            <div className="settlement6">
-              {buildings[id].hexagon_id && buildings[id].slot_id === 6 && (
+            <div className="settlement5">
+              {buildings[id][5].hexagon_id && buildings[id][5].slot_id === 5 && (
                 <BsHouseFill
-                  color={buildings[id].user_id === 1 ? "blue" : "red"}
+                  color={buildings[id][5].user_id === 1 ? "blue" : "red"}
                 />
               )}
             </div>

@@ -1,4 +1,4 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect} from "react"
 import { useSelector, useDispatch } from "react-redux"
 import {
   updateResources,
@@ -11,13 +11,8 @@ import {UserContext} from '../context/UserContext'
 const PurchaseItem = ({ cost, name }) => {
   const dispatch = useDispatch()
   const {socket} = useContext(UserContext)
-  // const { socket } = useSelector(({ authReducer }) => authReducer)
-  const { developmentDeck, developmentHand, room } = useSelector(
-    ({ gameReducer }) => gameReducer
-  )
-  const { wood, sheep, wheat, rock, clay } = useSelector(
-    ({ gameReducer }) => gameReducer.resources
-  )
+  const { developmentDeck, developmentHand, room } = useSelector((redux) => redux)
+  const { wood, sheep, wheat, rock, clay } = useSelector((redux) => redux.resources)
 
   const purchase = () => {
     if (name === "Settlement") {
@@ -49,7 +44,7 @@ const PurchaseItem = ({ cost, name }) => {
         return
     }
   }
-
+  console.log("wood", wood, "clay", clay, "sheep", clay, "wheat", wheat, "rock", rock)
   return (
     <div className="purchase-item-container">
       <div>Purchase {name}</div>

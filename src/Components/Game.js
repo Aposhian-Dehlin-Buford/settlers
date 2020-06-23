@@ -26,21 +26,22 @@ import Purchase from "./Purchase"
 import DevelopmentDeck from "./DevelopmentDeck"
 import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
+import MyDevelopmentHand from "./MyDevelopmentHand"
+import { GiKaleidoscopePearls } from "react-icons/gi"
 
 const resources = {
   clay: 0,
   wheat: 0,
   rock: 0,
   sheep: 0,
-  wood: 0
+  wood: 0,
 }
 
 const Game = () => {
   const { push } = useHistory()
   const dispatch = useDispatch()
-  const {user, socket} = useContext(UserContext)
-  // const { user, socket } = useSelector(({ authReducer }) => authReducer)
-  // const { socket } = useSelector(({ authReducer }) => authReducer)
+  const { user, socket } = useContext(UserContext)
+  // const mapRef = useRef(false)
   const {
     incomingTrade,
     active,
@@ -48,8 +49,9 @@ const Game = () => {
     tradePending,
     buildSettlement,
     map,
-  } = useSelector(({ gameReducer }) => gameReducer)
-  console.log(map)
+    buildings,
+    // resources,
+  } = useSelector((redux) => redux)
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -65,38 +67,80 @@ const Game = () => {
       })
     })
     socket.on("pass-turn", () => dispatch(updateActivePlayer()))
+    // socket.on("dice-result", ({ diceResult }) => {
+    //   map.forEach((e) => {
+    //     if (e.number === diceResult[0] + diceResult[1]) {
+    //       for (let key in e.slots) {
+    //         if (
+    //           (e.slots[key][3] === 1 || e.slots[key][3] === 2) &&
+    //           e.slots[key][4] === user.user_id
+    //         ) {
+    //           dispatch(
+    //             updateResources({ ...resources, [e.terrain]: e.slots[key][3] })
+    //           )
+    //         }
+    //       }
+    //     }
+    //   })
+    //   dispatch(updateDiceResult(diceResult))
+    // })
+
+    //
+
+
+    // socket.on("dice-result", ({ diceResult }) => {
+    //   map.forEach((e) => e.slots.forEach((f) => {
+    //     // console.log("f", f)
+    //     for(let i = 0; i < 3; i++){
+    //       if(f[i] && f[i].number === diceResult[0] + diceResult[1]) {
+    //         console.log("map", map)
+    //         console.log("f", f)
+    //         console.log("f[i]", f[i])
+    //         console.log("f[i].number", f[i].number)
+    //         console.log("f[3] and f[4]", f[3], f[4])
+    //         if (f[3]){
+    //           console.log("HIT", f[3], f[4], f[i].terrain)
+    //           {
+    //             dispatch(
+    //               updateResources({ ...resources, [f[i].terrain]: f[i].terrain })
+    //             )
+    //           }
+    //         }
+    //       }
+    //     }
+
+    //   }))
+    //   dispatch(updateDiceResult(diceResult))
+    // })
+
+    //
+
     socket.on("dice-result", ({ diceResult }) => {
-      // console.log('testing')
-      // console.log(diceResult)
-      // console.log('test')
-      // console.log(map)
-      map.forEach((e) => {
-        // console.log(e)
-        if (e.number === diceResult[0] + diceResult[1]) {
-          // console.log(e.number)
-          for (let key in e.slots) {
-            if (
-              (e.slots[key][3] === 1 || e.slots[key][3] === 2) &&
-              e.slots[key][4] === user.user_id
-            ) {
-              // console.log("TEST")
-              // console.log(e)
-              // console.log(e.slots[key])
-              dispatch(updateResources({ ...resources, [e.terrain]: e.slots[key][3] }))
-            }
+      buildings.forEach(e => {
+        e.forEach(f => {
+          if(f.adjacent_numbers){
+            console.log("DING")
+            let res = f.adjacent_numbers.filter(g => g.number === diceResult[0] + diceResult[1]).map(m => m.terrain)
+            console.log("res", res)
+              res.forEach(k => {
+                {
+                  dispatch(
+                    updateResources({ ...resources, [k]: resources[k]+1})
+                  )
+                }
+              })
           }
-        }
-        // e.slots.forEach(el => {
-        //   if(el[3] === 1 && el[4] === user.user_id){
-        //     console.log(el)
-        //   }
-        // })
+        })
       })
       dispatch(updateDiceResult(diceResult))
     })
+
+    console.log("resources", resources)
+
+
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
     socket.on("accept-offer", (body) => {
-      const { offer, request, room } = body
+      const { offer, request } = body
       dispatch(
         updateResources({
           wood: request.forWood - offer.offerWood,
@@ -111,12 +155,17 @@ const Game = () => {
 
     socket.on("reject-offer", () => dispatch(updateTradePending(false)))
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
-    socket.on("buy-building", ({ buildingsArray, map }) => {
-      dispatch(setMapState(map))
+    socket.on("buy-building", ({ buildingsArray, newMap }) => {
+      dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
+      // mapRef required to force re-render when the map updates
+      // mapRef.current = !mapRef.current
     })
-  }, [socket])
-  // console.log(buildings)
+  }, [socket, dispatch, push, user.user_id])
+
+  // console.log("map", map)
+  console.log("buildings", buildings)
+
   return (
     <div className="game-container">
       <div className="top-container">
@@ -124,6 +173,7 @@ const Game = () => {
         {active && rolledDice && !tradePending && <OfferTrade />}
         {active && rolledDice && !tradePending && <Purchase />}
         {incomingTrade && <IncomingTrade />}
+        {<MyDevelopmentHand />}
       </div>
       <div className="middle-container">
         <div className="p3-container"></div>

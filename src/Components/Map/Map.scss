@@ -30,7 +30,7 @@
   }
 }
 
-.settlement-container1 {
+.settlement-container0 {
   background: white;
   z-index: 10000;
   height: $size/5;
@@ -39,7 +39,7 @@
   position: absolute;
   left: -($size/5)/2;
   top: -($size/5)/2;
-}.settlement-container2 {
+}.settlement-container1 {
   z-index: 10000;
   background: white;
   height: $size/5;
@@ -48,7 +48,7 @@
   position: absolute;
   left: center;
   bottom: ($size*.74);
-}.settlement-container3 {
+}.settlement-container2 {
   z-index: 10000;
   background: white;
 
@@ -58,7 +58,7 @@
   position: absolute;
   right: -($size/5)/2;
   top: -($size/5)/2;
-}.settlement-container4 {
+}.settlement-container3 {
   background: white;
   z-index: 10000;
   height: $size/5;
@@ -67,7 +67,7 @@
   position: absolute;
   left: -($size/5)/2;
   bottom: -($size/5)/2;
-}.settlement-container5 {
+}.settlement-container4 {
   background: white;
   z-index: 10000;
   height: $size/5;
@@ -76,7 +76,7 @@
   position: absolute;
   left: center;
   top: ($size*.74);
-}.settlement-container6 {
+}.settlement-container5 {
   background: white;
   z-index: 10000;
   height: $size/5;
