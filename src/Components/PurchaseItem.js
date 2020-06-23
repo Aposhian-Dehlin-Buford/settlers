@@ -44,7 +44,7 @@ const PurchaseItem = ({ cost, name }) => {
         return
     }
   }
-  console.log("wood", wood, "clay", clay, "sheep", clay, "wheat", wheat, "rock", rock)
+  // console.log("wood", wood, "clay", clay, "sheep", clay, "wheat", wheat, "rock", rock)
   return (
     <div className="purchase-item-container">
       <div>Purchase {name}</div>

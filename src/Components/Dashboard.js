@@ -14,6 +14,7 @@ const Dashboard = () => {
   const {gameStart} = useSelector((redux) => redux)
   useEffect(() => {
     setSocket(sock)
+    return () => setSocket(null)
 }, [setSocket])
   return (
     <div>
