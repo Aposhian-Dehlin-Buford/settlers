@@ -46,7 +46,7 @@ const Hexagon = ({ e, id }) => {
     numBuildings.push(building)
     buildingsArray[id][slotNum] = building
     dispatch(setBuildSettlement(false))
-    dispatch(updateBuildings(buildingsArray))
+    // dispatch(updateBuildings(buildingsArray))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 

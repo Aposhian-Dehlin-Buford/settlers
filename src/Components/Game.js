@@ -66,7 +66,8 @@ const Game = () => {
         push("/")
       })
     })
-    socket.on("pass-turn", () => dispatch(updateActivePlayer()))
+  }, [socket, dispatch, push])
+  useEffect(() => {
     // socket.on("dice-result", ({ diceResult }) => {
     //   map.forEach((e) => {
     //     if (e.number === diceResult[0] + diceResult[1]) {
@@ -116,12 +117,13 @@ const Game = () => {
     //
 
     socket.on("dice-result", ({ diceResult }) => {
+      console.log('hit')
       buildings.forEach(e => {
         e.forEach(f => {
           if(f.adjacent_numbers){
-            console.log("DING")
+            // console.log("DING")
             let res = f.adjacent_numbers.filter(g => g.number === diceResult[0] + diceResult[1]).map(m => m.terrain)
-            console.log("res", res)
+            // console.log("res", res)
               res.forEach(k => {
                 {
                   dispatch(
@@ -135,11 +137,24 @@ const Game = () => {
       dispatch(updateDiceResult(diceResult))
     })
 
-    console.log("resources", resources)
-    console.log("user", user)
+    // console.log("resources", resources)
 
 
+
+
+
+    // socket.on("buy-building", ({ buildingsArray, newMap }) => {
+    //   dispatch(setMapState(newMap))
+    //   dispatch(updateBuildings(buildingsArray))
+    //   // mapRef required to force re-render when the map updates
+    //   // mapRef.current = !mapRef.current
+    // })
+  }, [socket, dispatch, user.user_id, buildings])
+  
+  useEffect(() => {
+    socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
+    socket.on("reject-offer", () => dispatch(updateTradePending(false)))
     socket.on("accept-offer", (body) => {
       const { offer, request } = body
       dispatch(
@@ -153,19 +168,15 @@ const Game = () => {
       )
       dispatch(updateTradePending(false))
     })
-
-    socket.on("reject-offer", () => dispatch(updateTradePending(false)))
-    socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
+    socket.on("pass-turn", () => dispatch(updateActivePlayer()))
     socket.on("buy-building", ({ buildingsArray, newMap }) => {
       dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
-      // mapRef required to force re-render when the map updates
-      // mapRef.current = !mapRef.current
     })
-  }, [socket, dispatch, push, user.user_id])
+  }, [dispatch, socket])
 
   // console.log("map", map)
-  console.log("buildings", buildings)
+  // console.log("buildings", buildings)
 
   return (
     <div className="game-container">
