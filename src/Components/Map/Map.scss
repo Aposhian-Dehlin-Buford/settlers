@@ -24,68 +24,7 @@
   border-radius: 50%;
 }
 
-.settlement-container {
-  div:hover {
-    background: black;
-  }
-}
 
-.settlement-container0 {
-  background: white;
-  z-index: 10000;
-  height: $size/5;
-  width: $size/5;
-  border-radius: 50%;
-  position: absolute;
-  left: -($size/5)/2;
-  top: -($size/5)/2;
-}.settlement-container1 {
-  z-index: 10000;
-  background: white;
-  height: $size/5;
-  width: $size/5;
-  border-radius: 50%;
-  position: absolute;
-  left: center;
-  bottom: ($size*.74);
-}.settlement-container2 {
-  z-index: 10000;
-  background: white;
-
-  height: $size/5;
-  width: $size/5;
-  border-radius: 50%;
-  position: absolute;
-  right: -($size/5)/2;
-  top: -($size/5)/2;
-}.settlement-container3 {
-  background: white;
-  z-index: 10000;
-  height: $size/5;
-  width: $size/5;
-  border-radius: 50%;
-  position: absolute;
-  left: -($size/5)/2;
-  bottom: -($size/5)/2;
-}.settlement-container4 {
-  background: white;
-  z-index: 10000;
-  height: $size/5;
-  width: $size/5;
-  border-radius: 50%;
-  position: absolute;
-  left: center;
-  top: ($size*.74);
-}.settlement-container5 {
-  background: white;
-  z-index: 10000;
-  height: $size/5;
-  width: $size/5;
-  border-radius: 50%;
-  position: absolute;
-  right: -($size/5)/2;
-  bottom: -($size/5)/2;
-}
 
 
 .hexagon {
@@ -120,7 +59,7 @@
     -ms-transform: scaleY(0.5774) rotate(-45deg);
     transform: scaleY(0.5774) rotate(-45deg);
     background: inherit;
-    left: ($size*.14311333);
+    left: ($size*.13);
   }
   
   .hexagon:before {

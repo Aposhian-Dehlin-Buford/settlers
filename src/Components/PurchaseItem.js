@@ -5,6 +5,8 @@ import {
   updateDevelopmentDeck,
   updateDevelopmentHand,
   setBuildSettlement,
+  setBuildRoad,
+  setBuildCity,
 } from "../redux/gameReducer"
 import {UserContext} from '../context/UserContext'
 
@@ -19,10 +21,10 @@ const PurchaseItem = ({ cost, name }) => {
       dispatch(setBuildSettlement(true))
     }
     if (name === "Road") {
-      dispatch(setBuildSettlement(true))
+      dispatch(setBuildRoad(true))
     }
     if (name === "City") {
-      dispatch(setBuildSettlement(true))
+      dispatch(setBuildCity(true))
     }
 
     console.log(`purchased ${name}`)

@@ -4,32 +4,23 @@ import Settlements from "./Settlements"
 import Roads from './Roads'
 import {
   setBuildSettlement,
+  setBuildCity,
+  setBuildRoad,
   updateBuildings,
   setMapState,
   updateNumBuildings
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
-// const buildingArrayExample = [
-//   {
-//     hexagon_id: 3,
-//     slot_id: 3,
-//     owner: 1,
-//     building_type: 1,
-//     adjacent_numbers: [6, 12, 3],
-//   },
-// ]
-
 const Hexagon = ({ e, id }) => {
   
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
-  const { buildSettlement, room, buildings, map, numBuildings } = useSelector(
+  const { buildSettlement, room, buildings, map} = useSelector(
     (redux) => redux
   )
 
   const handleClick = (id, slotNum) => {
-    let numBuildingsArray = numBuildings.slice()
     let buildingsArray = buildings.slice()
     const mapArray = [...map]
     const building = {
@@ -43,11 +34,14 @@ const Hexagon = ({ e, id }) => {
     mapArray[id - 1].slots[slotNum][3] = 1
     mapArray[id - 1].slots[slotNum][4] = user.user_id
     dispatch(setMapState(mapArray))
-    numBuildings.push(building)
     buildingsArray[id][slotNum] = building
     dispatch(setBuildSettlement(false))
     // dispatch(updateBuildings(buildingsArray))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
+  }
+
+  const handleRoadClick = (id, slotNum) => {
+    dispatch(setBuildRoad(false))
   }
 
   return (
@@ -76,7 +70,7 @@ const Hexagon = ({ e, id }) => {
     >
       {e.number ? <div className="number-container" style={{color: e.number === 6 || e.number === 8 ? 'darkred' : 'black'}}>{e.number}</div> : null}
       <Settlements id={id} handleClick={handleClick} />
-      <Roads />
+      <Roads id={id} handleRoadClick={handleRoadClick} />
       
     </div>
   )
