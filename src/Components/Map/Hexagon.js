@@ -44,6 +44,18 @@ const Hexagon = ({ e, id }) => {
     dispatch(setBuildRoad(false))
   }
 
+  const handleCityClick = (id, slotNum) => {
+    let buildingsArray = buildings.slice()
+    const mapArray = [...map]
+
+    mapArray[id - 1].slots[slotNum][3] = 2
+    dispatch(setMapState(mapArray))
+    buildingsArray[id][slotNum].building_type = 2
+    dispatch(setBuildCity(false))
+    // dispatch(updateBuildings(buildingsArray))
+    socket.emit("buy-building", { room, buildingsArray, map: mapArray })
+  }
+
   return (
     <div
       className="hexagon"
@@ -69,7 +81,7 @@ const Hexagon = ({ e, id }) => {
       }}
     >
       {e.number ? <div className="number-container" style={{color: e.number === 6 || e.number === 8 ? 'darkred' : 'black'}}>{e.number}</div> : null}
-      <Settlements id={id} handleClick={handleClick} />
+      <Settlements id={id} handleClick={handleClick} handleCityClick={handleCityClick} user={user} />
       <Roads id={id} handleRoadClick={handleRoadClick} />
       
     </div>

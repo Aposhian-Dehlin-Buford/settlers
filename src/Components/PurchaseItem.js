@@ -13,7 +13,7 @@ import {UserContext} from '../context/UserContext'
 const PurchaseItem = ({ cost, name }) => {
   const dispatch = useDispatch()
   const {socket} = useContext(UserContext)
-  const { developmentDeck, developmentHand, room } = useSelector((redux) => redux)
+  const { developmentDeck, developmentHand, room, buildSettlement, buildCity, buildRoad } = useSelector((redux) => redux)
   const { wood, sheep, wheat, rock, clay } = useSelector((redux) => redux.resources)
 
   const purchase = () => {
@@ -21,7 +21,7 @@ const PurchaseItem = ({ cost, name }) => {
       dispatch(setBuildSettlement(true))
     }
     if (name === "Road") {
-      dispatch(setBuildRoad(true))
+      dispatch(setBuildRoad(true)) 
     }
     if (name === "City") {
       dispatch(setBuildCity(true))
@@ -66,7 +66,10 @@ const PurchaseItem = ({ cost, name }) => {
         clay >= cost.clay &&
         sheep >= cost.sheep &&
         wheat >= cost.wheat &&
-        rock >= cost.rock && <button onClick={purchase}>Buy</button>}
+        rock >= cost.rock && 
+        !buildSettlement &&
+        !buildCity &&
+        !buildRoad && <button onClick={purchase}>Buy</button>}
     </div>
   )
 }
