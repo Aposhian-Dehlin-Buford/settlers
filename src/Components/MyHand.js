@@ -1,8 +1,12 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { useSelector } from "react-redux"
 
 const MyHand = () => {
   const { sheep, wood, clay, wheat, rock } = useSelector((redux) => redux.resources)
+
+  // useEffect(() => {
+
+  // }, [sheep, wood, clay, wheat, rock])
 
   const newHand = () => {
     return [sheep, wood, clay, wheat, rock]
@@ -21,10 +25,9 @@ const MyHand = () => {
               : "rock"
           )
       )
-      .flat()
+      .flat().filter(e => e != false)
       .map((e, i) => (
-        <div key={i} className={e}>
-          {e}
+        <div className={`hand-${e}`} key={i} >
         </div>
       ))
   }

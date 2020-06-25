@@ -136,6 +136,7 @@ const Game = () => {
     })
 
     console.log("resources", resources)
+    console.log("user", user)
 
 
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
@@ -180,13 +181,13 @@ const Game = () => {
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
-              <div className="wheat">Wheat</div>
-              <div className="sheep">Sheep</div>
-              <div className="wood">Wood</div>
+              <div className="wheat"></div>
+              <div className="sheep"></div>
+              <div className="wood"></div>
             </div>
             <div className="res-3">
-              <div className="clay">Clay</div>
-              <div className="rock">Rock</div>
+              <div className="clay"></div>
+              <div className="rock"></div>
             </div>
           </div>
           <DevelopmentDeck />

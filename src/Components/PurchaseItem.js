@@ -18,6 +18,12 @@ const PurchaseItem = ({ cost, name }) => {
     if (name === "Settlement") {
       dispatch(setBuildSettlement(true))
     }
+    if (name === "Road") {
+      dispatch(setBuildSettlement(true))
+    }
+    if (name === "City") {
+      dispatch(setBuildSettlement(true))
+    }
 
     console.log(`purchased ${name}`)
     //add functionality to purchase the item
