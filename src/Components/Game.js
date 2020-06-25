@@ -48,6 +48,8 @@ const Game = () => {
     rolledDice,
     tradePending,
     buildSettlement,
+    buildCity,
+    buildRoad,
     map,
     buildings,
     // resources,
@@ -117,20 +119,27 @@ const Game = () => {
     //
 
     socket.on("dice-result", ({ diceResult }) => {
-      console.log('hit')
       buildings.forEach(e => {
         e.forEach(f => {
-          if(f.adjacent_numbers){
-            // console.log("DING")
-            let res = f.adjacent_numbers.filter(g => g.number === diceResult[0] + diceResult[1]).map(m => m.terrain)
-            // console.log("res", res)
-              res.forEach(k => {
+          if(f.adjacent_numbers && f.user_id === user.user_id){
+            console.log("HAS BUILDING", diceResult[0] + diceResult[1], f)
+            f.adjacent_numbers.forEach(g => {
+              if(g.number && g.number === diceResult[0] + diceResult[1]){
+                console.log("f", f, "g", g)
                 {
                   dispatch(
-                    updateResources({ ...resources, [k]: resources[k]+1})
+                    updateResources({ ...resources, [g.terrain]: resources[g.terrain]+f.building_type})
                   )
                 }
-              })
+              }
+            }) 
+
+
+            // let res = f.adjacent_numbers.filter(g => g.number === diceResult[0] + diceResult[1]).map(m => m.terrain)
+            // console.log("res", res)
+            //   res.forEach(k => {
+                
+            //   })
           }
         })
       })
@@ -138,10 +147,6 @@ const Game = () => {
     })
 
     // console.log("resources", resources)
-
-
-
-
 
     // socket.on("buy-building", ({ buildingsArray, newMap }) => {
     //   dispatch(setMapState(newMap))
@@ -181,7 +186,7 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="top-container">
-        {buildSettlement && <div className="top-container-overlay"></div>}
+        {(buildSettlement || buildCity) && <div className="top-container-overlay"></div>}
         {active && rolledDice && !tradePending && <OfferTrade />}
         {active && rolledDice && !tradePending && <Purchase />}
         {incomingTrade && <IncomingTrade />}
@@ -192,13 +197,13 @@ const Game = () => {
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
-              <div className="wheat">Wheat</div>
-              <div className="sheep">Sheep</div>
-              <div className="wood">Wood</div>
+              <div className="wheat"></div>
+              <div className="sheep"></div>
+              <div className="wood"></div>
             </div>
             <div className="res-3">
-              <div className="clay">Clay</div>
-              <div className="rock">Rock</div>
+              <div className="clay"></div>
+              <div className="rock"></div>
             </div>
           </div>
           <DevelopmentDeck />

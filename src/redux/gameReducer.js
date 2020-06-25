@@ -11,6 +11,8 @@ const {
   UPDATE_DEVELOPMENT_HAND,
   END_GAME,
   SET_BUILD_SETTLEMENT,
+  SET_BUILD_ROAD,
+  SET_BUILD_CITY,
   UPDATE_BUILDINGS,
   UPDATE_NUM_BUILDINGS,
   SET_MAP_STATE
@@ -20,6 +22,8 @@ const initialState = {
   active: false,
   gameStart: false,
   buildSettlement: false,
+  buildRoad: false,
+  buildCity: false,
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
@@ -90,6 +94,14 @@ export function setBuildSettlement(payload){
   return {type: SET_BUILD_SETTLEMENT, payload}
 }
 
+export function setBuildRoad(payload){
+  return {type: SET_BUILD_ROAD, payload}
+}
+
+export function setBuildCity(payload){
+  return {type: SET_BUILD_CITY, payload}
+}
+
 export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
 }
@@ -133,6 +145,10 @@ export default function gameReducer(state = initialState, action) {
       return { ...payload }
     case SET_BUILD_SETTLEMENT:
       return {...state, buildSettlement: payload}
+    case SET_BUILD_ROAD:
+      return {...state, buildRoad: payload}
+    case SET_BUILD_CITY:
+      return {...state, buildCity: payload}
     case UPDATE_BUILDINGS:
       return {...state, buildings: payload}
     case UPDATE_NUM_BUILDINGS:

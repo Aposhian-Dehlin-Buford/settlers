@@ -94,6 +94,8 @@ const generateInitialGameState = (
     active: false,
     gameStart: true,
     buildSettlement: false,
+    buildRoad: false,
+    buildCity: false,
     room: `${challenger.user_id}-${opponent.user_id}`,
     activePlayer,
     rolledDice: false,

@@ -1,0 +1,70 @@
+@import '../../variables';
+
+
+.roads-container {
+    div {
+        &:hover {
+            background: black;
+        }
+    }
+}
+
+.road0 {
+    // background: $main3;
+    z-index: 10000;
+    height: $size*.3333;
+    width: $size/10;
+    position: absolute;
+    left: -($size/5)/3;
+    top: center;
+    font-size: ($size*.35);
+  }.road1 {
+    z-index: 10000;
+    // background: $main3;
+    height: $size*.3333;
+    width: $size/10;
+    position: absolute;
+    left: ($size/5)/1.055;
+    bottom: ($size*.56);
+    font-size: ($size*.35);
+    transform: rotate(60deg)
+  }.road2 {
+    z-index: 10000;
+    // background: $main3;
+    height: $size*.3333;
+    width: $size/10;
+    position: absolute;
+    right: ($size/5)/1.055;
+    bottom: ($size*.55);
+    font-size: ($size*.35);
+    transform: rotate(-60deg)
+  }.road3 {
+    // background: $main3;
+    z-index: 10000;
+    height: $size*.3333;
+    width: $size/10;
+    position: absolute;
+    left: ($size/5)/1.055;
+    top: ($size*.55);
+    font-size: ($size*.35);
+    transform: rotate(-60deg)
+  }.road4 {
+    // background: $main3;
+    z-index: 10000;
+    height: $size*.3333;
+    width: $size/10;
+    position: absolute;
+    right: ($size/5)/1.055;
+    top: ($size*.55);
+    font-size: ($size*.35);
+    transform: rotate(60deg)
+  }.road5 {
+    // background: $main3;
+    z-index: 10000;
+    height: $size*.3333;
+    width: $size/10;
+    position: absolute;
+    right: -($size/5)/3;
+    top: center;
+    font-size: ($size*.35);
+  }

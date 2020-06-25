@@ -15,6 +15,9 @@
     position: absolute;
     left: -($size/5)/2;
     top: -($size/5)/2;
+    // left: -($size/5)/2;
+    // top: center;
+    font-size: ($size*.35);
   }.settlement1 {
     z-index: 10000;
     background: transparent;
@@ -24,6 +27,9 @@
     position: absolute;
     left: center;
     bottom: ($size*.74);
+    // left: ($size/5)/1.33;
+    // bottom: ($size*.63);
+    font-size: ($size*.35);
   }.settlement2 {
     z-index: 10000;
     background: transparent;
@@ -33,6 +39,9 @@
     position: absolute;
     right: -($size/5)/2;
     top: -($size/5)/2;
+    // right: ($size/5)/1.33;
+    // bottom: ($size*.63);
+    font-size: ($size*.35);
   }.settlement3 {
     background: transparent;
     z-index: 10000;
@@ -42,6 +51,9 @@
     position: absolute;
     left: -($size/5)/2;
     bottom: -($size/5)/2;
+    // left: ($size/5)/1.33;
+    // top: ($size*.63);
+    font-size: ($size*.35);
   }.settlement4 {
     background: transparent;
     z-index: 10000;
@@ -51,8 +63,70 @@
     position: absolute;
     left: center;
     top: ($size*.74);
+    // right: ($size/5)/1.33;
+    // top: ($size*.63);
+    font-size: ($size*.35);
   }.settlement5 {
     background: transparent;
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/2;
+    bottom: -($size/5)/2;
+    // right: -($size/5)/2;
+    // top: center;
+    font-size: ($size*.35);
+  }
+
+  .settlement-container {
+    div:hover {
+      color: black;
+    }
+  }
+  
+  .settlement-container0 {
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    top: -($size/5)/2;
+  }.settlement-container1 {
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    bottom: ($size*.74);
+  }.settlement-container2 {
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/2;
+    top: -($size/5)/2;
+  }.settlement-container3 {
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    bottom: -($size/5)/2;
+  }.settlement-container4 {
+    z-index: 10000;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    top: ($size*.74);
+  }.settlement-container5 {
     z-index: 10000;
     height: $size/5;
     width: $size/5;
