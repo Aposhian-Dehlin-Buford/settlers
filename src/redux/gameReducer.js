@@ -14,7 +14,7 @@ const {
   SET_BUILD_ROAD,
   SET_BUILD_CITY,
   UPDATE_BUILDINGS,
-  UPDATE_NUM_BUILDINGS,
+  UPDATE_ROADS,
   SET_MAP_STATE
 } = actionTypes
 
@@ -29,6 +29,7 @@ const initialState = {
   tradePending: false,
   incomingTrade: null,
   buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
+  roads: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
   numBuildings: [],
   developmentDeck: [],
   developmentHand: [],
@@ -106,8 +107,8 @@ export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
 }
 
-export function updateNumBuildings(payload){
-  return {type: UPDATE_NUM_BUILDINGS, payload}
+export function updateRoads(payload){
+  return {type: UPDATE_ROADS, payload}
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -151,8 +152,8 @@ export default function gameReducer(state = initialState, action) {
       return {...state, buildCity: payload}
     case UPDATE_BUILDINGS:
       return {...state, buildings: payload}
-    case UPDATE_NUM_BUILDINGS:
-      return {...state, numBuildings: payload}
+    case UPDATE_ROADS:
+      return {...state, roads: payload}
     case SET_MAP_STATE:
       return {...state, map: payload}
     default:

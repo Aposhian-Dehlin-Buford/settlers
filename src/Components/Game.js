@@ -14,6 +14,7 @@ import {
   endGame,
   updateBuildings,
   setMapState,
+  updateRoads
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -52,6 +53,7 @@ const Game = () => {
     buildRoad,
     map,
     buildings,
+    roads,
     // resources,
   } = useSelector((redux) => redux)
   useEffect(() => {
@@ -124,7 +126,7 @@ const Game = () => {
           if(f.adjacent_numbers && f.user_id === user.user_id){
             console.log("HAS BUILDING", diceResult[0] + diceResult[1], f)
             f.adjacent_numbers.forEach(g => {
-              if(g.number && g.number === diceResult[0] + diceResult[1]){
+              if(g && g.number === diceResult[0] + diceResult[1]){
                 console.log("f", f, "g", g)
                 {
                   dispatch(
@@ -178,10 +180,16 @@ const Game = () => {
       dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
     })
+    socket.on("buy-road", ({ roadsArray, newMap }) => {
+      dispatch(setMapState(newMap))
+      dispatch(updateRoads(roadsArray))
+    })
   }, [dispatch, socket])
 
-  // console.log("map", map)
-  // console.log("buildings", buildings)
+  console.log("map", map)
+  console.log("buildings", buildings)
+  // console.log("roads", roads)
+
 
   return (
     <div className="game-container">

@@ -1,4 +1,4 @@
-const { seedMap } = require("../seedMap")
+const { seedMap } = require("../newSeedMap")
 const { seedDeck } = require("./seedDeck")
 
 const removeSocketId = (users) =>
@@ -83,6 +83,16 @@ const removeUserFromGame = (user_id, app) => {
   }
   //emit remove game command to remove other user from game
 }
+
+// const disable = (id, slot) => {
+//   const slotNumbers = [
+//     [[3,5], [1,5], [1,3]], 
+//     [[2,4], [0,4], [0,2]]
+//   ]
+
+
+// }
+
 const generateInitialGameState = (
   io,
   { challenger, opponent },
@@ -105,12 +115,19 @@ const generateInitialGameState = (
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
-    buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
+    buildings: [...Array(20)].map((e,i) => [...Array(6)].map((f,j) => {
+      return {
+        canBuild: true,
+        // disable: disable(i, j),
+      }
+    })),
+    roads: [...Array(20)].map((e,i) => [...Array(6)].map((f,j) => {
+      return {}
+    })),
     numBuildings: [],
     developmentDeck: seedDeck(),
     developmentHand: [],
     map: seedMap(),
-    // buildings: {},
     // units: {},
   }
   io.sockets.connected[challengerSocket.socket_id]

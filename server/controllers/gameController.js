@@ -31,6 +31,10 @@ const buyBuilding = (io, {room, buildingsArray, map}) => {
   io.to(room).emit('buy-building', {buildingsArray, newMap: map})
 }
 
+const buyRoad = (io, {room, roadsArray, map}) => {
+  io.to(room).emit('buy-road', {roadsArray, newMap: map})
+}
+
 module.exports = {
   endTurn,
   rollDice,
@@ -38,5 +42,6 @@ module.exports = {
   acceptTrade,
   rejectTrade,
   buyCard,
-  buyBuilding
+  buyBuilding,
+  buyRoad
 }

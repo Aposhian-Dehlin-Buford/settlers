@@ -26,27 +26,29 @@ const Settlements = (props) => {
                 [16]]
             .map((e,i) => e
             .includes(id) && placements[i]
-            .map(f => <div 
-                className={`settlement-container${f}`}>
-                    { 
-                      !buildings[id][f].building_type ?
-                        (buildSettlement &&
-                        <BsHouseDoorFill 
-                          onClick={() => handleClick(id, f)}
-                          color={"white"} />) :
+            .map((f,j) => <div
+              key={j} 
+              className={`settlement-container${f}`}>
+                  { 
+                    buildings[id][f].canBuild === false ? null :
+                    !buildings[id][f].building_type ?
+                      (buildSettlement &&
+                      <BsHouseDoorFill 
+                        onClick={() => handleClick(id, f)}
+                        color={"white"} />) :
 
-                      buildings[id][f].building_type === 1 ?
-                        <BsHouseDoorFill
-                          onClick={
-                            (buildCity && buildings[id][f].user_id === user.user_id) ? () => handleCityClick(id, f) : null} 
-                          color={buildings[id][f].user_id === 1 ? 
-                            "blue" : "red"} /> :
+                    buildings[id][f].building_type === 1 ?
+                      <BsHouseDoorFill
+                        onClick={
+                          (buildCity && buildings[id][f].user_id === user.user_id) ? () => handleCityClick(id, f) : null} 
+                        color={buildings[id][f].user_id === 1 ? 
+                          "blue" : "red"} /> :
 
-                      buildings[id][f].building_type === 2 ?
-                        <FaBuilding 
-                          color={
-                            buildings[id][f].user_id === 1 ? "blue" : "red"
-                                } /> : null
+                    buildings[id][f].building_type === 2 ?
+                      <FaBuilding 
+                        color={
+                          buildings[id][f].user_id === 1 ? "blue" : "red"
+                              } /> : null
                       }</div>))
         }
 

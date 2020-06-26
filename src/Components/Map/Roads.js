@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 const Roads = ({handleRoadClick, id}) => {
     // const dispatch = useDispatch()
     // const { user, socket } = useContext(UserContext)
-    const { buildRoad } = useSelector((redux) => redux)
+    const { buildRoad, roads } = useSelector((redux) => redux)
 
     const road = () => {
         const placements = [
@@ -26,13 +26,21 @@ const Roads = ({handleRoadClick, id}) => {
                 [16]]
                 .map((e,i) => e.includes(id) 
                 && placements[i]
-                .map(f => <div 
-                    onClick={handleRoadClick} 
+                .map((f,i) => <div
+                    key={i} 
+                    onClick={(buildRoad && !roads[id][f].hexagon_id) ? () => handleRoadClick(id, f) : null} 
                     className={`road${f}`} 
                     style={
-                        buildRoad ? 
-                        {outline: "1px solid black"} : 
-                        {background: "transparent"}}></div>))
+                        roads[id][f].hexagon_id ?
+                        {background: roads[id][f].user_id === 1 ? "blue" : "red"} :
+                        buildRoad ? {outline: "1px solid black"} : null}
+                        
+                        ></div>)) 
+
+
+                        // !roads[id][f].slot_id ?
+                        // (buildRoad && {outline: "1px solid black"}) : 
+                        // {background: roads[id][f].user_id === 1 ? "blue" : "red"}}>{id, f}</div>))
     }
     
     return (
