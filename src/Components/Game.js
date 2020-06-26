@@ -126,7 +126,7 @@ const Game = () => {
           if(f.adjacent_numbers && f.user_id === user.user_id){
             console.log("HAS BUILDING", diceResult[0] + diceResult[1], f)
             f.adjacent_numbers.forEach(g => {
-              if(g.number && g.number === diceResult[0] + diceResult[1]){
+              if(g && g.number === diceResult[0] + diceResult[1]){
                 console.log("f", f, "g", g)
                 {
                   dispatch(
@@ -186,8 +186,8 @@ const Game = () => {
     })
   }, [dispatch, socket])
 
-  // console.log("map", map)
-  // console.log("buildings", buildings)
+  console.log("map", map)
+  console.log("buildings", buildings)
   // console.log("roads", roads)
 
 

@@ -1,4 +1,4 @@
-const { seedMap } = require("../seedMap")
+const { seedMap } = require("../newSeedMap")
 const { seedDeck } = require("./seedDeck")
 
 const removeSocketId = (users) =>
