@@ -115,13 +115,13 @@ const generateInitialGameState = (
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
-    buildings: [...Array(20)].map((e,i) => [...Array(6)].map((f,j) => {
+    buildings: [...Array(37)].map((e,i) => [...Array(2)].map((f,j) => {
       return {
         canBuild: true,
         // disable: disable(i, j),
       }
     })),
-    roads: [...Array(20)].map((e,i) => [...Array(6)].map((f,j) => {
+    roads: [...Array(37)].map((e,i) => [...Array(3)].map((f,j) => {
       return {}
     })),
     numBuildings: [],

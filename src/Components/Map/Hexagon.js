@@ -7,8 +7,7 @@ import {
   setBuildCity,
   setBuildRoad,
   updateBuildings,
-  setMapState,
-  updateNumBuildings
+  setMapState
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
@@ -23,54 +22,27 @@ const Hexagon = ({ e, id }) => {
   const handleClick = (id, slotNum) => {
     const buildingsArray = buildings.slice()
     const mapArray = [...map]
-    const slotNumbers = [[1,3], [0,2], [1,5], [0,4], [3,5], [2,4]]
-      
-      // const idsArr = mapArray[id-1].slots[slotNum].filter(e => e).map(e => e.id).sort((a,b) => a-b)
-      
-      // console.log("DING", idsArr)
 
-    // const newSlots = [idsArr, slotNumbers[slotNum % 2 === 0 ? 0 : 1]]
-
-      mapArray[id-1].slots[slotNum][5].forEach(e => {
-        e[0] && e[1].forEach(f => id !== e[0] && buildingsArray[e[0]][f] && (buildingsArray[e[0]][f] = {...buildingsArray[e[0]][f], canBuild: false}))
+      mapArray[id].slots[slotNum][5].forEach(e => {
+       buildingsArray[e] && (buildingsArray[e][slotNum === 0 ? 1 : 0] = {...buildingsArray[e][slotNum === 0 ? 1 : 0], canBuild: false})
       })
-      slotNumbers[slotNum].forEach(e => buildingsArray[id][e] = {...buildingsArray[id][e], canBuild: false})
 
-    
-
-    // const disable = () => {
-    //   idsArr.forEach((e,i) => {
-    //     slotNumbers[slotNum % 2 === 0 ? 0 : 1][i].forEach((f,j) => {
-    //       mapArray[e-1].slots[f].map(g => g.id).sort((a,b) => a-b).filter(g => g).forEach((g,j) => {
-    //         let moreSlots = [...new Set(slotNumbers[slotNum % 2 === 0 ? 0 : 1].flat().sort((a,b) => b-a))]
-    //         buildingsArray[g][moreSlots[j]] = {...buildingsArray[g][moreSlots[j]], canBuild: false}
-    //       })
-    //     buildingsArray[e][f] = {...buildingsArray[e][f], canBuild: false}
-    //   })
-    // })
-    // }
-    // disable()
-
-    // console.log("mapArray", mapArray)
     const building = {
       hexagon_id: id,
       slot_id: slotNum,
       user_id: user.user_id,
       building_type: 1,
-      adjacent_numbers: mapArray[id-1].slots[slotNum],
-      adjacent_slots: ''
+      adjacent_numbers: mapArray[id].slots[slotNum]
     }
 
-    mapArray[id - 1].slots[slotNum][3] = 1
-    mapArray[id - 1].slots[slotNum][4] = user.user_id
+    mapArray[id].slots[slotNum][3] = 1
+    mapArray[id].slots[slotNum][4] = user.user_id
     dispatch(setMapState(mapArray))
     buildingsArray[id][slotNum] = building
     dispatch(setBuildSettlement(false))
     // dispatch(updateBuildings(buildingsArray))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
-
-  // console.log("hexagon map", map)
 
   const handleRoadClick = (id, slotNum) => {
     console.log("handleRoadClick")
@@ -80,7 +52,7 @@ const Hexagon = ({ e, id }) => {
       hexagon_id: id,
       slot_id: slotNum,
       user_id: user.user_id,
-      adjacent_road_slots: mapArray[id-1].slots[slotNum],
+      adjacent_road_slots: mapArray[id].slots[slotNum],
     }
     roadsArray[id][slotNum] = road
     console.log("roadsArray", roadsArray)
@@ -93,7 +65,7 @@ const Hexagon = ({ e, id }) => {
     let buildingsArray = buildings.slice()
     const mapArray = [...map]
 
-    mapArray[id - 1].slots[slotNum][3] = 2
+    mapArray[id].slots[slotNum][3] = 2
     dispatch(setMapState(mapArray))
     buildingsArray[id][slotNum].building_type = 2
     dispatch(setBuildCity(false))
@@ -121,11 +93,11 @@ const Hexagon = ({ e, id }) => {
             : e.terrain === "desert"
             ? "tan"
             : e.terrain === "port"
-            ? "radial-gradient(blue, black)"
+            ? "black"
             : "blue",
       }}
     >
-      {e.number ? <div className="number-container" style={{color: e.number === 6 || e.number === 8 ? 'darkred' : 'black'}}>{id}</div> : null}
+      {e.number ? <div className="number-container" style={{color: e.number === 6 || e.number === 8 ? 'darkred' : 'black'}}>{e.number}</div> : null}
       <Settlements id={id} handleClick={handleClick} handleCityClick={handleCityClick} user={user} />
       <Roads id={id} handleRoadClick={handleRoadClick} />
       

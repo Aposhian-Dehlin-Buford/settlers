@@ -8,22 +8,14 @@ const Roads = ({handleRoadClick, id}) => {
     const { buildRoad, roads } = useSelector((redux) => redux)
 
     const road = () => {
-        const placements = [
-                [0, 1, 2, 3, 4, 5], 
-                [1, 2, 3, 4], 
-                [0, 1], 
-                [0, 2, 5], 
-                [0, 5], 
-                [0, 3, 5], 
-                [4, 5]]
+        const placements = [[1], [0,1], [0], [1,2], [2], [0,1,2]]
 
-        return [[1, 3, 8, 10, 12, 17, 19], 
-                [2, 9, 11, 18], 
-                [4], 
-                [7], 
-                [5, 15], 
-                [13], 
-                [16]]
+        return [[0],
+                [1,2], 
+                [3,8,14], 
+                [4,9], 
+                [15,22,28],
+                [5,6,7,10,11,12,13,16,17,18,19,20,23,24,25,26,29,30,31]]
                 .map((e,i) => e.includes(id) 
                 && placements[i]
                 .map((f,i) => <div
