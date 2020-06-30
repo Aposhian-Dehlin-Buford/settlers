@@ -84,15 +84,6 @@ const removeUserFromGame = (user_id, app) => {
   //emit remove game command to remove other user from game
 }
 
-// const disable = (id, slot) => {
-//   const slotNumbers = [
-//     [[3,5], [1,5], [1,3]], 
-//     [[2,4], [0,4], [0,2]]
-//   ]
-
-
-// }
-
 const generateInitialGameState = (
   io,
   { challenger, opponent },
@@ -111,14 +102,14 @@ const generateInitialGameState = (
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-    resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 },
+    resources: { sheep: 1, wood: 1, clay: 1, wheat: 1, rock: 0 },
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
     buildings: [...Array(37)].map((e,i) => [...Array(2)].map((f,j) => {
       return {
         canBuild: true,
-        // disable: disable(i, j),
+        canRoad: [false, false]
       }
     })),
     roads: [...Array(37)].map((e,i) => [...Array(3)].map((f,j) => {

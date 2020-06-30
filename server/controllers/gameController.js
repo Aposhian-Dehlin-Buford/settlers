@@ -4,6 +4,7 @@ const endTurn = (app, { room }) => {
 }
 
 const rollDice = (app, { room }) => {
+  console.log("HIT")
   const io = app.get("io")
   const diceResult = [
     Math.ceil(Math.random() * 6),

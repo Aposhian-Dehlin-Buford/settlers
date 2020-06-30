@@ -70,8 +70,9 @@ const Game = () => {
         push("/")
       })
     })
-  }, [socket, dispatch, push])
+  }, [])
   useEffect(() => {
+    console.log("HIT")
     // socket.on("dice-result", ({ diceResult }) => {
     //   map.forEach((e) => {
     //     if (e.number === diceResult[0] + diceResult[1]) {
@@ -121,18 +122,19 @@ const Game = () => {
     //
 
     socket.on("dice-result", ({ diceResult }) => {
-      buildings.forEach(e => {
+      console.log(diceResult)
+      const newBuildings = [...buildings]
+      newBuildings.forEach(e => {
         e.forEach(f => {
           if(f.adjacent_numbers && f.user_id === user.user_id){
             console.log("HAS BUILDING", diceResult[0] + diceResult[1], f)
             f.adjacent_numbers.forEach(g => {
-              if(g && g.number === diceResult[0] + diceResult[1]){
+              if(g && (g.number === diceResult[0] + diceResult[1])){
                 console.log("f", f, "g", g)
-                {
+                console.log("g.terrain", g.terrain, "type", f.building_type)
                   dispatch(
                     updateResources({ ...resources, [g.terrain]: resources[g.terrain]+f.building_type})
                   )
-                }
               }
             }) 
 
@@ -146,6 +148,8 @@ const Game = () => {
         })
       })
       dispatch(updateDiceResult(diceResult))
+      // dispatch(updateBuildings(newBuildings))
+
     })
 
     // console.log("resources", resources)
@@ -156,7 +160,7 @@ const Game = () => {
     //   // mapRef required to force re-render when the map updates
     //   // mapRef.current = !mapRef.current
     // })
-  }, [socket, dispatch, user.user_id, buildings])
+  }, [buildings])
   
   useEffect(() => {
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
@@ -184,10 +188,10 @@ const Game = () => {
       dispatch(setMapState(newMap))
       dispatch(updateRoads(roadsArray))
     })
-  }, [dispatch, socket])
+  }, [])
 
-  console.log("map", map)
-  console.log("buildings", buildings)
+  // console.log("map", map)
+  // console.log("buildings", buildings)
   // console.log("roads", roads)
 
 

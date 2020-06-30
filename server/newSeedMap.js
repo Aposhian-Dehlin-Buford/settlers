@@ -10,7 +10,7 @@ const seedMap = () => {
                 1, 2, 2, 2, 2, 0, 
                  0, 2, 2, 2, 1, 
                    1,0, 1, 0
-    ]
+                ]
 
     const getSlots = (id, x, y, z, grid) => {
 
@@ -31,6 +31,13 @@ const seedMap = () => {
         const adjacent1 = [idTile(id), idTile(id+1), two, 0, 0, disable(1)]
 
         return [adjacent0, adjacent1]
+    }
+
+    const getRoads = (id, x, y, z, grid) => {
+        const one = grid.filter(f => f.x === x-1 && f.y === y && f.z === z-1)[0]
+        const two = grid.filter(f => f.x === x+1 && f.y === y-1 && f.z === z)[0]
+
+        return [[[id, 0],[one && one.id, 1]], [[id, 0], [id, 1]], [[id, 1], [two && two.id, 0]]]
     }
 
     const numberType = (x,y) => {
@@ -71,8 +78,15 @@ const seedMap = () => {
         }
     })
 
+    let roadGrid = adjNumGrid.map((e,i) => {
+        return {
+            ...e,
+            roads: getRoads(e.id, e.x, e.y, e.z, adjNumGrid)
+        }
+    })
 
-    return adjNumGrid;
+
+    return roadGrid;
 }
 
 module.exports = {seedMap}
