@@ -50,7 +50,6 @@ export function setGameState(payload, user_id) {
 }
 
 export function setMapState(payload) {
-  console.log(payload)
   return {type: SET_MAP_STATE, payload}
 }
 

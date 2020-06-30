@@ -37,7 +37,7 @@ const Hexagon = ({ e, id }) => {
 
     mapArray[id].slots[slotNum][3] = 1
     mapArray[id].slots[slotNum][4] = user.user_id
-    dispatch(setMapState(mapArray))
+    // dispatch(setMapState(mapArray))
     buildingsArray[id][slotNum] = {...buildingsArray[id][slotNum], ...building}
     buildingsArray[id][slotNum].canRoad[user.user_id] = true
     dispatch(setBuildSettlement(false))

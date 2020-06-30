@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useRef, useCallback } from "react"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import Map from "./Map/Map"
@@ -14,7 +14,7 @@ import {
   endGame,
   updateBuildings,
   setMapState,
-  updateRoads
+  updateRoads,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -39,6 +39,7 @@ const resources = {
 }
 
 const Game = () => {
+  const buildingRef = useRef(true)
   const { push } = useHistory()
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
@@ -56,6 +57,27 @@ const Game = () => {
     roads,
     // resources,
   } = useSelector((redux) => redux)
+  const rollingDice = useCallback(({ diceResult }) => {
+    console.log(diceResult)
+    dispatch(updateDiceResult(diceResult))
+    const newBuildings = [...buildings]
+    buildings.forEach((e) => {
+      e.forEach((f) => {
+        if (f.adjacent_numbers && f.user_id === user.user_id) {
+          f.adjacent_numbers.forEach((g) => {
+            if (g && g.number === diceResult[0] + diceResult[1]) {
+              dispatch(
+                updateResources({
+                  ...resources,
+                  [g.terrain]: resources[g.terrain] + f.building_type,
+                })
+              )
+            }
+          })
+        }
+      })
+    })
+  }, [buildingRef.current])
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -65,103 +87,13 @@ const Game = () => {
     })
     socket.on("opponent-left", () => {
       dispatch(endGame())
-      axios.post("/auth/logout").then(() => {
-        socket.emit("leave")
-        push("/")
-      })
     })
   }, [])
   useEffect(() => {
-    console.log("HIT")
-    // socket.on("dice-result", ({ diceResult }) => {
-    //   map.forEach((e) => {
-    //     if (e.number === diceResult[0] + diceResult[1]) {
-    //       for (let key in e.slots) {
-    //         if (
-    //           (e.slots[key][3] === 1 || e.slots[key][3] === 2) &&
-    //           e.slots[key][4] === user.user_id
-    //         ) {
-    //           dispatch(
-    //             updateResources({ ...resources, [e.terrain]: e.slots[key][3] })
-    //           )
-    //         }
-    //       }
-    //     }
-    //   })
-    //   dispatch(updateDiceResult(diceResult))
-    // })
+    console.log("building ref: " + buildingRef.current)
+    socket.on("dice-result", rollingDice)
+  }, [])
 
-    //
-
-
-    // socket.on("dice-result", ({ diceResult }) => {
-    //   map.forEach((e) => e.slots.forEach((f) => {
-    //     // console.log("f", f)
-    //     for(let i = 0; i < 3; i++){
-    //       if(f[i] && f[i].number === diceResult[0] + diceResult[1]) {
-    //         console.log("map", map)
-    //         console.log("f", f)
-    //         console.log("f[i]", f[i])
-    //         console.log("f[i].number", f[i].number)
-    //         console.log("f[3] and f[4]", f[3], f[4])
-    //         if (f[3]){
-    //           console.log("HIT", f[3], f[4], f[i].terrain)
-    //           {
-    //             dispatch(
-    //               updateResources({ ...resources, [f[i].terrain]: f[i].terrain })
-    //             )
-    //           }
-    //         }
-    //       }
-    //     }
-
-    //   }))
-    //   dispatch(updateDiceResult(diceResult))
-    // })
-
-    //
-
-    socket.on("dice-result", ({ diceResult }) => {
-      console.log(diceResult)
-      const newBuildings = [...buildings]
-      newBuildings.forEach(e => {
-        e.forEach(f => {
-          if(f.adjacent_numbers && f.user_id === user.user_id){
-            console.log("HAS BUILDING", diceResult[0] + diceResult[1], f)
-            f.adjacent_numbers.forEach(g => {
-              if(g && (g.number === diceResult[0] + diceResult[1])){
-                console.log("f", f, "g", g)
-                console.log("g.terrain", g.terrain, "type", f.building_type)
-                  dispatch(
-                    updateResources({ ...resources, [g.terrain]: resources[g.terrain]+f.building_type})
-                  )
-              }
-            }) 
-
-
-            // let res = f.adjacent_numbers.filter(g => g.number === diceResult[0] + diceResult[1]).map(m => m.terrain)
-            // console.log("res", res)
-            //   res.forEach(k => {
-                
-            //   })
-          }
-        })
-      })
-      dispatch(updateDiceResult(diceResult))
-      // dispatch(updateBuildings(newBuildings))
-
-    })
-
-    // console.log("resources", resources)
-
-    // socket.on("buy-building", ({ buildingsArray, newMap }) => {
-    //   dispatch(setMapState(newMap))
-    //   dispatch(updateBuildings(buildingsArray))
-    //   // mapRef required to force re-render when the map updates
-    //   // mapRef.current = !mapRef.current
-    // })
-  }, [buildings])
-  
   useEffect(() => {
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
@@ -179,8 +111,15 @@ const Game = () => {
       )
       dispatch(updateTradePending(false))
     })
-    socket.on("pass-turn", () => dispatch(updateActivePlayer()))
+    socket.on("pass-turn", () => {
+      console.log("turn passed")
+      dispatch(updateActivePlayer())
+    })
     socket.on("buy-building", ({ buildingsArray, newMap }) => {
+      console.log("hit buy building")
+      buildingRef.current = !buildingRef.current
+      console.log(buildingsArray)
+      console.log(newMap)
       dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
     })
@@ -190,15 +129,12 @@ const Game = () => {
     })
   }, [])
 
-  // console.log("map", map)
-  // console.log("buildings", buildings)
-  // console.log("roads", roads)
-
-
   return (
     <div className="game-container">
       <div className="top-container">
-        {(buildSettlement || buildCity) && <div className="top-container-overlay"></div>}
+        {(buildSettlement || buildCity) && (
+          <div className="top-container-overlay"></div>
+        )}
         {active && rolledDice && !tradePending && <OfferTrade />}
         {active && rolledDice && !tradePending && <Purchase />}
         {incomingTrade && <IncomingTrade />}
