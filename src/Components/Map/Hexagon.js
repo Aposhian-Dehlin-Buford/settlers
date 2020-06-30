@@ -38,24 +38,25 @@ const Hexagon = ({ e, id }) => {
     mapArray[id].slots[slotNum][3] = 1
     mapArray[id].slots[slotNum][4] = user.user_id
     dispatch(setMapState(mapArray))
-    buildingsArray[id][slotNum] = building
+    buildingsArray[id][slotNum] = {...buildingsArray[id][slotNum], ...building}
+    buildingsArray[id][slotNum].canRoad[user.user_id] = true
     dispatch(setBuildSettlement(false))
     // dispatch(updateBuildings(buildingsArray))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
   const handleRoadClick = (id, slotNum) => {
-    console.log("handleRoadClick")
-    let roadsArray = roads.slice()
     const mapArray = [...map]
+    let roadsArray = roads.slice()
+    let buildingsArray = buildings.slice()
+    mapArray[id].roads[slotNum].forEach(e => buildingsArray[e[0]][e[1]].canRoad[user.user_id] = true)
     const road = {
       hexagon_id: id,
       slot_id: slotNum,
       user_id: user.user_id,
-      adjacent_road_slots: mapArray[id].slots[slotNum],
+      // adjacent_road_slots: mapArray[id].slots[slotNum],
     }
     roadsArray[id][slotNum] = road
-    console.log("roadsArray", roadsArray)
     dispatch(setMapState(mapArray))
     dispatch(setBuildRoad(false))
     socket.emit("buy-road", { room, roadsArray, map: mapArray })
@@ -79,7 +80,7 @@ const Hexagon = ({ e, id }) => {
       style={{
         background:
           e.terrain === "water"
-            ? "blue"
+            ? "lightblue"
             : e.terrain === "wheat"
             ? "khaki"
             : e.terrain === "sheep"
@@ -99,7 +100,7 @@ const Hexagon = ({ e, id }) => {
     >
       {e.number ? <div className="number-container" style={{color: e.number === 6 || e.number === 8 ? 'darkred' : 'black'}}>{e.number}</div> : null}
       <Settlements id={id} handleClick={handleClick} handleCityClick={handleCityClick} user={user} />
-      <Roads id={id} handleRoadClick={handleRoadClick} />
+      <Roads id={id} handleRoadClick={handleRoadClick} user={user.user_id} />
       
     </div>
   )

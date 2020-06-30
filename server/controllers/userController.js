@@ -21,6 +21,7 @@ const join = (app, body, socket) => {
   io.in("userlist").emit("users", removeSocketId(users))
 }
 const leave = (app, socket) => {
+  console.log("user-disconnected", socket.id)
   const user_id = removeUserFromList(app, socket)
   removeUserChallenges(user_id, app)
   removeUserFromGame(user_id, app)
