@@ -19,6 +19,8 @@ const Hexagon = ({ e, id }) => {
     (redux) => redux
   )
 
+
+
   const handleClick = (id, slotNum) => {
     const buildingsArray = buildings.slice()
     const mapArray = [...map]
@@ -49,7 +51,10 @@ const Hexagon = ({ e, id }) => {
     const mapArray = [...map]
     let roadsArray = roads.slice()
     let buildingsArray = buildings.slice()
-    mapArray[id].roads[slotNum].forEach(e => buildingsArray[e[0]][e[1]].canRoad[user.user_id] = true)
+    mapArray[id].roads[slotNum].forEach(e => {
+      buildingsArray[e[0]][e[1]].canRoad[user.user_id] = true
+      buildingsArray[e[0]][e[1]].canBuild === 0 && (buildingsArray[e[0]][e[1]].canBuild = true)
+    })
     const road = {
       hexagon_id: id,
       slot_id: slotNum,

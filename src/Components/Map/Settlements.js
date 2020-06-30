@@ -9,6 +9,8 @@ const Settlements = (props) => {
 
     const { buildSettlement, buildCity, buildings} = useSelector((redux) => redux)
 
+    const currentBuildings = buildings.map(e => e.map(f => f.adjacent_numbers)).flat().filter(f => f != undefined) // Temporary until starting is made.
+
     const settle = () => {
 
       const placements = [[1], [0], [0, 1]]
@@ -21,7 +23,13 @@ const Settlements = (props) => {
           key={j} 
           className={`settlement-container${f}`}>
               { 
-                buildings[id][f].canBuild === false ? null :
+                currentBuildings.length < 2 ? // Temporary until starting is made.
+                <BsHouseDoorFill 
+                    onClick={() => handleClick(id, f)}
+                    color={!buildings[id][f].user_id ? "white" : buildings[id][f].user_id === 1 ? 
+                    "blue" : "red"} /> : // End <--------------
+
+                !buildings[id][f].canBuild ? null :
                 !buildings[id][f].building_type ?
                   (buildSettlement &&
                   <BsHouseDoorFill 

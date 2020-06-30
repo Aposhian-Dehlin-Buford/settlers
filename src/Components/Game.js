@@ -122,11 +122,11 @@ const Game = () => {
     //
 
     socket.on("dice-result", ({ diceResult }) => {
-      console.log(diceResult)
+      console.log("diceResult", diceResult)
       const newBuildings = [...buildings]
       newBuildings.forEach(e => {
         e.forEach(f => {
-          if(f.adjacent_numbers && f.user_id === user.user_id){
+          if(f.adjacent_numbers && (f.user_id === user.user_id)){
             console.log("HAS BUILDING", diceResult[0] + diceResult[1], f)
             f.adjacent_numbers.forEach(g => {
               if(g && (g.number === diceResult[0] + diceResult[1])){
@@ -160,7 +160,7 @@ const Game = () => {
     //   // mapRef required to force re-render when the map updates
     //   // mapRef.current = !mapRef.current
     // })
-  }, [buildings])
+  }, [user.user_id])
   
   useEffect(() => {
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
@@ -193,6 +193,7 @@ const Game = () => {
   // console.log("map", map)
   // console.log("buildings", buildings)
   // console.log("roads", roads)
+  console.log("user", user.user_id)
 
 
   return (
