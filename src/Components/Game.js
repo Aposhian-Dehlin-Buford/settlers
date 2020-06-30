@@ -54,7 +54,7 @@ const Game = () => {
     map,
     buildings,
     roads,
-    // resources,
+    diceResult
   } = useSelector((redux) => redux)
   useEffect(() => {
     socket.on("disconnect", () => {
@@ -71,96 +71,39 @@ const Game = () => {
       })
     })
   }, [])
+
+  useEffect(() => {
+    socket.on("dice-result", ({ diceResult }) => {
+          
+          dispatch(updateDiceResult(diceResult))
+
+        })
+  }, [])
+
   useEffect(() => {
     console.log("HIT")
-    // socket.on("dice-result", ({ diceResult }) => {
-    //   map.forEach((e) => {
-    //     if (e.number === diceResult[0] + diceResult[1]) {
-    //       for (let key in e.slots) {
-    //         if (
-    //           (e.slots[key][3] === 1 || e.slots[key][3] === 2) &&
-    //           e.slots[key][4] === user.user_id
-    //         ) {
-    //           dispatch(
-    //             updateResources({ ...resources, [e.terrain]: e.slots[key][3] })
-    //           )
-    //         }
-    //       }
-    //     }
-    //   })
-    //   dispatch(updateDiceResult(diceResult))
-    // })
-
-    //
-
-
-    // socket.on("dice-result", ({ diceResult }) => {
-    //   map.forEach((e) => e.slots.forEach((f) => {
-    //     // console.log("f", f)
-    //     for(let i = 0; i < 3; i++){
-    //       if(f[i] && f[i].number === diceResult[0] + diceResult[1]) {
-    //         console.log("map", map)
-    //         console.log("f", f)
-    //         console.log("f[i]", f[i])
-    //         console.log("f[i].number", f[i].number)
-    //         console.log("f[3] and f[4]", f[3], f[4])
-    //         if (f[3]){
-    //           console.log("HIT", f[3], f[4], f[i].terrain)
-    //           {
-    //             dispatch(
-    //               updateResources({ ...resources, [f[i].terrain]: f[i].terrain })
-    //             )
-    //           }
-    //         }
-    //       }
-    //     }
-
-    //   }))
-    //   dispatch(updateDiceResult(diceResult))
-    // })
-
-    //
-
-    socket.on("dice-result", ({ diceResult }) => {
-      console.log(diceResult)
-      const newBuildings = [...buildings]
-      newBuildings.forEach(e => {
-        e.forEach(f => {
-          if(f.adjacent_numbers && f.user_id === user.user_id){
-            console.log("HAS BUILDING", diceResult[0] + diceResult[1], f)
-            f.adjacent_numbers.forEach(g => {
-              if(g && (g.number === diceResult[0] + diceResult[1])){
-                console.log("f", f, "g", g)
-                console.log("g.terrain", g.terrain, "type", f.building_type)
-                  dispatch(
-                    updateResources({ ...resources, [g.terrain]: resources[g.terrain]+f.building_type})
-                  )
-              }
-            }) 
-
-
-            // let res = f.adjacent_numbers.filter(g => g.number === diceResult[0] + diceResult[1]).map(m => m.terrain)
-            // console.log("res", res)
-            //   res.forEach(k => {
-                
-            //   })
-          }
-        })
+    // console.log(diceResult)
+    const newBuildings = [...buildings]
+    newBuildings.forEach(e => {
+      // console.log("e", e)
+      e.forEach(f => {
+        // console.log("f", f)
+        if(f.adjacent_numbers && f.user_id === user.user_id){
+          // console.log("f.user_id", f.user_id, user.user_id)
+          f.adjacent_numbers.forEach(g => {
+            // console.log("g", g)
+            if(g && (g.number === diceResult[0] + diceResult[1])){
+              // console.log("HIT", f, g, diceResult)
+              // console.log("g.terrain", g.terrain, "type", f.building_type)
+                dispatch(
+                  updateResources({ ...resources, [g.terrain]: resources[g.terrain]+f.building_type})
+                )
+            }
+          }) 
+        }
       })
-      dispatch(updateDiceResult(diceResult))
-      // dispatch(updateBuildings(newBuildings))
-
     })
-
-    // console.log("resources", resources)
-
-    // socket.on("buy-building", ({ buildingsArray, newMap }) => {
-    //   dispatch(setMapState(newMap))
-    //   dispatch(updateBuildings(buildingsArray))
-    //   // mapRef required to force re-render when the map updates
-    //   // mapRef.current = !mapRef.current
-    // })
-  }, [buildings])
+  }, [diceResult])
   
   useEffect(() => {
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
@@ -188,10 +131,10 @@ const Game = () => {
       dispatch(setMapState(newMap))
       dispatch(updateRoads(roadsArray))
     })
-  }, [])
+  }, [socket, dispatch])
 
   // console.log("map", map)
-  // console.log("buildings", buildings)
+  console.log("buildings", buildings)
   // console.log("roads", roads)
 
 
