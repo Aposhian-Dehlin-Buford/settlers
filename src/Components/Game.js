@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useRef, useCallback } from "react"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import Map from "./Map/Map"
@@ -41,6 +41,7 @@ const resources = {
 }
 
 const Game = () => {
+  const buildingRef = useRef(true)
   const { push } = useHistory()
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
@@ -56,10 +57,35 @@ const Game = () => {
     map,
     buildings,
     roads,
+    firstTurn,
+    firstSettlementPlaced,
+    secondSettlementPlaced,
+    secondTurn,
     diceResult,
     pickCard,
     pick31
   } = useSelector((redux) => redux)
+  // const rollingDice = useCallback(({ diceResult }) => {
+  //   console.log(diceResult)
+  //   dispatch(updateDiceResult(diceResult))
+  //   const newBuildings = [...buildings]
+  //   buildings.forEach((e) => {
+  //     e.forEach((f) => {
+  //       if (f.adjacent_numbers && f.user_id === user.user_id) {
+  //         f.adjacent_numbers.forEach((g) => {
+  //           if (g && g.number === diceResult[0] + diceResult[1]) {
+  //             dispatch(
+  //               updateResources({
+  //                 ...resources,
+  //                 [g.terrain]: resources[g.terrain] + f.building_type,
+  //               })
+  //             )
+  //           }
+  //         })
+  //       }
+  //     })
+  //   })
+  // }, [buildingRef.current])
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -69,46 +95,43 @@ const Game = () => {
     })
     socket.on("opponent-left", () => {
       dispatch(endGame())
-      axios.post("/auth/logout").then(() => {
-        socket.emit("leave")
-        push("/")
-      })
     })
   }, [])
 
   useEffect(() => {
     socket.on("dice-result", ({ diceResult }) => {
-          
-          dispatch(updateDiceResult(diceResult))
-
-        })
+      dispatch(updateDiceResult(diceResult))
+    })
   }, [])
 
   useEffect(() => {
     console.log("HIT")
     // console.log(diceResult)
     const newBuildings = [...buildings]
-    newBuildings.forEach(e => {
+    newBuildings.forEach((e) => {
       // console.log("e", e)
-      e.forEach(f => {
+      e.forEach((f) => {
         // console.log("f", f)
-        if(f.adjacent_numbers && f.user_id === user.user_id){
+        if (f.adjacent_numbers && f.user_id === user.user_id) {
           // console.log("f.user_id", f.user_id, user.user_id)
-          f.adjacent_numbers.forEach(g => {
+          f.adjacent_numbers.forEach((g) => {
             // console.log("g", g)
-            if(g && (g.number === diceResult[0] + diceResult[1])){
+            if (g && g.number === diceResult[0] + diceResult[1]) {
               // console.log("HIT", f, g, diceResult)
               // console.log("g.terrain", g.terrain, "type", f.building_type)
-                dispatch(
-                  updateResources({ ...resources, [g.terrain]: resources[g.terrain]+f.building_type})
-                )
+              dispatch(
+                updateResources({
+                  ...resources,
+                  [g.terrain]: resources[g.terrain] + f.building_type,
+                })
+              )
             }
-          }) 
+          })
         }
       })
     })
   }, [diceResult])
-  
+
   useEffect(() => {
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
@@ -126,8 +149,15 @@ const Game = () => {
       )
       dispatch(updateTradePending(false))
     })
-    socket.on("pass-turn", () => dispatch(updateActivePlayer()))
+    socket.on("pass-turn", () => {
+      // console.log("turn passed")
+      dispatch(updateActivePlayer())
+    })
     socket.on("buy-building", ({ buildingsArray, newMap }) => {
+      // console.log("hit buy building")
+      buildingRef.current = !buildingRef.current
+      // console.log(buildingsArray)
+      // console.log(newMap)
       dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
     })
@@ -168,9 +198,15 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="top-container">
-        {(buildSettlement || buildCity) && <div className="top-container-overlay"></div>}
-        {active && rolledDice && !tradePending && <OfferTrade />}
-        {active && rolledDice && !tradePending && <Purchase />}
+        {(buildSettlement || buildCity) && (
+          <div className="top-container-overlay"></div>
+        )}
+        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
+          <OfferTrade />
+        )}
+        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
+          <Purchase />
+        )}
         {incomingTrade && <IncomingTrade />}
         {<MyDevelopmentHand />}
       </div>
@@ -205,7 +241,7 @@ const Game = () => {
           </div>
           <DevelopmentDeck />
           <div className="dice-container">
-            <DiceButton />
+            {!firstTurn && !secondTurn && <DiceButton />}
             <Dice />
           </div>
         </div>

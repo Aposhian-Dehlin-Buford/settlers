@@ -7,11 +7,10 @@ import {UserContext} from '../context/UserContext'
 const DiceButton = () => {
     const dispatch = useDispatch()
     const {socket} = useContext(UserContext)
-    const { active, rolledDice, room } = useSelector((redux) => redux)
-    
+    const { active, rolledDice, room, firstTurn, secondTurn } = useSelector((redux) => redux)
     return (
         <div>
-             {active && !rolledDice && (
+             {active && !rolledDice && !(firstTurn || secondTurn) && (
         <div className="roll-dice-button"
           onClick={() => {
             socket.emit("roll-dice", { room })

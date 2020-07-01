@@ -17,7 +17,13 @@ const {
   SET_PICK_31,
   UPDATE_BUILDINGS,
   UPDATE_ROADS,
-  SET_MAP_STATE
+  SET_MAP_STATE,
+  END_FIRST_TURN,
+  FIRST_SETTLEMENT_PLACED,
+  FIRST_ROAD_PLACED,
+  END_SECOND_TURN,
+  SECOND_SETTLEMENT_PLACED,
+  SECOND_ROAD_PLACED,
 } = actionTypes
 
 const initialState = {
@@ -31,9 +37,21 @@ const initialState = {
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
+  firstTurn: true,
+  secondTurn: true,
+  firstSettlementPlaced: false,
+  secondSettlementPlaced: false,
+  firstRoadPlaced: false,
+  secondRoadPlaced: false,
   incomingTrade: null,
+<<<<<<< HEAD
+  buildings: [...Array(20)].map((e) => [...Array(6)].map((f, j) => j)),
+  roads: [...Array(20)].map((e) => [...Array(6)].map((f, j) => j)),
+  numBuildings: [],
+=======
   buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
   roads: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
+>>>>>>> master
   developmentDeck: [],
   developmentHand: [],
   map: [],
@@ -52,9 +70,42 @@ export function setGameState(payload, user_id) {
   }
 }
 
+export function endFirstTurn() {
+  return {
+    type: END_FIRST_TURN,
+    payload: false,
+  }
+}
+export function endSecondTurn() {
+  return {
+    type: END_SECOND_TURN,
+    payload: false,
+  }
+}
+
+export function placeFirstSettlement(){
+  console.log('hit place first settlement')
+  return {
+    type: FIRST_SETTLEMENT_PLACED,
+    payload: true
+  }
+}
+export function placeSecondSettlement(){
+  return {
+    type: SECOND_SETTLEMENT_PLACED,
+    payload: true
+  }
+}
+export function placeFirstRoad(){
+  return {type: FIRST_ROAD_PLACED, payload: true}
+}
+
+export function placeSecondRoad(){
+  return {type: SECOND_ROAD_PLACED, payload: true}
+}
+
 export function setMapState(payload) {
-  console.log(payload)
-  return {type: SET_MAP_STATE, payload}
+  return { type: SET_MAP_STATE, payload }
 }
 
 export function updateActivePlayer() {
@@ -95,18 +146,22 @@ export function endGame() {
   return { type: END_GAME, payload: initialState }
 }
 
-export function setBuildSettlement(payload){
-  return {type: SET_BUILD_SETTLEMENT, payload}
+export function setBuildSettlement(payload) {
+  return { type: SET_BUILD_SETTLEMENT, payload }
 }
 
-export function setBuildRoad(payload){
-  return {type: SET_BUILD_ROAD, payload}
+export function setBuildRoad(payload) {
+  return { type: SET_BUILD_ROAD, payload }
 }
 
-export function setBuildCity(payload){
-  return {type: SET_BUILD_CITY, payload}
+export function setBuildCity(payload) {
+  return { type: SET_BUILD_CITY, payload }
 }
 
+<<<<<<< HEAD
+export function updateBuildings(payload) {
+  return { type: UPDATE_BUILDINGS, payload }
+=======
 export function setPickCard(payload){
   return {type: SET_PICK_CARD, payload}
 }
@@ -117,10 +172,11 @@ export function setPick31(payload){
 
 export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
+>>>>>>> master
 }
 
-export function updateRoads(payload){
-  return {type: UPDATE_ROADS, payload}
+export function updateRoads(payload) {
+  return { type: UPDATE_ROADS, payload }
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -128,15 +184,24 @@ export default function gameReducer(state = initialState, action) {
   switch (type) {
     case SET_GAME_STATE:
       return { ...payload }
+    case END_FIRST_TURN:
+      return {...state, firstTurn: payload}
+    case END_SECOND_TURN:
+      return {...state, secondTurn: payload}
+    case FIRST_SETTLEMENT_PLACED:
+      return {...state, firstSettlementPlaced: payload}
+    case SECOND_SETTLEMENT_PLACED:
+      return {...state, secondSettlementPlaced: payload}
+    case FIRST_ROAD_PLACED:
+      return {...state, firstRoadPlaced: payload}
+    case SECOND_ROAD_PLACED:
+      return {...state, secondRoadPlaced: payload}
     case UPDATE_ACTIVE_PLAYER:
       return { ...state, active: !state.active, rolledDice: false }
-      break;
     case SET_ROLLED_DICE:
       return { ...state, rolledDice: true }
-      break;
     case UPDATE_DICE_RESULT:
       return { ...state, diceResult: payload }
-      break;
     case UPDATE_TRADE_PENDING:
       return { ...state, tradePending: payload }
     case UPDATE_INCOMING_TRADE:
@@ -153,7 +218,6 @@ export default function gameReducer(state = initialState, action) {
           rock: state.resources.rock + payload.rock,
         },
       }
-      break;
     case UPDATE_DEVELOPMENT_DECK:
       return { ...state, developmentDeck: payload }
     case UPDATE_DEVELOPMENT_HAND:
@@ -161,23 +225,27 @@ export default function gameReducer(state = initialState, action) {
     case END_GAME:
       return { ...payload }
     case SET_BUILD_SETTLEMENT:
-      return {...state, buildSettlement: payload}
+      return { ...state, buildSettlement: payload }
     case SET_BUILD_ROAD:
-      return {...state, buildRoad: payload}
+      return { ...state, buildRoad: payload }
     case SET_BUILD_CITY:
+<<<<<<< HEAD
+      return { ...state, buildCity: payload }
+=======
       return {...state, buildCity: payload}
     case SET_PICK_CARD:
       return {...state, pickCard: payload}
     case SET_PICK_31:
       return {...state, pick31: payload}
+>>>>>>> master
     case UPDATE_BUILDINGS:
-      return {...state, buildings: payload}
-      break;
+      return { ...state, buildings: payload }
+      break
     case UPDATE_ROADS:
-      return {...state, roads: payload}
+      return { ...state, roads: payload }
     case SET_MAP_STATE:
-      return {...state, map: payload}
-      break;
+      return { ...state, map: payload }
+      break
     default:
       return state
   }

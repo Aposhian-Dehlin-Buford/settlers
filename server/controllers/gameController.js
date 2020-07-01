@@ -4,12 +4,12 @@ const endTurn = (app, { room }) => {
 }
 
 const rollDice = (app, { room }) => {
-  console.log("HIT")
   const io = app.get("io")
   const diceResult = [
     Math.ceil(Math.random() * 6),
     Math.ceil(Math.random() * 6),
   ]
+  console.log(`roll: ${diceResult[0]+diceResult[1]}`)
   io.in(room).emit("dice-result", { diceResult })
 }
 
