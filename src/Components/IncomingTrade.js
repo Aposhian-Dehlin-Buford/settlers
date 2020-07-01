@@ -47,11 +47,11 @@ const IncomingTrade = () => {
           {forClay > 0 && <div>Clay: {forClay}</div>}
           {forWheat > 0 && <div>Wheat: {forWheat}</div>}
           {forRock > 0 && <div>Rock: {forRock}</div>}
-          {wood > forWood &&
-            wheat > forWheat &&
-            clay > forClay &&
-            sheep > forSheep &&
-            rock > forRock && <button onClick={acceptTrade}>Accept</button>}
+          {wood >= forWood &&
+            wheat >= forWheat &&
+            clay >= forClay &&
+            sheep >= forSheep &&
+            rock >= forRock && <button onClick={acceptTrade}>Accept</button>}
           <button onClick={rejectTrade}>Reject</button>
         </div>
       )}

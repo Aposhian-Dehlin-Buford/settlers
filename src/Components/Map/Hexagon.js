@@ -10,6 +10,8 @@ import {
   setMapState
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
+import {FaAnchor} from 'react-icons/fa'
+import {GiAnchor} from 'react-icons/gi'
 
 const Hexagon = ({ e, id }) => {
   
@@ -79,33 +81,77 @@ const Hexagon = ({ e, id }) => {
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
+  const imagePath = `../../images/settlers-${e.terrain}-tile`
+
   return (
     <div
       className="hexagon"
-      style={{
-        background:
-          e.terrain === "water"
-            ? "lightblue"
-            : e.terrain === "wheat"
-            ? "khaki"
-            : e.terrain === "sheep"
-            ? "green"
-            : e.terrain === "wood"
-            ? "darkgreen"
-            : e.terrain === "rock"
-            ? "grey"
-            : e.terrain === "clay"
-            ? "brown"
-            : e.terrain === "desert"
-            ? "tan"
-            : e.terrain === "port"
-            ? "black"
-            : "blue",
+      style={
+          ["water", "port"].includes(e.terrain) ?
+          {background: "lightblue"} :
+        {
+        backgroundImage: 'url(' + require(`../../images/settlers-${e.terrain}-tile.png`) + ')'
+
+          // e.terrain === "water"
+          //   ? "lightblue"
+          //   : e.terrain === "wheat"
+          //   ? "khaki"
+          //   : e.terrain === "sheep"
+          //   ? "green"
+          //   : e.terrain === "wood"
+          //   ? "darkgreen"
+          //   : e.terrain === "rock"
+          //   ? "grey"
+          //   : e.terrain === "clay"
+          //   ? "brown"
+          //   : e.terrain === "desert"
+          //   ? "tan"
+          //   : e.terrain === "port"
+          //   ? "lightblue"
+          //   : "blue",
       }}
     >
-      {e.number ? <div className="number-container" style={{color: e.number === 6 || e.number === 8 ? 'darkred' : 'black'}}>{e.number}</div> : null}
-      <Settlements id={id} handleClick={handleClick} handleCityClick={handleCityClick} user={user} />
-      <Roads id={id} handleRoadClick={handleRoadClick} user={user.user_id} />
+      {
+        e.terrain === "port" && 
+        <div 
+          className="port" 
+          style={
+            e.type === "3 for 1" ?
+            {background: "white"} :
+            {
+            backgroundImage: 'url(' + require(`../../images/${e.type}.png`) + ')'
+
+            }}>{e.type === "3 for 1" && <span>3:1</span>}</div>
+      }
+      {
+        e.terrain === "port" && (<>
+          <div className={`port${e.portID}0`}><FaAnchor /></div>
+          <div className={`port${e.portID}1`}><FaAnchor /></div>
+        </>)
+      }
+
+      {
+        e.number ? 
+        <div 
+          className="number-container" 
+          style={
+            {
+              color: e.number === 6 || e.number === 8 ? 
+              'darkred' : 
+              'black'
+            }}>   {e.number}  </div> : null
+      }
+
+      <Settlements 
+        id={id} 
+        handleClick={handleClick} 
+        handleCityClick={handleCityClick} 
+        user={user} />
+
+      <Roads 
+        id={id} 
+        handleRoadClick={handleRoadClick} 
+        user={user.user_id} />
       
     </div>
   )

@@ -21,7 +21,7 @@ const Settlements = (props) => {
           .includes(id) && placements[i]
           .map((f,j) => <div
           key={j} 
-          className={`settlement-container${f}`}>
+          className={`settlement-container${f}`} >
               { 
                 currentBuildings.length < 2 ? // Temporary until starting is made.
                 <BsHouseDoorFill 
@@ -34,7 +34,7 @@ const Settlements = (props) => {
                   (buildSettlement &&
                   <BsHouseDoorFill 
                     onClick={() => handleClick(id, f)}
-                    color={"white"} />) :
+                    color={"rgba(255, 255, 255, 0.75)"} />) :
 
                 buildings[id][f].building_type === 1 ?
                   <BsHouseDoorFill

@@ -1,7 +1,7 @@
 const seedMap = () => {
     let terrain = ['sheep', 'sheep', 'sheep', 'sheep', 'wheat', 'wheat', 'wheat', 'wheat',  'wood', 'wood', 'wood', 'wood', 'clay', 'clay', 'clay', 'rock', 'rock', 'rock', 'desert']
     let numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12]
-    let ports = ["3 for 1"]
+    let ports = ["3 for 1", "3 for 1", "3 for 1", "3 for 1", "clay", "rock", "wheat", "sheep", "wood"]
     let tiles = [
                    1,0, 1, 0, 
                  0, 2, 2, 2, 1, 
@@ -67,6 +67,8 @@ const seedMap = () => {
     let numGrid = coorGrid.map((e,i) => {
         return {
             number: ['desert', 'port', 'water'].includes(e.terrain) ? null : numberType(),
+            type: e.terrain === "port" ? ports.splice(Math.floor(Math.random() * ports.length), 1)[0] : null,
+            portID: e.terrain === "port" ? 8 - ports.length : null,
             ...e,
         }
     })

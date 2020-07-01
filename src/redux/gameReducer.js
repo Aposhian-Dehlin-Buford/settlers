@@ -63,6 +63,7 @@ export function setRolledDice() {
 }
 
 export function updateDiceResult(payload) {
+  console.log("updateDiceResult", payload)
   return { type: UPDATE_DICE_RESULT, payload }
 }
 
@@ -75,7 +76,7 @@ export function updateIncomingTrade(payload) {
 }
 
 export function updateResources(payload) {
-  console.log(payload)
+  console.log("updateResources", payload)
   return { type: UPDATE_RESOURCES, payload }
 }
 
@@ -115,25 +116,21 @@ export default function gameReducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case SET_GAME_STATE:
-      // console.log("CASE HIT", type, payload)
       return { ...payload }
     case UPDATE_ACTIVE_PLAYER:
-      // console.log("CASE HIT", type, payload)
       return { ...state, active: !state.active, rolledDice: false }
+      break;
     case SET_ROLLED_DICE:
-      // console.log("CASE HIT", type, payload)
       return { ...state, rolledDice: true }
+      break;
     case UPDATE_DICE_RESULT:
-      // console.log("CASE HIT", type, payload)
       return { ...state, diceResult: payload }
+      break;
     case UPDATE_TRADE_PENDING:
-      // console.log("CASE HIT", type, payload)
       return { ...state, tradePending: payload }
     case UPDATE_INCOMING_TRADE:
-      // console.log("CASE HIT", type, payload)
       return { ...state, incomingTrade: payload }
     case UPDATE_RESOURCES:
-      // console.log("CASE HIT", type, payload)
       return {
         ...state,
         // resources: payload
@@ -145,33 +142,27 @@ export default function gameReducer(state = initialState, action) {
           rock: state.resources.rock + payload.rock,
         },
       }
+      break;
     case UPDATE_DEVELOPMENT_DECK:
-      // console.log("CASE HIT", type, payload)
       return { ...state, developmentDeck: payload }
     case UPDATE_DEVELOPMENT_HAND:
-      // console.log("CASE HIT", type, payload)
       return { ...state, developmentHand: payload }
     case END_GAME:
-      // console.log("CASE HIT", type, payload)
       return { ...payload }
     case SET_BUILD_SETTLEMENT:
-      // console.log("CASE HIT", type, payload)
       return {...state, buildSettlement: payload}
     case SET_BUILD_ROAD:
-      // console.log("CASE HIT", type, payload)
       return {...state, buildRoad: payload}
     case SET_BUILD_CITY:
-      // console.log("CASE HIT", type, payload)
       return {...state, buildCity: payload}
     case UPDATE_BUILDINGS:
-      // console.log("CASE HIT", type, payload)
       return {...state, buildings: payload}
+      break;
     case UPDATE_ROADS:
-      // console.log("CASE HIT", type, payload)
       return {...state, roads: payload}
     case SET_MAP_STATE:
-      // console.log("CASE HIT", type, payload)
       return {...state, map: payload}
+      break;
     default:
       return state
   }
