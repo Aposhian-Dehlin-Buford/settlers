@@ -16,7 +16,7 @@
 }
 
 .port00 {
-    z-index: 12700;
+    z-index: 19;
     // border: 1px solid white;
     background: transparent;
     // border: ($size/90) solid $portB;
@@ -27,9 +27,10 @@
     position: absolute;
     right: -($size/5)/1.991;
     bottom: -($size/5)/2.3;
+    font-size: $size/10;
 }.port01 {
     z-index: 19;
-    z-index: 12700;
+    // z-index: 127000;
     background: transparent;
     // border: ($size/90) solid $portB;
     // background: $port;
@@ -41,6 +42,10 @@
     position: absolute;
     left: center;
     top: ($size*.74);
+    font-size: 12px;
+    font-size: $size/10;
+
+
     // right: ($size/5)/1.33;
     // top: ($size*.63);
     // font-size: ($size);

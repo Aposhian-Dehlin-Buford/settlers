@@ -14,7 +14,9 @@ import {
   endGame,
   updateBuildings,
   setMapState,
-  updateRoads
+  updateRoads,
+  setPickCard,
+  setPick31,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -54,7 +56,9 @@ const Game = () => {
     map,
     buildings,
     roads,
-    diceResult
+    diceResult,
+    pickCard,
+    pick31
   } = useSelector((redux) => redux)
   useEffect(() => {
     socket.on("disconnect", () => {
@@ -133,7 +137,29 @@ const Game = () => {
     })
   }, [socket, dispatch])
 
-  console.log("map", map)
+  
+  const handlePort = (e, id) => {
+    console.log("HANDLEPORT", e.type)
+    e.type === "3 for 1" ? dispatch(setPick31(true)) : dispatch(setPickCard(true))
+    dispatch(
+      updateResources({ ...resources, [e.type]: resources[e.type] - (e.type === "3 for 1" ? 3 : 2)})
+    )
+  }
+
+  const handlePickCard = (card) => {
+    console.log("HANDLE-PICK-CARD", card)
+    dispatch(setPickCard(false))
+    dispatch(updateResources({...resources, [card]: 1}))
+  }
+
+  const handlePick31 = (card) => {
+    console.log("HANDLE_PICK_31", card)
+    dispatch(setPick31(false))
+    dispatch(setPickCard(true))
+    dispatch(updateResources({...resources, [card]: -3}))
+  }
+
+  // console.log("map", map)
   // console.log("buildings", buildings)
   // console.log("roads", roads)
   // console.log("user", user.user_id)
@@ -153,13 +179,28 @@ const Game = () => {
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
-              <div className="wheat"></div>
-              <div className="sheep"></div>
-              <div className="wood"></div>
+              <div 
+                className="wheat" 
+                onClick={pickCard ?
+                 () => handlePickCard("wheat") : null} ></div>
+              <div 
+                className="sheep" 
+                onClick={pickCard ?
+                 () => handlePickCard("sheep") : null} ></div>
+              <div 
+                className="wood" 
+                onClick={pickCard ?
+                 () => handlePickCard("wood") : null} ></div>
             </div>
             <div className="res-3">
-              <div className="clay"></div>
-              <div className="rock"></div>
+              <div 
+                className="clay" 
+                onClick={pickCard ?
+                 () => handlePickCard("clay") : null} ></div>
+              <div 
+                className="rock" 
+                onClick={pickCard ?
+                 () => handlePickCard("rock") : null} ></div>
             </div>
           </div>
           <DevelopmentDeck />
@@ -168,12 +209,12 @@ const Game = () => {
             <Dice />
           </div>
         </div>
-        <Map />
+        <Map handlePort={handlePort} />
         <EndTurnButton />
         <div className="p4-container"></div>
       </div>
       <div className="bottom-container">
-        <MyHand />
+        <MyHand handlePick31={handlePick31} />
       </div>
     </div>
   )

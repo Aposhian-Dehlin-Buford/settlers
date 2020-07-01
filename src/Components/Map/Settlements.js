@@ -26,7 +26,7 @@ const Settlements = (props) => {
                 currentBuildings.length < 2 ? // Temporary until starting is made.
                 <BsHouseDoorFill 
                     onClick={() => handleClick(id, f)}
-                    color={!buildings[id][f].user_id ? "white" : buildings[id][f].user_id === 1 ? 
+                    color={!buildings[id][f].user_id ? "rgba(255, 255, 255, 0.60)" : buildings[id][f].user_id === 1 ? 
                     "blue" : "red"} /> : // End <--------------
 
                 !buildings[id][f].canBuild ? null :
