@@ -83,6 +83,30 @@ const removeUserFromGame = (user_id, app) => {
   //emit remove game command to remove other user from game
 }
 
+const makeBuildings = () => {
+  const buildings = [...Array(37)].map((e,i) => [...Array(2)].map((f,j) => {
+    return {
+      canBuild: 0,
+      canRoad: [false, false]
+    }
+  }))
+
+  return buildings
+}
+
+const getPorts = (buildings) => {
+  let portSlots = [[[0,1], [4,0]], [[1,1], [6,0]], [[7,1], [13,0]], [[9,0], [9,1]], [[20,0], [20,1]], [[22,0], [22,1]], [[26,1], [31,0]], [[28,1], [33,0]], [[30,1], [34,0]]]
+
+  portSlots.forEach((e,i) => e.forEach((f,j) => buildings[f[0]][f[1]].port = [i, false]))
+}
+
+const getBuildings = () => {
+  const buildings = makeBuildings()
+  getPorts(buildings)
+
+  return buildings
+}
+
 const generateInitialGameState = (
   io,
   { challenger, opponent },
@@ -96,11 +120,14 @@ const generateInitialGameState = (
     buildSettlement: false,
     buildRoad: false,
     buildCity: false,
+    pickCard: false,  // If true, choose card to receive from port exchange.
+    pick31: false, // If true, choose card (3) to discard for port exchange.
     room: `${challenger.user_id}-${opponent.user_id}`,
     activePlayer,
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
+<<<<<<< HEAD
     resources: { sheep: 0, wood: 0, clay: 0, wheat: 0, rock: 0 },
     firstTurn: true,
     secondTurn: true,
@@ -125,6 +152,17 @@ const generateInitialGameState = (
       })
     ),
     numBuildings: [],
+=======
+    resources: { sheep: 3, wood: 4, clay: 4, wheat: 6, rock: 3 },
+    // resources: { sheep: 1, wood: 1, clay: 1, wheat: 1, rock: 0 },
+    // opponentsInfo: [
+    //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
+    // ],
+    buildings: getBuildings(),
+    roads: [...Array(37)].map((e,i) => [...Array(3)].map((f,j) => {
+      return {}
+    })),
+>>>>>>> master
     developmentDeck: seedDeck(),
     developmentHand: [],
     map: seedMap(),

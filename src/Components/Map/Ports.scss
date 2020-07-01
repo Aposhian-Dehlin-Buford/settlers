@@ -1,0 +1,276 @@
+@import '../../variables';
+
+.port {
+    height: $size*.5;
+    width: $size*.5;
+    background: $exp;
+    background-position: center;
+    background-size: 145%;
+    border-radius: 50%;
+    z-index: 27;
+    border: ($size/60) solid white;
+    span {
+        font-size: $size/4;
+        font-weight: 400;
+    }
+}
+
+.port00 {
+    z-index: 19;
+    // border: 1px solid white;
+    background: transparent;
+    // border: ($size/90) solid $portB;
+    // background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/1.991;
+    bottom: -($size/5)/2.3;
+    font-size: $size/10;
+}.port01 {
+    z-index: 19;
+    // z-index: 127000;
+    background: transparent;
+    // border: ($size/90) solid $portB;
+    // background: $port;
+    // height: $size/3.8;
+    // width: $size/3.8;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    top: ($size*.74);
+    font-size: 12px;
+    font-size: $size/10;
+
+
+    // right: ($size/5)/1.33;
+    // top: ($size*.63);
+    // font-size: ($size);
+    
+}
+
+.port10 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    bottom: -($size/5)/2;
+    // left: ($size/5)/1.33;
+    // top: ($size*.63);
+    // font-size: ($size*.35);
+}.port11 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    top: ($size*.74);
+    // right: ($size/5)/1.33;
+    // top: ($size*.63);
+    // font-size: ($size*.35);
+}
+
+.port20 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    bottom: -($size/5)/2;
+    // left: ($size/5)/1.33;
+    // top: ($size*.63);
+    // font-size: ($size*.35);
+}.port21 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    top: ($size*.74);
+    // right: ($size/5)/1.33;
+    // top: ($size*.63);
+    // font-size: ($size*.35);
+}
+
+.port30 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/1.991;
+    top: -($size/5)/1.7;
+}.port31 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/1.991;
+    bottom: -($size/5)/2.3;
+}
+
+.port40 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    bottom: -($size/5)/2;
+    // left: ($size/5)/1.33;
+    // top: ($size*.63);
+    // font-size: ($size*.35);
+}.port41 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    top: -($size/5)/2;
+    // left: -($size/5)/2;
+    // top: center;
+    // font-size: ($size*.35);
+}
+
+.port50 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/1.991;
+    top: -($size/5)/1.7;
+}.port51 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/1.991;
+    bottom: -($size/5)/2.3;
+}
+
+.port60 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    top: -($size/5)/2;
+    // left: -($size/5)/2;
+    // top: center;
+    // font-size: ($size*.35);
+}.port61 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    bottom: ($size*.74);
+    // left: ($size/5)/1.33;
+    // bottom: ($size*.63);
+    // font-size: ($size*.35);
+}
+
+.port70 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    bottom: ($size*.74);
+    // left: ($size/5)/1.33;
+    // bottom: ($size*.63);
+    // font-size: ($size*.35);
+}.port71 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    right: -($size/5)/1.991;
+    top: -($size/5)/1.7;
+}
+
+.port80 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: -($size/5)/2;
+    top: -($size/5)/2;
+    // left: -($size/5)/2;
+    // top: center;
+    // font-size: ($size*.35);
+}.port81 {
+    z-index: 19;
+    border: ($size/90) solid $portB;
+    background: $port;
+    height: $size/5;
+    width: $size/5;
+    border-radius: 50%;
+    position: absolute;
+    left: center;
+    bottom: ($size*.74);
+    // left: ($size/5)/1.33;
+    // bottom: ($size*.63);
+    // font-size: ($size*.35);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
