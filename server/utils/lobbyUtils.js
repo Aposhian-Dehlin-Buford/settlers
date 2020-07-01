@@ -9,8 +9,7 @@ const removeSocketId = (users) =>
   }))
 
 const removeUserFromList = (app, socket) => {
-  try{
-
+  try {
     const io = app.get("io")
     const users = app.get("users")
     // const { userIndex, user_id } = users.reduce(
@@ -23,15 +22,15 @@ const removeUserFromList = (app, socket) => {
     //   },
     //   { userIndex: null, user_id: null }
     // )
-    const user = users.find(e => e.socket_id === socket.id)
-    const filteredUsers = users.filter(e => +e.user_id !== +user.user_id)
+    const user = users.find((e) => e.socket_id === socket.id)
+    const filteredUsers = users.filter((e) => +e.user_id !== +user.user_id)
     // users.splice(userIndex, 1)
     // console.log(filteredUsers)
     app.set("users", filteredUsers)
     socket.leave("userlist")
     io.in("userlist").emit("users", removeSocketId(filteredUsers))
     return user.user_id
-  }catch{
+  } catch {
     return null
   }
 }
@@ -102,19 +101,29 @@ const generateInitialGameState = (
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-    resources: { sheep: 2, wood: 2, clay: 2, wheat: 2, rock: 0 },
+    resources: { sheep: 2, wood: 2, clay: 2, wheat: 6, rock: 6 },
+    firstTurn: true,
+    secondTurn: true,
+    firstSettlementPlaced: false,
+    secondSettlementPlaced: false,
+    firstRoadPlaced: false,
+    secondRoadPlaced: false,
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
-    buildings: [...Array(37)].map((e,i) => [...Array(2)].map((f,j) => {
-      return {
-        canBuild: true,
-        canRoad: [false, false]
-      }
-    })),
-    roads: [...Array(37)].map((e,i) => [...Array(3)].map((f,j) => {
-      return {}
-    })),
+    buildings: [...Array(37)].map((e, i) =>
+      [...Array(2)].map((f, j) => {
+        return {
+          canBuild: true,
+          canRoad: [false, false],
+        }
+      })
+    ),
+    roads: [...Array(37)].map((e, i) =>
+      [...Array(3)].map((f, j) => {
+        return {}
+      })
+    ),
     numBuildings: [],
     developmentDeck: seedDeck(),
     developmentHand: [],

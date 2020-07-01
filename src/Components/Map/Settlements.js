@@ -7,7 +7,7 @@ import { FaBuilding } from "react-icons/fa"
 const Settlements = (props) => {
     const {id, handleClick, handleCityClick, user} = props
 
-    const { buildSettlement, buildCity, buildings} = useSelector((redux) => redux)
+    const { active, buildSettlement, buildCity, buildings, firstTurn, secondTurn, firstSettlementPlaced, secondSettlementPlaced} = useSelector((redux) => redux)
 
     const settle = () => {
 
@@ -21,6 +21,10 @@ const Settlements = (props) => {
           key={j} 
           className={`settlement-container${f}`}>
               { 
+                (active && ((firstTurn && !firstSettlementPlaced) || (!firstTurn && secondTurn && !secondSettlementPlaced))) ?
+                <BsHouseDoorFill 
+                    onClick={() => handleClick(id, f)}
+                    color={!buildings[id][f].user_id ? "white" : buildings[id][f].user_id === 1 ? "blue" : "red"} /> :
                 buildings[id][f].canBuild === false ? null :
                 !buildings[id][f].building_type ?
                   (buildSettlement &&

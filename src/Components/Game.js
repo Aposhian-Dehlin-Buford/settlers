@@ -55,29 +55,33 @@ const Game = () => {
     map,
     buildings,
     roads,
-    // resources,
+    firstTurn,
+    firstSettlementPlaced,
+    secondSettlementPlaced,
+    secondTurn,
+    diceResult,
   } = useSelector((redux) => redux)
-  const rollingDice = useCallback(({ diceResult }) => {
-    console.log(diceResult)
-    dispatch(updateDiceResult(diceResult))
-    const newBuildings = [...buildings]
-    buildings.forEach((e) => {
-      e.forEach((f) => {
-        if (f.adjacent_numbers && f.user_id === user.user_id) {
-          f.adjacent_numbers.forEach((g) => {
-            if (g && g.number === diceResult[0] + diceResult[1]) {
-              dispatch(
-                updateResources({
-                  ...resources,
-                  [g.terrain]: resources[g.terrain] + f.building_type,
-                })
-              )
-            }
-          })
-        }
-      })
-    })
-  }, [buildingRef.current])
+  // const rollingDice = useCallback(({ diceResult }) => {
+  //   console.log(diceResult)
+  //   dispatch(updateDiceResult(diceResult))
+  //   const newBuildings = [...buildings]
+  //   buildings.forEach((e) => {
+  //     e.forEach((f) => {
+  //       if (f.adjacent_numbers && f.user_id === user.user_id) {
+  //         f.adjacent_numbers.forEach((g) => {
+  //           if (g && g.number === diceResult[0] + diceResult[1]) {
+  //             dispatch(
+  //               updateResources({
+  //                 ...resources,
+  //                 [g.terrain]: resources[g.terrain] + f.building_type,
+  //               })
+  //             )
+  //           }
+  //         })
+  //       }
+  //     })
+  //   })
+  // }, [buildingRef.current])
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -89,10 +93,40 @@ const Game = () => {
       dispatch(endGame())
     })
   }, [])
+
   useEffect(() => {
-    console.log("building ref: " + buildingRef.current)
-    socket.on("dice-result", rollingDice)
+    socket.on("dice-result", ({ diceResult }) => {
+      dispatch(updateDiceResult(diceResult))
+    })
   }, [])
+
+  useEffect(() => {
+    console.log("HIT")
+    // console.log(diceResult)
+    const newBuildings = [...buildings]
+    newBuildings.forEach((e) => {
+      // console.log("e", e)
+      e.forEach((f) => {
+        // console.log("f", f)
+        if (f.adjacent_numbers && f.user_id === user.user_id) {
+          // console.log("f.user_id", f.user_id, user.user_id)
+          f.adjacent_numbers.forEach((g) => {
+            // console.log("g", g)
+            if (g && g.number === diceResult[0] + diceResult[1]) {
+              // console.log("HIT", f, g, diceResult)
+              // console.log("g.terrain", g.terrain, "type", f.building_type)
+              dispatch(
+                updateResources({
+                  ...resources,
+                  [g.terrain]: resources[g.terrain] + f.building_type,
+                })
+              )
+            }
+          })
+        }
+      })
+    })
+  }, [diceResult])
 
   useEffect(() => {
     socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
@@ -127,7 +161,11 @@ const Game = () => {
       dispatch(setMapState(newMap))
       dispatch(updateRoads(roadsArray))
     })
-  }, [])
+  }, [socket, dispatch])
+  console.log({active})
+  console.log({buildSettlement})
+  console.log({firstTurn}, {firstSettlementPlaced})
+  console.log({secondTurn}, {secondSettlementPlaced})
 
   return (
     <div className="game-container">
@@ -135,8 +173,12 @@ const Game = () => {
         {(buildSettlement || buildCity) && (
           <div className="top-container-overlay"></div>
         )}
-        {active && rolledDice && !tradePending && <OfferTrade />}
-        {active && rolledDice && !tradePending && <Purchase />}
+        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
+          <OfferTrade />
+        )}
+        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
+          <Purchase />
+        )}
         {incomingTrade && <IncomingTrade />}
         {<MyDevelopmentHand />}
       </div>
@@ -156,7 +198,7 @@ const Game = () => {
           </div>
           <DevelopmentDeck />
           <div className="dice-container">
-            <DiceButton />
+            {!firstTurn && !secondTurn && <DiceButton />}
             <Dice />
           </div>
         </div>
