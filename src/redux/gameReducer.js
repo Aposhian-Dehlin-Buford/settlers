@@ -13,6 +13,8 @@ const {
   SET_BUILD_SETTLEMENT,
   SET_BUILD_ROAD,
   SET_BUILD_CITY,
+  SET_PICK_CARD,
+  SET_PICK_31,
   UPDATE_BUILDINGS,
   UPDATE_ROADS,
   SET_MAP_STATE
@@ -24,13 +26,14 @@ const initialState = {
   buildSettlement: false,
   buildRoad: false,
   buildCity: false,
+  pickCard: false,
+  pick31: false,
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
   incomingTrade: null,
   buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
   roads: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
-  numBuildings: [],
   developmentDeck: [],
   developmentHand: [],
   map: [],
@@ -104,6 +107,14 @@ export function setBuildCity(payload){
   return {type: SET_BUILD_CITY, payload}
 }
 
+export function setPickCard(payload){
+  return {type: SET_PICK_CARD, payload}
+}
+
+export function setPick31(payload){
+  return {type: SET_PICK_31, payload}
+}
+
 export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
 }
@@ -155,6 +166,10 @@ export default function gameReducer(state = initialState, action) {
       return {...state, buildRoad: payload}
     case SET_BUILD_CITY:
       return {...state, buildCity: payload}
+    case SET_PICK_CARD:
+      return {...state, pickCard: payload}
+    case SET_PICK_31:
+      return {...state, pick31: payload}
     case UPDATE_BUILDINGS:
       return {...state, buildings: payload}
       break;
