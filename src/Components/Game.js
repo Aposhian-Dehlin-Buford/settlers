@@ -15,6 +15,8 @@ import {
   updateBuildings,
   setMapState,
   updateRoads,
+  endFirstTurn,
+  endSecondTurn,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -146,14 +148,14 @@ const Game = () => {
       dispatch(updateTradePending(false))
     })
     socket.on("pass-turn", () => {
-      console.log("turn passed")
+      // console.log("turn passed")
       dispatch(updateActivePlayer())
     })
     socket.on("buy-building", ({ buildingsArray, newMap }) => {
-      console.log("hit buy building")
+      // console.log("hit buy building")
       buildingRef.current = !buildingRef.current
-      console.log(buildingsArray)
-      console.log(newMap)
+      // console.log(buildingsArray)
+      // console.log(newMap)
       dispatch(setMapState(newMap))
       dispatch(updateBuildings(buildingsArray))
     })
@@ -162,10 +164,6 @@ const Game = () => {
       dispatch(updateRoads(roadsArray))
     })
   }, [socket, dispatch])
-  console.log({active})
-  console.log({buildSettlement})
-  console.log({firstTurn}, {firstSettlementPlaced})
-  console.log({secondTurn}, {secondSettlementPlaced})
 
   return (
     <div className="game-container">

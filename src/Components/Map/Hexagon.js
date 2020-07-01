@@ -12,6 +12,7 @@ import {
   placeSecondSettlement,
   placeFirstRoad,
   placeSecondRoad,
+  updateResources,
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
@@ -72,7 +73,30 @@ const Hexagon = ({ e, id }) => {
       buildingsArray[id][slotNum].canRoad[user.user_id] = true
       dispatch(setBuildSettlement(false))
       firstTurn && !firstSettlementPlaced && dispatch(placeFirstSettlement())
-      !firstTurn && !secondSettlementPlaced && dispatch(placeSecondSettlement())
+      if(!firstTurn && !secondSettlementPlaced){
+        dispatch(placeSecondSettlement())
+        //get resources based on second settlement location
+        console.log("THIS IS A TEST")
+        console.log(buildingsArray[id][slotNum])
+        const resources = {
+          wheat: 0,
+          clay: 0,
+          sheep: 0,
+          rock: 0,
+          wood: 0
+        }
+        for(let i = 0; i < 3; i++){
+          resources[buildingsArray[id][slotNum].adjacent_numbers[i].terrain] ++
+          // console.log(buildingsArray[id][slotNum].adjacent_numbers[i].terrain)
+        }
+        console.log(resources)
+        dispatch(updateResources(resources))
+        
+        // buildingsArray[id][slotNum].adjacent_numbers.forEach(e => {
+        //   console.log(e)
+        // })
+      }
+      // !firstTurn && !secondSettlementPlaced && dispatch(placeSecondSettlement())
       // dispatch(updateBuildings(buildingsArray))
       socket.emit("buy-building", { room, buildingsArray, map: mapArray })
     }
@@ -85,24 +109,24 @@ const Hexagon = ({ e, id }) => {
     //     (firstTurn && firstSettlementPlaced && !firstRoadPlaced) ||
     //     (secondTurn && secondSettlementPlaced && !secondRoadPlaced))
     // ) {
-      const mapArray = [...map]
-      let roadsArray = roads.slice()
-      let buildingsArray = buildings.slice()
-      mapArray[id].roads[slotNum].forEach(
-        (e) => (buildingsArray[e[0]][e[1]].canRoad[user.user_id] = true)
-      )
-      const road = {
-        hexagon_id: id,
-        slot_id: slotNum,
-        user_id: user.user_id,
-        // adjacent_road_slots: mapArray[id].slots[slotNum],
-      }
-      roadsArray[id][slotNum] = road
-      dispatch(setMapState(mapArray))
-      dispatch(setBuildRoad(false))
-      firstTurn && !firstRoadPlaced && dispatch(placeFirstRoad())
-      !firstTurn && !secondRoadPlaced && dispatch(placeSecondRoad())
-      socket.emit("buy-road", { room, roadsArray, map: mapArray })
+    const mapArray = [...map]
+    let roadsArray = roads.slice()
+    let buildingsArray = buildings.slice()
+    mapArray[id].roads[slotNum].forEach(
+      (e) => (buildingsArray[e[0]][e[1]].canRoad[user.user_id] = true)
+    )
+    const road = {
+      hexagon_id: id,
+      slot_id: slotNum,
+      user_id: user.user_id,
+      // adjacent_road_slots: mapArray[id].slots[slotNum],
+    }
+    roadsArray[id][slotNum] = road
+    dispatch(setMapState(mapArray))
+    dispatch(setBuildRoad(false))
+    firstTurn && !firstRoadPlaced && dispatch(placeFirstRoad())
+    !firstTurn && !secondRoadPlaced && dispatch(placeSecondRoad())
+    socket.emit("buy-road", { room, roadsArray, map: mapArray })
     // }
   }
 
