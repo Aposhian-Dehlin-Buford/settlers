@@ -44,14 +44,9 @@ const initialState = {
   firstRoadPlaced: false,
   secondRoadPlaced: false,
   incomingTrade: null,
-<<<<<<< HEAD
   buildings: [...Array(20)].map((e) => [...Array(6)].map((f, j) => j)),
   roads: [...Array(20)].map((e) => [...Array(6)].map((f, j) => j)),
   numBuildings: [],
-=======
-  buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
-  roads: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
->>>>>>> master
   developmentDeck: [],
   developmentHand: [],
   map: [],
@@ -158,10 +153,6 @@ export function setBuildCity(payload) {
   return { type: SET_BUILD_CITY, payload }
 }
 
-<<<<<<< HEAD
-export function updateBuildings(payload) {
-  return { type: UPDATE_BUILDINGS, payload }
-=======
 export function setPickCard(payload){
   return {type: SET_PICK_CARD, payload}
 }
@@ -172,7 +163,6 @@ export function setPick31(payload){
 
 export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
->>>>>>> master
 }
 
 export function updateRoads(payload) {
@@ -229,15 +219,11 @@ export default function gameReducer(state = initialState, action) {
     case SET_BUILD_ROAD:
       return { ...state, buildRoad: payload }
     case SET_BUILD_CITY:
-<<<<<<< HEAD
-      return { ...state, buildCity: payload }
-=======
       return {...state, buildCity: payload}
     case SET_PICK_CARD:
       return {...state, pickCard: payload}
     case SET_PICK_31:
       return {...state, pick31: payload}
->>>>>>> master
     case UPDATE_BUILDINGS:
       return { ...state, buildings: payload }
       break
