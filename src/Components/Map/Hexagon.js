@@ -2,7 +2,6 @@ import React, { useContext } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Settlements from "./Settlements"
 import {FaAnchor} from 'react-icons/fa'
-import {GiAnchor} from 'react-icons/gi'
 import Roads from "./Roads"
 import {
   setBuildSettlement,
@@ -36,9 +35,6 @@ const Hexagon = ({ e, id, handlePort }) => {
     firstRoadPlaced,
     secondRoadPlaced,
   } = useSelector((redux) => redux)
-  // console.log({active}, {buildSettlement})
-  // console.log({firstTurn}, {secondTurn})
-  // console.log({firstSettlementPlaced}, {secondSettlementPlaced})
   const handleClick = (id, slotNum) => {
     if (
       active &&
@@ -77,9 +73,6 @@ const Hexagon = ({ e, id, handlePort }) => {
       firstTurn && !firstSettlementPlaced && dispatch(placeFirstSettlement())
       if(!firstTurn && !secondSettlementPlaced){
         dispatch(placeSecondSettlement())
-        //get resources based on second settlement location
-        // console.log("THIS IS A TEST")
-        // console.log(buildingsArray[id][slotNum])
         const resources = {
           wheat: 0,
           clay: 0,
@@ -89,28 +82,14 @@ const Hexagon = ({ e, id, handlePort }) => {
         }
         for(let i = 0; i < 3; i++){
           resources[buildingsArray[id][slotNum].adjacent_numbers[i].terrain] ++
-          // console.log(buildingsArray[id][slotNum].adjacent_numbers[i].terrain)
         }
-        // console.log(resources)
         dispatch(updateResources(resources))
-        
-        // buildingsArray[id][slotNum].adjacent_numbers.forEach(e => {
-        //   console.log(e)
-        // })
       }
-      // !firstTurn && !secondSettlementPlaced && dispatch(placeSecondSettlement())
-      // dispatch(updateBuildings(buildingsArray))
       socket.emit("buy-building", { room, buildingsArray, map: mapArray })
     }
   }
 
   const handleRoadClick = (id, slotNum) => {
-    // if (
-    //   active &&
-    //   (buildRoad ||
-    //     (firstTurn && firstSettlementPlaced && !firstRoadPlaced) ||
-    //     (secondTurn && secondSettlementPlaced && !secondRoadPlaced))
-    // ) {
     const mapArray = [...map]
     let roadsArray = roads.slice()
     let buildingsArray = buildings.slice()
@@ -121,7 +100,6 @@ const Hexagon = ({ e, id, handlePort }) => {
       hexagon_id: id,
       slot_id: slotNum,
       user_id: user.user_id,
-      // adjacent_road_slots: mapArray[id].slots[slotNum],
     }
     roadsArray[id][slotNum] = road
     dispatch(setMapState(mapArray))
@@ -129,7 +107,6 @@ const Hexagon = ({ e, id, handlePort }) => {
     firstTurn && !firstRoadPlaced && dispatch(placeFirstRoad())
     !firstTurn && !secondRoadPlaced && dispatch(placeSecondRoad())
     socket.emit("buy-road", { room, roadsArray, map: mapArray })
-    // }
   }
 
   const handleCityClick = (id, slotNum) => {
@@ -140,7 +117,6 @@ const Hexagon = ({ e, id, handlePort }) => {
     dispatch(setMapState(mapArray))
     buildingsArray[id][slotNum].building_type = 2
     dispatch(setBuildCity(false))
-    // dispatch(updateBuildings(buildingsArray))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 

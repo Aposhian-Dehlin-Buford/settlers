@@ -30,6 +30,11 @@ const Roads = ({ handleRoadClick, id, user }) => {
       return canRoad[0] || canRoad[1] ? true : false
     }
 
+    const roadBoolean = () =>
+      buildRoad ||
+      (firstTurn && firstSettlementPlaced && !firstRoadPlaced) ||
+      (secondTurn && secondSettlementPlaced && !secondRoadPlaced)
+
     return [
       [0, 1, 2],
       [4, 9],
@@ -44,24 +49,14 @@ const Roads = ({ handleRoadClick, id, user }) => {
           <div
             key={i}
             onClick={
-              (buildRoad ||
-                (firstTurn && firstSettlementPlaced && !firstRoadPlaced) ||
-                (secondTurn && secondSettlementPlaced && !secondRoadPlaced)) &&
-              !roads[id][f].hexagon_id &&
-              canBuild(id, f)
-                ? () => handleRoadClick(id, f)
-                : null
+              roadBoolean() && !roads[id][f].hexagon_id && canBuild(id, f)
+                && (() => handleRoadClick(id, f))
             }
             className={`road${f}`}
             style={
               roads[id][f].hexagon_id
                 ? { background: roads[id][f].user_id === 1 ? "blue" : "red" }
-                : (buildRoad ||
-                    (firstTurn && firstSettlementPlaced && !firstRoadPlaced) ||
-                    (secondTurn &&
-                      secondSettlementPlaced &&
-                      !secondRoadPlaced)) &&
-                  canBuild(id, f)
+                : roadBoolean() && canBuild(id, f)
                 ? { outline: "1px solid black" }
                 : null
             }

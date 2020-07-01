@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useSelector } from "react-redux"
 import { BsHouseDoorFill } from "react-icons/bs"
 import { FaBuilding } from "react-icons/fa"
@@ -76,9 +76,9 @@ const Settlements = (props) => {
             ) : buildings[id][f].building_type === 1 ? (
               <BsHouseDoorFill
                 onClick={
-                  buildCity && buildings[id][f].user_id === user.user_id
-                    ? () => handleCityClick(id, f)
-                    : null
+                  buildCity &&
+                  buildings[id][f].user_id === user.user_id &&
+                  (() => handleCityClick(id, f))
                 }
                 color={buildings[id][f].user_id === 1 ? "blue" : "red"}
               />
