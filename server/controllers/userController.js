@@ -15,10 +15,13 @@ const getUsers = (req, res) => {
 const join = (app, body, socket) => {
   const io = app.get("io")
   const users = app.get("users")
-  socket.join("userlist")
-  users.push({ ...body, socket_id: socket.id })
-  app.set("users", users)
-  io.in("userlist").emit("users", removeSocketId(users))
+  const foundUser = users.find(e => e.user_id === body.user_id)
+  if(!foundUser){
+    socket.join("userlist")
+    users.push({ ...body, socket_id: socket.id })
+    app.set("users", users)
+    io.in("userlist").emit("users", removeSocketId(users))
+  }
 }
 const leave = (app, socket) => {
   console.log("user-disconnected", socket.id)

@@ -1,13 +1,18 @@
-import React, { useState, createContext } from "react"
+import React, { useState, createContext, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
+import io from "socket.io-client"
 
 export const UserContext = createContext(null)
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [socket, setSocket] = useState(null)
-  const {push} = useHistory()
+  const { push } = useHistory()
+  console.log(user)
+  useEffect(() => {
+    user ? setSocket(io.connect("http://localhost:3333")) : socket && socket.disconnect()
+  }, [user, setSocket])
   const login = (body) => {
     axios
       .post("/auth/login", body)
@@ -20,13 +25,20 @@ export const UserProvider = ({ children }) => {
   const register = (body) => {
     axios
       .post("/auth/register", body)
-      .then(({ data }) => setUser(data))
+      .then(({ data }) => {
+        setUser(data)
+        push("/dashboard")
+      })
       .catch(({ message }) => console.log(message))
   }
   const logout = () => {
     axios
       .post("/auth/logout")
-      .then(() => setUser(null))
+      .then(() => {
+        setUser(null)
+        console.log("hit")
+        push("/")
+      })
       .catch(({ message }) => console.log(message))
   }
   const getUser = () => {

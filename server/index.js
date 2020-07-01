@@ -43,7 +43,15 @@ massive({
   app.set("io", io)
   io.on("connection", (socket) => {
     console.log("connection")
-    console.log(socket.id)
+    // console.log(socket.id)
+    const sockets = io.clients()
+    for(let key in sockets.sockets){
+      console.log(sockets.sockets[key].conn.id)
+    }
+    // for(let key in sockets){
+    //   console.log(sockets[key])
+    // }
+    // console.log(io.clients().connected)
     socket.on("join", (body) => userCtrl.join(app, body, socket))
     socket.on('leave', () => userCtrl.leave(app, socket))
     socket.on("disconnect", () => userCtrl.leave(app, socket))
