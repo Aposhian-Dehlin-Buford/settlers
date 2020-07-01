@@ -133,9 +133,10 @@ const Game = () => {
     })
   }, [socket, dispatch])
 
-  // console.log("map", map)
-  console.log("buildings", buildings)
+  console.log("map", map)
+  // console.log("buildings", buildings)
   // console.log("roads", roads)
+  // console.log("user", user.user_id)
 
 
   return (

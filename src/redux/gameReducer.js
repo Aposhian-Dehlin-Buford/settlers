@@ -131,7 +131,6 @@ export default function gameReducer(state = initialState, action) {
     case UPDATE_INCOMING_TRADE:
       return { ...state, incomingTrade: payload }
     case UPDATE_RESOURCES:
-      console.log("state", state)
       return {
         ...state,
         // resources: payload

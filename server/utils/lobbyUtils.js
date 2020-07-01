@@ -102,13 +102,14 @@ const generateInitialGameState = (
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-    resources: { sheep: 2, wood: 2, clay: 2, wheat: 6, rock: 6 },
+    resources: { sheep: 3, wood: 4, clay: 4, wheat: 6, rock: 3 },
+    // resources: { sheep: 1, wood: 1, clay: 1, wheat: 1, rock: 0 },
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
     buildings: [...Array(37)].map((e,i) => [...Array(2)].map((f,j) => {
       return {
-        canBuild: true,
+        canBuild: 0,
         canRoad: [false, false]
       }
     })),

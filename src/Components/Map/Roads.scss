@@ -1,6 +1,50 @@
 @import '../../variables';
 
 
+.road0 {
+    z-index: 10000;
+    // background: $main3;
+    height: $size*.29;
+    width: $size/10;
+    position: absolute;
+    right: ($size/5)/1.06;
+    bottom: ($size*.57);
+    font-size: ($size*.35);
+    transform: rotate(-60deg)
+  }
+  .road2 {
+    // background: $main3;
+    z-index: 10000;
+    height: $size*.29;
+    width: $size/10;
+    position: absolute;
+    right: ($size/5)/.96;
+    top: ($size*.565);
+    font-size: ($size*.35);
+    transform: rotate(60deg)
+  }.road1 {
+    // background: $main3;
+    z-index: 10000;
+    height: $size*.29;
+    width: $size/10;
+    position: absolute;
+    right: -($size/5)/4;
+    top: ($size/8);
+    font-size: ($size*.35);
+  }
+
+    // .road0 {
+    // background: $main3;
+  //   z-index: 10000;
+  //   height: $size*.3333;
+  //   width: $size/10;
+  //   position: absolute;
+  //   left: ($size/5)/1.055;
+  //   top: ($size*.55);
+  //   font-size: ($size*.35);
+  //   transform: rotate(-60deg)
+  // }
+
 // .roads-container {
 //     div {
 //         &:hover {
@@ -29,45 +73,3 @@
 //     font-size: ($size*.35);
 //     transform: rotate(60deg)
 //   }
-.road0 {
-    z-index: 10000;
-    // background: $main3;
-    height: $size*.3333;
-    width: $size/10;
-    position: absolute;
-    right: ($size/5)/1.055;
-    bottom: ($size*.55);
-    font-size: ($size*.35);
-    transform: rotate(-60deg)
-  }
-  // .road0 {
-  //   // background: $main3;
-  //   z-index: 10000;
-  //   height: $size*.3333;
-  //   width: $size/10;
-  //   position: absolute;
-  //   left: ($size/5)/1.055;
-  //   top: ($size*.55);
-  //   font-size: ($size*.35);
-  //   transform: rotate(-60deg)
-  // }
-  .road2 {
-    // background: $main3;
-    z-index: 10000;
-    height: $size*.3333;
-    width: $size/10;
-    position: absolute;
-    right: ($size/5)/1.055;
-    top: ($size*.55);
-    font-size: ($size*.35);
-    transform: rotate(60deg)
-  }.road1 {
-    // background: $main3;
-    z-index: 10000;
-    height: $size*.3333;
-    width: $size/10;
-    position: absolute;
-    right: -($size/5)/3;
-    top: center;
-    font-size: ($size*.35);
-  }

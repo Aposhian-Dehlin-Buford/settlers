@@ -8,6 +8,7 @@ const DiceButton = () => {
     const dispatch = useDispatch()
     const {socket} = useContext(UserContext)
     const { active, rolledDice, room } = useSelector((redux) => redux)
+    
     return (
         <div>
              {active && !rolledDice && (
