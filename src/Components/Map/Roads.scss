@@ -11,17 +11,6 @@
     bottom: ($size*.57);
     font-size: ($size*.35);
     transform: rotate(-60deg)
-  }
-  .road2 {
-    // background: $main3;
-    z-index: 10000;
-    height: $size*.29;
-    width: $size/10;
-    position: absolute;
-    right: ($size/5)/.96;
-    top: ($size*.565);
-    font-size: ($size*.35);
-    transform: rotate(60deg)
   }.road1 {
     // background: $main3;
     z-index: 10000;
@@ -31,6 +20,16 @@
     right: -($size/5)/4;
     top: ($size/8);
     font-size: ($size*.35);
+  }.road2 {
+    // background: $main3;
+    z-index: 10000;
+    height: $size*.29;
+    width: $size/10;
+    position: absolute;
+    right: ($size/5)/.96;
+    top: ($size*.565);
+    font-size: ($size*.35);
+    transform: rotate(60deg)
   }
 
     // .road0 {
