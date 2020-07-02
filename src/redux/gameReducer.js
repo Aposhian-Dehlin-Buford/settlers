@@ -1,6 +1,7 @@
 import actionTypes from "./actionTypes"
 const {
   SET_GAME_STATE,
+  UPDATE_VICTORY_POINTS,
   UPDATE_ACTIVE_PLAYER,
   SET_ROLLED_DICE,
   UPDATE_DICE_RESULT,
@@ -15,6 +16,8 @@ const {
   SET_BUILD_CITY,
   SET_PICK_CARD,
   SET_PICK_31,
+  YEAR_OF_PLENTY,
+  MONOPOLY,
   UPDATE_BUILDINGS,
   UPDATE_ROADS,
   SET_MAP_STATE,
@@ -34,9 +37,14 @@ const initialState = {
   buildCity: false,
   pickCard: false,
   pick31: false,
+  roadBuildDev: false,
+  yearOfPlentyDev: false,
+  monopolyDev: false,
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
+  turn: 0,
+  victoryPoints: 0,
   firstTurn: true,
   secondTurn: true,
   firstSettlementPlaced: false,
@@ -56,11 +64,18 @@ export function setGameState(payload, user_id) {
     type: SET_GAME_STATE,
     payload: {
       ...payload,
+      turn: payload.players[payload.activePlayer].user_id === user_id ? 1 : 0,
       active:
         payload.players[payload.activePlayer].user_id === user_id
           ? true
           : false,
     },
+  }
+}
+
+export function updateVictoryPoints(payload){
+  return {
+    type: UPDATE_VICTORY_POINTS, payload
   }
 }
 
@@ -144,16 +159,24 @@ export function setBuildSettlement(payload) {
   return { type: SET_BUILD_SETTLEMENT, payload }
 }
 
-export function setBuildRoad(payload) {
-  return { type: SET_BUILD_ROAD, payload }
+export function setBuildRoad(buildRoad, roadBuildDev = false) {
+  return { type: SET_BUILD_ROAD, payload: {buildRoad, roadBuildDev} }
+}
+
+// export function setYearOfPlenty(payload=true){
+//   return {type: YEAR_OF_PLENTY, payload}
+// }
+
+export function setMonopoly(payload=true){
+  return {type: MONOPOLY, payload}
 }
 
 export function setBuildCity(payload) {
   return { type: SET_BUILD_CITY, payload }
 }
 
-export function setPickCard(payload){
-  return {type: SET_PICK_CARD, payload}
+export function setPickCard(pickCard, yearOfPlentyDev=false){
+  return {type: SET_PICK_CARD, payload: {pickCard, yearOfPlentyDev}}
 }
 
 export function setPick31(payload){
@@ -173,6 +196,8 @@ export default function gameReducer(state = initialState, action) {
   switch (type) {
     case SET_GAME_STATE:
       return { ...payload }
+    case UPDATE_VICTORY_POINTS:
+      return {...state, victoryPoints: state.victoryPoints + payload}
     case END_FIRST_TURN:
       return {...state, firstTurn: payload}
     case END_SECOND_TURN:
@@ -186,7 +211,7 @@ export default function gameReducer(state = initialState, action) {
     case SECOND_ROAD_PLACED:
       return {...state, secondRoadPlaced: payload}
     case UPDATE_ACTIVE_PLAYER:
-      return { ...state, active: !state.active, rolledDice: false }
+      return { ...state, active: !state.active, rolledDice: false, turn: !state.active ? state.turn +1 :state.turn }
     case SET_ROLLED_DICE:
       return { ...state, rolledDice: true }
     case UPDATE_DICE_RESULT:
@@ -216,21 +241,23 @@ export default function gameReducer(state = initialState, action) {
     case SET_BUILD_SETTLEMENT:
       return { ...state, buildSettlement: payload }
     case SET_BUILD_ROAD:
-      return { ...state, buildRoad: payload }
+      return { ...state, buildRoad: payload.buildRoad, roadBuildDev: payload.roadBuildDev }
     case SET_BUILD_CITY:
       return {...state, buildCity: payload}
     case SET_PICK_CARD:
-      return {...state, pickCard: payload}
+      return {...state, pickCard: payload.pickCard, yearOfPlentyDev: payload.yearOfPlentyDev}
     case SET_PICK_31:
       return {...state, pick31: payload}
     case UPDATE_BUILDINGS:
       return { ...state, buildings: payload }
-      break
     case UPDATE_ROADS:
       return { ...state, roads: payload }
     case SET_MAP_STATE:
       return { ...state, map: payload }
-      break
+    // case YEAR_OF_PLENTY:
+    //   return {...state, yearOfPlenty: payload}
+    case MONOPOLY:
+      return {...state, monopoly: payload}
     default:
       return state
   }

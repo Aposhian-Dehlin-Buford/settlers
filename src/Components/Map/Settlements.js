@@ -7,6 +7,7 @@ const Settlements = (props) => {
   const { id, handleClick, handleCityClick, user } = props
 
   const {
+    turn,
     active,
     buildSettlement,
     buildCity,
@@ -53,9 +54,10 @@ const Settlements = (props) => {
         e.includes(id) &&
         placements[i].map((f, j) => (
           <div key={j} className={`settlement-container${f}`}>
-            {(active && buildings[id][f].canBuild !== false) &&
-            ((firstTurn && !firstSettlementPlaced) ||
-              (!firstTurn && secondTurn && !secondSettlementPlaced)) ? (
+            {active &&
+            buildings[id][f].canBuild !== false &&
+            ((turn === 1 && !firstSettlementPlaced) ||
+              (turn === 2 && !secondSettlementPlaced)) ? (
               <BsHouseDoorFill
                 onClick={() => handleClick(id, f)}
                 color={

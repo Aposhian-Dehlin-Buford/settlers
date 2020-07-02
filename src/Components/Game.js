@@ -45,6 +45,7 @@ const Game = () => {
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
   const {
+    turn,
     incomingTrade,
     active,
     rolledDice,
@@ -56,10 +57,12 @@ const Game = () => {
     secondTurn,
     diceResult,
     pickCard,
+    yearOfPlentyDev,
     pick31,
     map,
-    roads
+    roads,
   } = useSelector((redux) => redux)
+  console.log({ turn })
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -145,21 +148,22 @@ const Game = () => {
   }
 
   const handlePickCard = (card) => {
-    console.log("HANDLE-PICK-CARD", card)
+    // console.log("HANDLE-PICK-CARD", card)
+    yearOfPlentyDev ? dispatch(setPickCard(true)):
     dispatch(setPickCard(false))
     dispatch(updateResources({ ...resources, [card]: 1 }))
   }
 
   const handlePick31 = (card) => {
-    console.log("HANDLE_PICK_31", card)
+    // console.log("HANDLE_PICK_31", card)
     dispatch(setPick31(false))
     dispatch(setPickCard(true))
     dispatch(updateResources({ ...resources, [card]: -3 }))
   }
 
-  console.log("map", map)
-  console.log("buildings", buildings)
-  console.log("roads", roads)
+  // console.log("map", map)
+  // console.log("buildings", buildings)
+  // console.log("roads", roads)
 
   return (
     <div className="game-container">
@@ -167,12 +171,8 @@ const Game = () => {
         {/* {(buildSettlement || buildCity) && (
           <div className="top-container-overlay"></div>
         )} */}
-        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
-          <OfferTrade />
-        )}
-        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
-          <Purchase />
-        )}
+        {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />}
+        {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
         {incomingTrade && <IncomingTrade />}
         {<MyDevelopmentHand />}
       </div>
@@ -181,6 +181,22 @@ const Game = () => {
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
+              {["wheat", "sheep", "wood"].map((e) => (
+                <div
+                  className={e}
+                  onClick={pickCard ? () => handlePickCard(e) : null}
+                ></div>
+              ))}
+              </div>
+              <div className="res-3">
+              {["clay", "rock"].map((e) => (
+                <div
+                  className={e}
+                  onClick={pickCard ? () => handlePickCard(e) : null}
+                ></div>
+              ))}
+              </div>
+              {/* <div className="res-4">
               <div
                 className="wheat"
                 onClick={pickCard ? () => handlePickCard("wheat") : null}
@@ -203,11 +219,11 @@ const Game = () => {
                 className="rock"
                 onClick={pickCard ? () => handlePickCard("rock") : null}
               ></div>
-            </div>
+            </div> */}
           </div>
           <DevelopmentDeck />
           <div className="dice-container">
-            {!firstTurn && !secondTurn && <DiceButton />}
+            {turn > 2 && <DiceButton />}
             <Dice />
           </div>
         </div>

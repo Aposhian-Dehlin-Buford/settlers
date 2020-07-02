@@ -7,6 +7,7 @@ import {
   setBuildSettlement,
   setBuildRoad,
   setBuildCity,
+  updateVictoryPoints,
 } from "../redux/gameReducer"
 import {UserContext} from '../context/UserContext'
 
@@ -41,6 +42,8 @@ const PurchaseItem = ({ cost, name }) => {
         const hand = [...developmentHand]
         const card = deck.splice(0, 1)
         hand.push(card)
+        console.log(card)
+        card[0] === 'Victory Point' && dispatch(updateVictoryPoints(1))
         socket.emit("buy-card", { deck, room })
         dispatch(updateDevelopmentDeck(deck))
         dispatch(updateDevelopmentHand(hand))
