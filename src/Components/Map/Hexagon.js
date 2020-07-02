@@ -14,6 +14,7 @@ import {
   placeFirstRoad,
   placeSecondRoad,
   updateResources,
+  updateVictoryPoints,
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
@@ -26,6 +27,7 @@ const Hexagon = ({ e, id, handlePort }) => {
     buildRoad,
     firstTurn,
     secondTurn,
+    roadBuildDev,
     active,
     room,
     buildings,
@@ -88,6 +90,7 @@ const Hexagon = ({ e, id, handlePort }) => {
         }
         dispatch(updateResources(resources))
       }
+      dispatch(updateVictoryPoints(1))
       socket.emit("buy-building", { room, buildingsArray, map: mapArray })
     }
   }
@@ -107,7 +110,7 @@ const Hexagon = ({ e, id, handlePort }) => {
     }
     roadsArray[id][slotNum] = road
     dispatch(setMapState(mapArray))
-    dispatch(setBuildRoad(false))
+    roadBuildDev ? dispatch(setBuildRoad(true)) : dispatch(setBuildRoad(false))
     turn === 1 && !firstRoadPlaced && dispatch(placeFirstRoad())
     turn === 2 && !secondRoadPlaced && dispatch(placeSecondRoad())
     socket.emit("buy-road", { room, roadsArray, map: mapArray })
