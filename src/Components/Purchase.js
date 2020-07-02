@@ -1,6 +1,13 @@
 import React from "react"
 import PurchaseItem from "./PurchaseItem"
 import "./Purchase.scss"
+import { useSelector, useDispatch } from "react-redux"
+import {
+  updateResources,
+  setBuildSettlement,
+  setBuildRoad,
+  setBuildCity,
+} from "../redux/gameReducer"
 
 const options = [
   { name: "Road", cost: { wood: 1, clay: 1, sheep: 0, wheat: 0, rock: 0 } },
@@ -16,11 +23,34 @@ const options = [
 ]
 
 const Purchase = () => {
+  const { buildSettlement, buildCity, buildRoad } = useSelector(
+    (redux) => redux
+  )
+  const dispatch = useDispatch()
+  console.log(buildSettlement)
   return (
     <div className="purchase-container">
       {options.map(({ cost, name }, i) => (
         <PurchaseItem key={i} cost={cost} name={name} />
       ))}
+      {(buildSettlement || buildCity || buildRoad) && (
+        <button
+          onClick={() => {
+            if (buildRoad) {
+              dispatch(updateResources(options[0].cost))
+              dispatch(setBuildRoad(false))
+            } else if (buildSettlement) {
+              dispatch(updateResources(options[1].cost))
+              dispatch(setBuildSettlement(false))
+            } else if (buildCity) {
+              dispatch(updateResources(options[2].cost))
+              dispatch(setBuildCity(false))
+            }
+          }}
+        >
+          Cancel
+        </button>
+      )}
     </div>
   )
 }

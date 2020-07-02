@@ -1,7 +1,6 @@
 import React, { useContext } from "react"
 import { useSelector } from "react-redux"
 import useAuth from "../hooks/useAuth"
-import io from "socket.io-client"
 import UserList from "./UserList"
 import ChallengeList from "./ChallengeList"
 import Game from './Game'

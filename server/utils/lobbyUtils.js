@@ -127,7 +127,7 @@ const generateInitialGameState = (
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-    resources: { sheep: 3, wood: 2, clay: 2, wheat: 0, rock: 0 },
+    resources: { sheep: 3, wood: 2, clay: 2, wheat: 2, rock: 3 },
     firstTurn: true,
     secondTurn: true,
     firstSettlementPlaced: false,
