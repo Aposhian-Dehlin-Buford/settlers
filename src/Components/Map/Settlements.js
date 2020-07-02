@@ -53,7 +53,7 @@ const Settlements = (props) => {
         e.includes(id) &&
         placements[i].map((f, j) => (
           <div key={j} className={`settlement-container${f}`}>
-            {active &&
+            {(active && buildings[id][f].canBuild !== false) &&
             ((firstTurn && !firstSettlementPlaced) ||
               (!firstTurn && secondTurn && !secondSettlementPlaced)) ? (
               <BsHouseDoorFill

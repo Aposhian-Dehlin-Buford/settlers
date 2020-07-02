@@ -57,6 +57,8 @@ const Game = () => {
     diceResult,
     pickCard,
     pick31,
+    map,
+    roads
   } = useSelector((redux) => redux)
   useEffect(() => {
     socket.on("disconnect", () => {
@@ -154,6 +156,10 @@ const Game = () => {
     dispatch(setPickCard(true))
     dispatch(updateResources({ ...resources, [card]: -3 }))
   }
+
+  console.log("map", map)
+  console.log("buildings", buildings)
+  console.log("roads", roads)
 
   return (
     <div className="game-container">
