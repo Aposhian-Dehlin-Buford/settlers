@@ -4,7 +4,7 @@ import "./Settlements.scss"
 import "./Roads.scss"
 import "./Ports.scss"
 import { useSelector } from "react-redux"
-import Hexagon from './Hexagon';
+import Hexagon from './NewHexagon';
 
 const Map = ({handlePort}) => {
   const { map } = useSelector((redux) => redux)

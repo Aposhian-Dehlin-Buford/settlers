@@ -7,7 +7,12 @@ import {
   setBuildCity,
   setBuildRoad,
   updateBuildings,
-  setMapState
+  setMapState,
+  placeFirstSettlement,
+  placeSecondSettlement,
+  placeFirstRoad,
+  placeSecondRoad,
+  updateResources
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 import {FaAnchor} from 'react-icons/fa'
@@ -17,38 +22,88 @@ const Hexagon = ({ e, id, handlePort }) => {
   
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
-  const { buildSettlement, room, buildings, map, roads} = useSelector(
-    (redux) => redux
-  )
+  const {
+    buildSettlement,
+    buildRoad,
+    firstTurn,
+    secondTurn,
+    active,
+    room,
+    buildings,
+    map,
+    roads,
+    firstSettlementPlaced,
+    secondSettlementPlaced,
+    firstRoadPlaced,
+    secondRoadPlaced,
+  } = useSelector((redux) => redux)
 
 
 
   const handleClick = (id, slotNum) => {
-    const buildingsArray = buildings.slice()
-    const mapArray = [...map]
-
-      mapArray[id].slots[slotNum][5].forEach(e => {
-       buildingsArray[e] && (buildingsArray[e][slotNum === 0 ? 1 : 0] = {...buildingsArray[e][slotNum === 0 ? 1 : 0], canBuild: false})
-      })
-
-      
-      const building = {
-        hexagon_id: id,
-        slot_id: slotNum,
-        user_id: user.user_id,
-        building_type: 1,
-        adjacent_numbers: mapArray[id].slots[slotNum]
+    if (
+        active &&
+        (buildSettlement ||
+          (firstTurn && !firstSettlementPlaced) ||
+          (!firstTurn && secondTurn && !secondSettlementPlaced))
+      ) {
+        const buildingsArray = buildings.slice()
+        const mapArray = [...map]
+  
+        mapArray[id].slots[slotNum][5].forEach((e) => {
+          buildingsArray[e] &&
+            (buildingsArray[e][slotNum === 0 ? 1 : 0] = {
+              ...buildingsArray[e][slotNum === 0 ? 1 : 0],
+              canBuild: false,
+            })
+        })
+  
+        const building = {
+          hexagon_id: id,
+          slot_id: slotNum,
+          user_id: user.user_id,
+          building_type: 1,
+          adjacent_numbers: mapArray[id].slots[slotNum],
+        }
+  
+        mapArray[id].slots[slotNum][3] = 1
+        mapArray[id].slots[slotNum][4] = user.user_id
+        // dispatch(setMapState(mapArray))
+        buildingsArray[id][slotNum] = {
+          ...buildingsArray[id][slotNum],
+          ...building,
+        }
+        buildingsArray[id][slotNum].canRoad[user.user_id] = true
+        buildingsArray[id][slotNum].port && (buildingsArray[id][slotNum].port[1] = user.user_id)
+        dispatch(setBuildSettlement(false))
+        firstTurn && !firstSettlementPlaced && dispatch(placeFirstSettlement())
+        if(!firstTurn && !secondSettlementPlaced){
+          dispatch(placeSecondSettlement())
+          //get resources based on second settlement location
+          console.log("THIS IS A TEST")
+          console.log(buildingsArray[id][slotNum])
+          const resources = {
+            wheat: 0,
+            clay: 0,
+            sheep: 0,
+            rock: 0,
+            wood: 0
+          }
+          for(let i = 0; i < 3; i++){
+            resources[buildingsArray[id][slotNum].adjacent_numbers[i].terrain] ++
+            // console.log(buildingsArray[id][slotNum].adjacent_numbers[i].terrain)
+          }
+          console.log(resources)
+          dispatch(updateResources(resources))
+          
+          // buildingsArray[id][slotNum].adjacent_numbers.forEach(e => {
+          //   console.log(e)
+          // })
+        }
+        // !firstTurn && !secondSettlementPlaced && dispatch(placeSecondSettlement())
+        // dispatch(updateBuildings(buildingsArray))
+        socket.emit("buy-building", { room, buildingsArray, map: mapArray })
       }
-      
-      mapArray[id].slots[slotNum][3] = 1
-      mapArray[id].slots[slotNum][4] = user.user_id
-      dispatch(setMapState(mapArray))
-      buildingsArray[id][slotNum] = {...buildingsArray[id][slotNum], ...building}
-      buildingsArray[id][slotNum].canRoad[user.user_id] = true
-      buildingsArray[id][slotNum].port && (buildingsArray[id][slotNum].port[1] = user.user_id)
-    dispatch(setBuildSettlement(false))
-    // dispatch(updateBuildings(buildingsArray))
-    socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
   const handleRoadClick = (id, slotNum) => {

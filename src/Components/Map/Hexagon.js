@@ -71,6 +71,7 @@ const Hexagon = ({ e, id }) => {
         ...building,
       }
       buildingsArray[id][slotNum].canRoad[user.user_id] = true
+      buildingsArray[id][slotNum].port && (buildingsArray[id][slotNum].port[1] = user.user_id)
       dispatch(setBuildSettlement(false))
       firstTurn && !firstSettlementPlaced && dispatch(placeFirstSettlement())
       if(!firstTurn && !secondSettlementPlaced){

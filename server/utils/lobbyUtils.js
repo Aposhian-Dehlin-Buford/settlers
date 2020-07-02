@@ -127,7 +127,6 @@ const generateInitialGameState = (
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-<<<<<<< HEAD
     resources: { sheep: 0, wood: 0, clay: 0, wheat: 0, rock: 0 },
     firstTurn: true,
     secondTurn: true,
@@ -138,31 +137,13 @@ const generateInitialGameState = (
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
-    buildings: [...Array(37)].map((e, i) =>
-      [...Array(2)].map((f, j) => {
-        return {
-          canBuild: true,
-          canRoad: [false, false],
-        }
-      })
-    ),
+    buildings: getBuildings(),
     roads: [...Array(37)].map((e, i) =>
       [...Array(3)].map((f, j) => {
         return {}
       })
     ),
     numBuildings: [],
-=======
-    resources: { sheep: 3, wood: 4, clay: 4, wheat: 6, rock: 3 },
-    // resources: { sheep: 1, wood: 1, clay: 1, wheat: 1, rock: 0 },
-    // opponentsInfo: [
-    //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
-    // ],
-    buildings: getBuildings(),
-    roads: [...Array(37)].map((e,i) => [...Array(3)].map((f,j) => {
-      return {}
-    })),
->>>>>>> master
     developmentDeck: seedDeck(),
     developmentHand: [],
     map: seedMap(),
