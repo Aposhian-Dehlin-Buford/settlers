@@ -88,6 +88,7 @@ const Hexagon = ({ e, id, handlePort }) => {
   }
 
   const handleRoadClick = (id, slotNum) => {
+    console.log("handleRoadClick", id, slotNum)
     const mapArray = [...map]
     let roadsArray = roads.slice()
     let buildingsArray = buildings.slice()
@@ -105,6 +106,8 @@ const Hexagon = ({ e, id, handlePort }) => {
     firstTurn && !firstRoadPlaced && dispatch(placeFirstRoad())
     !firstTurn && !secondRoadPlaced && dispatch(placeSecondRoad())
     socket.emit("buy-road", { room, roadsArray, map: mapArray })
+    socket.emit("buy-building", { room, buildingsArray, map: mapArray })
+
   }
 
   const handleCityClick = (id, slotNum) => {
