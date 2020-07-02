@@ -50,7 +50,8 @@ const Roads = ({ handleRoadClick, id, user }) => {
             key={i}
             onClick={
               roadBoolean() && !roads[id][f].hexagon_id && canBuild(id, f)
-                && (() => handleRoadClick(id, f))
+                ? () => handleRoadClick(id, f)
+                : null
             }
             className={`road${f}`}
             style={

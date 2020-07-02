@@ -76,9 +76,9 @@ const Settlements = (props) => {
             ) : buildings[id][f].building_type === 1 ? (
               <BsHouseDoorFill
                 onClick={
-                  buildCity &&
-                  buildings[id][f].user_id === user.user_id &&
-                  (() => handleCityClick(id, f))
+                  buildCity && buildings[id][f].user_id === user.user_id
+                    ? () => handleCityClick(id, f)
+                    : null
                 }
                 color={buildings[id][f].user_id === 1 ? "blue" : "red"}
               />

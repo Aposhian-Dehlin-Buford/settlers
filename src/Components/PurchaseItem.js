@@ -17,18 +17,6 @@ const PurchaseItem = ({ cost, name }) => {
   const { wood, sheep, wheat, rock, clay } = useSelector((redux) => redux.resources)
 
   const purchase = () => {
-    if (name === "Settlement") {
-      dispatch(setBuildSettlement(true))
-    }
-    if (name === "Road") {
-      dispatch(setBuildRoad(true)) 
-    }
-    if (name === "City") {
-      dispatch(setBuildCity(true))
-    }
-
-    console.log(`purchased ${name}`)
-    //add functionality to purchase the item
     dispatch(
       updateResources({
         wood: 0 - cost.wood,
@@ -39,6 +27,15 @@ const PurchaseItem = ({ cost, name }) => {
       })
     )
     switch (name) {
+      case "Settlement":
+        dispatch(setBuildSettlement(true))
+        break
+      case "Road":
+        dispatch(setBuildRoad(true))
+        break
+      case "City":
+        dispatch(setBuildCity(true))
+        break
       case "Development":
         const deck = [...developmentDeck]
         const hand = [...developmentHand]
@@ -52,7 +49,6 @@ const PurchaseItem = ({ cost, name }) => {
         return
     }
   }
-  // console.log("wood", wood, "clay", clay, "sheep", clay, "wheat", wheat, "rock", rock)
   return (
     <div className="purchase-item-container">
       <div>Purchase {name}</div>
