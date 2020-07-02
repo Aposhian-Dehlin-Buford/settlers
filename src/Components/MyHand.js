@@ -1,9 +1,20 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useRef} from "react"
+import {TweenMax} from 'gsap'
 import { useSelector } from "react-redux"
 
 const MyHand = ({handlePick31}) => {
   const { resources, pick31 } = useSelector((redux) => redux)
   const { sheep, wood, clay, wheat, rock, } = resources
+
+  let threePlus = useRef(null)
+
+  // TweenMax.to(
+  //   threePlus,
+  //   1,
+  //   {
+
+  //   }
+  // )
 
   const newHand = () => {
     return [sheep, wood, clay, wheat, rock]
@@ -27,7 +38,8 @@ const MyHand = ({handlePick31}) => {
         <div 
           className={`hand-${e}`} 
           key={i}
-          onClick={(pick31 && resources[e] >= 3) ? () => handlePick31(e) : null} 
+          onClick={(pick31 && resources[e] >= 3) ? () => handlePick31(e) : null}
+          ref={el => {(pick31 && resources[e] >= 3) ? threePlus = el : threePlus = null}} 
         >
         </div>
       ))
