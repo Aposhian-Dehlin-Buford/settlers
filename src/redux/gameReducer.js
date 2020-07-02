@@ -37,6 +37,7 @@ const initialState = {
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
+  turn: 0,
   firstTurn: true,
   secondTurn: true,
   firstSettlementPlaced: false,
@@ -56,6 +57,7 @@ export function setGameState(payload, user_id) {
     type: SET_GAME_STATE,
     payload: {
       ...payload,
+      turn: payload.players[payload.activePlayer].user_id === user_id ? 1 : 0,
       active:
         payload.players[payload.activePlayer].user_id === user_id
           ? true
@@ -186,7 +188,7 @@ export default function gameReducer(state = initialState, action) {
     case SECOND_ROAD_PLACED:
       return {...state, secondRoadPlaced: payload}
     case UPDATE_ACTIVE_PLAYER:
-      return { ...state, active: !state.active, rolledDice: false }
+      return { ...state, active: !state.active, rolledDice: false, turn: !state.active ? state.turn +1 :state.turn }
     case SET_ROLLED_DICE:
       return { ...state, rolledDice: true }
     case UPDATE_DICE_RESULT:

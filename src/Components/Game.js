@@ -45,6 +45,7 @@ const Game = () => {
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
   const {
+    turn,
     incomingTrade,
     active,
     rolledDice,
@@ -60,6 +61,7 @@ const Game = () => {
     map,
     roads
   } = useSelector((redux) => redux)
+  console.log({turn})
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -145,21 +147,21 @@ const Game = () => {
   }
 
   const handlePickCard = (card) => {
-    console.log("HANDLE-PICK-CARD", card)
+    // console.log("HANDLE-PICK-CARD", card)
     dispatch(setPickCard(false))
     dispatch(updateResources({ ...resources, [card]: 1 }))
   }
 
   const handlePick31 = (card) => {
-    console.log("HANDLE_PICK_31", card)
+    // console.log("HANDLE_PICK_31", card)
     dispatch(setPick31(false))
     dispatch(setPickCard(true))
     dispatch(updateResources({ ...resources, [card]: -3 }))
   }
 
-  console.log("map", map)
-  console.log("buildings", buildings)
-  console.log("roads", roads)
+  // console.log("map", map)
+  // console.log("buildings", buildings)
+  // console.log("roads", roads)
 
   return (
     <div className="game-container">
@@ -207,7 +209,7 @@ const Game = () => {
           </div>
           <DevelopmentDeck />
           <div className="dice-container">
-            {!firstTurn && !secondTurn && <DiceButton />}
+            {turn>2 && <DiceButton />}
             <Dice />
           </div>
         </div>
