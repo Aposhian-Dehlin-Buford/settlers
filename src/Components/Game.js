@@ -21,6 +21,7 @@ import {
   setPlaceRobber,
   setMonopoly,
   setOpposingMonopoly,
+  setEnemyFaceUpKnights,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -34,6 +35,7 @@ import DevelopmentDeck from "./DevelopmentDeck"
 import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import MyDevelopmentHand from "./MyDevelopmentHand"
+import EnemyPlayer from "./EnemyPlayer"
 
 const newResources = {
   clay: 0,
@@ -154,6 +156,10 @@ const Game = () => {
       }))
       dispatch(setMonopoly(false))
     })
+    socket.on('play-knight', () => {
+      console.log('knight')
+      dispatch(setEnemyFaceUpKnights())
+    })
   }, [])
 
   useEffect(() => {
@@ -237,6 +243,7 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="top-container">
+        <EnemyPlayer />
         
         {/* {(buildSettlement || buildCity) && (
           <div className="top-container-overlay"></div>

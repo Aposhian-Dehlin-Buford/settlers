@@ -44,6 +44,10 @@ const resolveMonopoly = (socket, {room, card, count}) => {
   socket.to(room).emit('resolve-monopoly', {card, count})
 }
 
+const playKnight = (socket, {room}) => {
+  socket.to(room).emit('play-knight')
+}
+
 module.exports = {
   endTurn,
   rollDice,
@@ -54,5 +58,6 @@ module.exports = {
   buyBuilding,
   buyRoad,
   monopoly,
-  resolveMonopoly
+  resolveMonopoly,
+  playKnight
 }

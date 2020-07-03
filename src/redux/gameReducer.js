@@ -30,6 +30,8 @@ const {
   SECOND_ROAD_PLACED,
   SET_PLACE_ROBBER,
   SET_OPPOSING_MONOPOLY,
+  SET_FACE_UP_KNIGHTS,
+  SET_ENEMY_FACE_UP_KNIGHTS,
 } = actionTypes
 
 const initialState = {
@@ -61,6 +63,8 @@ const initialState = {
   roads: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
   developmentDeck: [],
   developmentHand: [],
+  faceUpKnights: 0,
+  enemyPlayersInfo: [{faceUpKnights: 0, developmentHandSize: 0, resources: 0}],
   map: [],
   placeRobber: false,
 }
@@ -209,6 +213,14 @@ export function setPlaceRobber(payload) {
   return { type: SET_PLACE_ROBBER, payload}
 }
 
+export function setFaceUpKnights(payload=1){
+  return {type: SET_FACE_UP_KNIGHTS, payload}
+}
+
+export function setEnemyFaceUpKnights(payload=1){
+  return {type: SET_ENEMY_FACE_UP_KNIGHTS, payload}
+}
+
 export default function gameReducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
@@ -284,6 +296,12 @@ export default function gameReducer(state = initialState, action) {
       return {...state, monopolyDev: payload}
     case SET_OPPOSING_MONOPOLY:
       return {...state, opposingMonopoly: payload}
+    case SET_FACE_UP_KNIGHTS:
+      return {...state, faceUpKnights: state.faceUpKnights + 1}
+    case SET_ENEMY_FACE_UP_KNIGHTS:
+      const {enemyPlayersInfo} = state
+      enemyPlayersInfo[0].faceUpKnights += payload
+      return {...state, enemyPlayersInfo}
     default:
       return state
   }
