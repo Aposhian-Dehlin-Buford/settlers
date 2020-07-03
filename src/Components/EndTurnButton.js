@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect } from "react"
-import { TweenMax } from 'gsap'
+import { TweenMax, Linear } from 'gsap'
 import { useSelector, useDispatch } from "react-redux"
 import { UserContext } from "../context/UserContext"
 import {endFirstTurn, endSecondTurn} from '../redux/gameReducer'
@@ -29,12 +29,24 @@ const EndTurnButton = () => {
 
   let endRef = useRef(null)
 
-  return (
-    <div className="end-button-container">
-      {
-        canSee && 
+  useEffect(() => {
+    if(canSee){
+      TweenMax.to(endRef, 1, {
+        opacity: 1
+      })
+      TweenMax.to(endRef, 17, {
+        rotation:360, 
+        ease:Linear.easeNone, 
+        repeat:-1})
+    }
+  }, [canSee])
+
+  if(canSee){
+    return (
+      <div 
+        className="end-button-container" 
+        ref={el => {endRef = el}}>
           <button
-            ref={el => {endRef = el}}
             onClick={() => {
               socket.emit("end-turn", { room })
               // firstTurn ? dispatch(endFirstTurn()) :
@@ -43,9 +55,12 @@ const EndTurnButton = () => {
           >
             End Turn
           </button>
-      }
-    </div>
-  )
+        
+      </div>
+    )
+  } else {
+    return null
+  }
 }
 
 export default EndTurnButton

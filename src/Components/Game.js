@@ -242,7 +242,6 @@ const Game = () => {
           <div className="top-container-overlay"></div>
         )} */}
         {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />}
-        {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
         {incomingTrade && <IncomingTrade />}
         
       </div>
@@ -278,8 +277,11 @@ const Game = () => {
         <Map handlePort={handlePort} />
         <EndTurnButton />
         <div className="middle-right-container">
-          <DevelopmentDeck />
-          <MyDevelopmentHand />
+          <div className="development-container">
+            <DevelopmentDeck />
+            <MyDevelopmentHand />
+          </div>
+            {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
         </div>
       </div>
       <div className="bottom-container">
