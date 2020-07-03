@@ -19,6 +19,8 @@ import {
   setPick31,
   setPickDiscard,
   setPlaceRobber,
+  setMonopoly,
+  setOpposingMonopoly,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -47,6 +49,8 @@ const Game = () => {
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
   const {
+    room,
+    turn,
     incomingTrade,
     active,
     rolledDice,
@@ -55,14 +59,43 @@ const Game = () => {
     buildCity,
     buildings,
     firstTurn,
+    resources,
     secondTurn,
     diceResult,
     pickCard,
+    yearOfPlentyDev,
     pick31,
     map,
     roads,
-    resources
+    monopolyDev,
+    opposingMonopoly,
   } = useSelector((redux) => redux)
+  // console.log({ turn }) 
+  // console.log({monopolyDev})
+  useEffect(() => {
+    if(opposingMonopoly){
+      const count = resources[opposingMonopoly]
+      dispatch(updateResources({...newResources, [opposingMonopoly]: count * -1}))
+      socket.emit('resolve-monopoly', {room, card: opposingMonopoly, count})
+      dispatch(setOpposingMonopoly(null))
+    }
+  }, [opposingMonopoly])
+  // const resolveMonopoly = useCallback(({card}) => {
+  //   console.log(resources)
+  //   const count = resources[card]
+  //   dispatch(updateResources({...newResources,
+  //     // wood: 0,
+  //     // clay: 0,
+  //     // wheat: 0,
+  //     // rock: 0,
+  //     // sheep: 0,
+  //     [card]: count * -1
+  //   }))
+  //   console.log('hit monopoly receive')
+  //   console.log({card})
+  //   console.log({count})
+  //   socket.emit('resolve-monopoly', {room, card, count})
+  // }, [resources.wood, resources.clay, resources.wheat, resources.rock, resources.sheep])
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -103,6 +136,23 @@ const Game = () => {
     })
     socket.on("dice-result", ({ diceResult }) => {
       dispatch(updateDiceResult(diceResult))
+    })
+    socket.on('monopoly', ({card}) => {
+      dispatch(setOpposingMonopoly(card))
+    })
+    socket.on('resolve-monopoly', ({card, count}) => {
+      // console.log('hit monopoly resolve')
+      // console.log({card})
+      // console.log({count})
+      dispatch(updateResources({...newResources,
+        // wood: 0,
+        // clay: 0,
+        // wheat: 0,
+        // rock: 0,
+        // sheep: 0,
+        [card]: count
+      }))
+      dispatch(setMonopoly(false))
     })
   }, [])
 
@@ -163,13 +213,24 @@ const Game = () => {
   }
 
   const handlePickCard = (card) => {
-    console.log("HANDLE-PICK-CARD", card)
-    dispatch(setPickCard(false))
-    dispatch(updateResources({ ...newResources, [card]: 1 }))
+    // console.log("HANDLE-PICK-CARD", card)
+    // dispatch(setPickCard(false))
+    // dispatch(updateResources({ ...newResources, [card]: 1 }))
+    // console.log({pickCard})
+    // console.log({monopolyDev})
+    // console.log("HANDLE-PICK-CARD", card)
+    if(pickCard){
+      yearOfPlentyDev ? dispatch(setPickCard(true)):
+      dispatch(setPickCard(false))
+      dispatch(updateResources({ ...newResources, [card]: 1 }))
+    }else if(monopolyDev){
+      console.log('hit monopoly')
+      socket.emit('monopoly', {card, room})
+    }
   }
 
   const handlePick31 = (card) => {
-    console.log("HANDLE_PICK_31", card)
+    // console.log("HANDLE_PICK_31", card)
     dispatch(setPick31(false))
     dispatch(setPickCard(true))
     dispatch(updateResources({ ...newResources, [card]: -3 }))
@@ -185,12 +246,8 @@ const Game = () => {
         {/* {(buildSettlement || buildCity) && (
           <div className="top-container-overlay"></div>
         )} */}
-        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
-          <OfferTrade />
-        )}
-        {active && rolledDice && !tradePending && !firstTurn && !secondTurn && (
-          <Purchase />
-        )}
+        {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />}
+        {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
         {incomingTrade && <IncomingTrade />}
         {<MyDevelopmentHand />}
       </div>
@@ -199,6 +256,24 @@ const Game = () => {
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
+              {["wheat", "sheep", "wood"].map((e,i) => (
+                <div
+                  key={i}
+                  className={e}
+                  onClick={(pickCard || monopolyDev) ? () => handlePickCard(e) : null}
+                ></div>
+              ))}
+              </div>
+              <div className="res-3">
+              {["clay", "rock"].map((e,i) => (
+                <div
+                  key={i}
+                  className={e}
+                  onClick={(pickCard || monopolyDev) ? () => handlePickCard(e) : null}
+                ></div>
+              ))}
+              </div>
+              {/* <div className="res-4">
               <div
                 className="wheat"
                 onClick={pickCard ? () => handlePickCard("wheat") : null}
@@ -221,11 +296,11 @@ const Game = () => {
                 className="rock"
                 onClick={pickCard ? () => handlePickCard("rock") : null}
               ></div>
-            </div>
+            </div> */}
           </div>
           <DevelopmentDeck />
           <div className="dice-container">
-            {!firstTurn && !secondTurn && <DiceButton />}
+            {turn > 2 && <DiceButton />}
             <Dice />
           </div>
         </div>

@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Settlements from "./Settlements"
-import {FaAnchor} from 'react-icons/fa'
-import {BsFillPersonFill} from 'react-icons/bs'
+import { FaAnchor } from 'react-icons/fa'
+import { BsFillPersonFill } from 'react-icons/bs'
 import Roads from "./Roads"
 import {
   setBuildSettlement,
@@ -15,6 +15,7 @@ import {
   placeFirstRoad,
   placeSecondRoad,
   updateResources,
+  updateVictoryPoints,
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
@@ -22,10 +23,12 @@ const Hexagon = ({ e, id, handlePort }) => {
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
   const {
+    turn,
     buildSettlement,
     buildRoad,
     firstTurn,
     secondTurn,
+    roadBuildDev,
     active,
     room,
     buildings,
@@ -40,8 +43,8 @@ const Hexagon = ({ e, id, handlePort }) => {
     if (
       active &&
       (buildSettlement ||
-        (firstTurn && !firstSettlementPlaced) ||
-        (!firstTurn && secondTurn && !secondSettlementPlaced))
+        (turn === 1 && !firstSettlementPlaced) ||
+        (turn === 2 && !secondSettlementPlaced))
     ) {
       const buildingsArray = buildings.slice()
       const mapArray = [...map]
@@ -59,31 +62,36 @@ const Hexagon = ({ e, id, handlePort }) => {
         slot_id: slotNum,
         user_id: user.user_id,
         building_type: 1,
-        adjacent_numbers: mapArray[id].slots[slotNum]
+        adjacent_numbers: mapArray[id].slots[slotNum],
       }
 
       mapArray[id].slots[slotNum][3] = 1
       mapArray[id].slots[slotNum][4] = user.user_id
       dispatch(setMapState(mapArray))
-      buildingsArray[id][slotNum] = {...buildingsArray[id][slotNum], ...building}
+      buildingsArray[id][slotNum] = {
+        ...buildingsArray[id][slotNum],
+        ...building,
+      }
       buildingsArray[id][slotNum].canRoad[user.user_id] = true
-      buildingsArray[id][slotNum].port && (buildingsArray[id][slotNum].port[1] = user.user_id)
+      buildingsArray[id][slotNum].port &&
+        (buildingsArray[id][slotNum].port[1] = user.user_id)
       dispatch(setBuildSettlement(false))
-      firstTurn && !firstSettlementPlaced && dispatch(placeFirstSettlement())
-      if(!firstTurn && !secondSettlementPlaced){
+      turn === 1 && !firstSettlementPlaced && dispatch(placeFirstSettlement())
+      if (turn === 2 && !secondSettlementPlaced) {
         dispatch(placeSecondSettlement())
         const resources = {
           wheat: 0,
           clay: 0,
           sheep: 0,
           rock: 0,
-          wood: 0
+          wood: 0,
         }
-        for(let i = 0; i < 3; i++){
-          resources[buildingsArray[id][slotNum].adjacent_numbers[i].terrain] ++
+        for (let i = 0; i < 3; i++) {
+          resources[buildingsArray[id][slotNum].adjacent_numbers[i].terrain]++
         }
         dispatch(updateResources(resources))
       }
+      dispatch(updateVictoryPoints(1))
       socket.emit("buy-building", { room, buildingsArray, map: mapArray })
     }
   }
@@ -103,12 +111,11 @@ const Hexagon = ({ e, id, handlePort }) => {
     }
     roadsArray[id][slotNum] = road
     dispatch(setMapState(mapArray))
-    dispatch(setBuildRoad(false))
-    firstTurn && !firstRoadPlaced && dispatch(placeFirstRoad())
-    !firstTurn && !secondRoadPlaced && dispatch(placeSecondRoad())
+    roadBuildDev ? dispatch(setBuildRoad(true)) : dispatch(setBuildRoad(false))
+    turn === 1 && !firstRoadPlaced && dispatch(placeFirstRoad())
+    turn === 2 && !secondRoadPlaced && dispatch(placeSecondRoad())
     socket.emit("buy-road", { room, roadsArray, map: mapArray })
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
-
   }
 
   const handleCityClick = (id, slotNum) => {
@@ -122,10 +129,12 @@ const Hexagon = ({ e, id, handlePort }) => {
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
-  const portSlot1 = e.terrain === "port" && 
-  buildings[e.portSlots[0][0]][e.portSlots[0][1]].port[1]
-const portSlot2 = e.terrain === "port" && 
-  buildings[e.portSlots[1][0]][e.portSlots[1][1]].port[1]
+  const portSlot1 =
+    e.terrain === "port" &&
+    buildings[e.portSlots[0][0]][e.portSlots[0][1]].port[1]
+  const portSlot2 =
+    e.terrain === "port" &&
+    buildings[e.portSlots[1][0]][e.portSlots[1][1]].port[1]
 
   return (
     <div

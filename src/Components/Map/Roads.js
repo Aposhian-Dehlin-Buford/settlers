@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 
 const Roads = ({ handleRoadClick, id, user }) => {
   const {
+    turn,
     buildRoad,
     roads,
     map,
@@ -34,8 +35,8 @@ const Roads = ({ handleRoadClick, id, user }) => {
 
     const roadBoolean = () =>
       buildRoad ||
-      (firstTurn && firstSettlementPlaced && !firstRoadPlaced) ||
-      (secondTurn && secondSettlementPlaced && !secondRoadPlaced)
+      (turn===1 && firstSettlementPlaced && !firstRoadPlaced) ||
+      (turn===2 && secondSettlementPlaced && !secondRoadPlaced)
 
     return [
       [0, 1, 2],

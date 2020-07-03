@@ -92,6 +92,7 @@ return (
     {
       hand.map((e, i) => (
         <HandCard 
+          key={i}
           e={e} 
           i={i} 
           handlePick31={handlePick31} 
