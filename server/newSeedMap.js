@@ -81,6 +81,7 @@ const seedMap = () => {
             type: e.terrain === "port" ? ports.splice(Math.floor(Math.random() * ports.length), 1)[0] : null,
             portID: e.terrain === "port" ? 8 - ports.length : null,
             portSlots: e.terrain === "port" ? portSlots.shift() : null,
+            hasRobber: e.terrain === 'desert' ? true : false,
             ...e,
         }
     })

@@ -81,6 +81,14 @@
     // border-left: solid 1px #333333;
   }
 
+  .robber {
+    z-index: 100000;
+    border: 1px solid black;
+    height: $size/2;
+    width: $size/2;
+    font-size: $size;
+  }
+
 
 
 

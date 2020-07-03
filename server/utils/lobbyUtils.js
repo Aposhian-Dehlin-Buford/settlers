@@ -122,6 +122,7 @@ const generateInitialGameState = (
     buildCity: false,
     pickCard: false,  // If true, choose card to receive from port exchange.
     pick31: false, // If true, choose card (3) to discard for port exchange.
+    pickDiscard: false, // If truthy, choose multiple cards to discard (roll 7)
     roadBuildDev: false,
     yearOfPlentyDev: false,
     monopolyDev: false,
@@ -140,6 +141,8 @@ const generateInitialGameState = (
     secondSettlementPlaced: false,
     firstRoadPlaced: false,
     secondRoadPlaced: false,
+    placeRobber: false,
+    checkSeven: false,
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],
