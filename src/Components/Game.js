@@ -229,13 +229,7 @@ const Game = () => {
     }
   }
 
-  const handlePick31 = (card) => {
-    // console.log("HANDLE_PICK_31", card)
-    dispatch(setPick31(false))
-    dispatch(setPickCard(true))
-    dispatch(updateResources({ ...newResources, [card]: -3 }))
-  }
-
+ 
   // console.log("map", map)
   // console.log("buildings", buildings)
   // console.log("roads", roads)
@@ -243,16 +237,17 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="top-container">
+        
         {/* {(buildSettlement || buildCity) && (
           <div className="top-container-overlay"></div>
         )} */}
         {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />}
         {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
         {incomingTrade && <IncomingTrade />}
-        {<MyDevelopmentHand />}
+        
       </div>
       <div className="middle-container">
-        <div className="p3-container"></div>
+        {/* <div className="middle-left-container"></div> */}
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
@@ -273,32 +268,8 @@ const Game = () => {
                 ></div>
               ))}
               </div>
-              {/* <div className="res-4">
-              <div
-                className="wheat"
-                onClick={pickCard ? () => handlePickCard("wheat") : null}
-              ></div>
-              <div
-                className="sheep"
-                onClick={pickCard ? () => handlePickCard("sheep") : null}
-              ></div>
-              <div
-                className="wood"
-                onClick={pickCard ? () => handlePickCard("wood") : null}
-              ></div>
-            </div>
-            <div className="res-3">
-              <div
-                className="clay"
-                onClick={pickCard ? () => handlePickCard("clay") : null}
-              ></div>
-              <div
-                className="rock"
-                onClick={pickCard ? () => handlePickCard("rock") : null}
-              ></div>
-            </div> */}
           </div>
-          <DevelopmentDeck />
+          
           <div className="dice-container">
             {turn > 2 && <DiceButton />}
             <Dice />
@@ -306,10 +277,13 @@ const Game = () => {
         </div>
         <Map handlePort={handlePort} />
         <EndTurnButton />
-        <div className="p4-container"></div>
+        <div className="middle-right-container">
+          <DevelopmentDeck />
+          <MyDevelopmentHand />
+        </div>
       </div>
       <div className="bottom-container">
-        <MyHand handlePick31={handlePick31} />
+        <MyHand />
       </div>
     </div>
   )

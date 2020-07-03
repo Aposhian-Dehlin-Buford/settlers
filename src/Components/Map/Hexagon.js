@@ -159,7 +159,7 @@ const Hexagon = ({ e, id, handlePort }) => {
             portSlot2 === 2 ? "red" : 
             "white",
           backgroundImage: e.type !== "3 for 1" &&
-            'url(' + require(`../../images/${e.type}.png`) + ')'
+            'url(' + require(`../../images/${e.type}-alt.png`) + ')'
         }}>{e.type === "3 for 1" && 
           <span onClick={
             (portSlot1 === user.user_id || portSlot2 === user.user_id) ? 
