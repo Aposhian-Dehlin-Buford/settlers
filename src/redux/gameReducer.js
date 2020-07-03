@@ -27,6 +27,7 @@ const {
   END_SECOND_TURN,
   SECOND_SETTLEMENT_PLACED,
   SECOND_ROAD_PLACED,
+  SET_OPPOSING_MONOPOLY,
 } = actionTypes
 
 const initialState = {
@@ -40,6 +41,7 @@ const initialState = {
   roadBuildDev: false,
   yearOfPlentyDev: false,
   monopolyDev: false,
+  opposingMonopoly: null,
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
@@ -171,6 +173,10 @@ export function setMonopoly(payload=true){
   return {type: MONOPOLY, payload}
 }
 
+export function setOpposingMonopoly(payload){
+  return {type: SET_OPPOSING_MONOPOLY, payload}
+}
+
 export function setBuildCity(payload) {
   return { type: SET_BUILD_CITY, payload }
 }
@@ -257,7 +263,10 @@ export default function gameReducer(state = initialState, action) {
     // case YEAR_OF_PLENTY:
     //   return {...state, yearOfPlenty: payload}
     case MONOPOLY:
-      return {...state, monopoly: payload}
+      // console.log({payload})
+      return {...state, monopolyDev: payload}
+    case SET_OPPOSING_MONOPOLY:
+      return {...state, opposingMonopoly: payload}
     default:
       return state
   }

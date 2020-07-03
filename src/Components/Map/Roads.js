@@ -28,7 +28,7 @@ const Roads = ({ handleRoadClick, id, user }) => {
         (e) => buildings[e[0]][e[1]].canRoad[user]
       )
 
-      console.log('canBuild (Road)', canRoad)
+      // console.log('canBuild (Road)', canRoad)
 
       return canRoad[0] || canRoad[1] ? true : false
     }

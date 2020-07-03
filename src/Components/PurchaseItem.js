@@ -40,7 +40,7 @@ const PurchaseItem = ({ cost, name }) => {
       case "Development":
         const deck = [...developmentDeck]
         const hand = [...developmentHand]
-        const card = deck.splice(0, 1)
+        const [card] = deck.splice(0, 1)
         hand.push(card)
         console.log(card)
         card[0] === 'Victory Point' && dispatch(updateVictoryPoints(1))
