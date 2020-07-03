@@ -16,6 +16,7 @@ const {
   SET_BUILD_CITY,
   SET_PICK_CARD,
   SET_PICK_31,
+  SET_PICK_DISCARD,
   YEAR_OF_PLENTY,
   MONOPOLY,
   UPDATE_BUILDINGS,
@@ -27,6 +28,7 @@ const {
   END_SECOND_TURN,
   SECOND_SETTLEMENT_PLACED,
   SECOND_ROAD_PLACED,
+  SET_PLACE_ROBBER,
   SET_OPPOSING_MONOPOLY,
 } = actionTypes
 
@@ -38,6 +40,7 @@ const initialState = {
   buildCity: false,
   pickCard: false,
   pick31: false,
+  pickDiscard: false,
   roadBuildDev: false,
   yearOfPlentyDev: false,
   monopolyDev: false,
@@ -59,6 +62,7 @@ const initialState = {
   developmentDeck: [],
   developmentHand: [],
   map: [],
+  placeRobber: false,
 }
 
 export function setGameState(payload, user_id) {
@@ -189,12 +193,20 @@ export function setPick31(payload){
   return {type: SET_PICK_31, payload}
 }
 
+export function setPickDiscard(payload){
+  return {type: SET_PICK_DISCARD, payload}
+}
+
 export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
 }
 
 export function updateRoads(payload) {
   return { type: UPDATE_ROADS, payload }
+}
+
+export function setPlaceRobber(payload) {
+  return { type: SET_PLACE_ROBBER, payload}
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -254,14 +266,19 @@ export default function gameReducer(state = initialState, action) {
       return {...state, pickCard: payload.pickCard, yearOfPlentyDev: payload.yearOfPlentyDev}
     case SET_PICK_31:
       return {...state, pick31: payload}
+    case SET_PICK_DISCARD:
+      return {...state, pickDiscard: payload}
     case UPDATE_BUILDINGS:
       return { ...state, buildings: payload }
     case UPDATE_ROADS:
       return { ...state, roads: payload }
     case SET_MAP_STATE:
       return { ...state, map: payload }
-    // case YEAR_OF_PLENTY:
-    //   return {...state, yearOfPlenty: payload}
+      break
+    case SET_PLACE_ROBBER:
+      return {...state, placeRobber: payload}
+    case YEAR_OF_PLENTY:
+      return {...state, yearOfPlenty: payload}
     case MONOPOLY:
       // console.log({payload})
       return {...state, monopolyDev: payload}

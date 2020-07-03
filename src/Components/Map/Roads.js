@@ -61,7 +61,7 @@ const Roads = ({ handleRoadClick, id, user }) => {
               (roads[id][f].hexagon_id || roads[id][f].hexagon_id === 0)
                 ? { background: roads[id][f].user_id === 1 ? "blue" : "red" }
                 : roadBoolean() && canBuild(id, f)
-                ? { outline: "1px solid black" }
+                ? { outline: "1px solid white" }
                 : null
             }
           ></div>

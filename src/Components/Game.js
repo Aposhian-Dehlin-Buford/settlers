@@ -17,6 +17,8 @@ import {
   updateRoads,
   setPickCard,
   setPick31,
+  setPickDiscard,
+  setPlaceRobber,
   setMonopoly,
   setOpposingMonopoly,
 } from "../redux/gameReducer"
@@ -155,24 +157,47 @@ const Game = () => {
   }, [])
 
   useEffect(() => {
-    const newBuildings = [...buildings]
-    newBuildings.forEach((e) => {
-      e.forEach((f) => {
-        if (f.adjacent_numbers && f.user_id === user.user_id) {
-          f.adjacent_numbers.forEach((g) => {
-            if (g && g.number === diceResult[0] + diceResult[1]) {
-              dispatch(
-                updateResources({
-                  ...newResources,
-                  [g.terrain]: newResources[g.terrain] + f.building_type,
-                })
-              )
-            }
-          })
-        }
+    if(diceResult[0] + diceResult[1] === 7){
+      rollSeven()
+    } else {
+      const newBuildings = [...buildings]
+      newBuildings.forEach((e) => {
+        e.forEach((f) => {
+          if (f.adjacent_numbers && f.user_id === user.user_id) {
+            f.adjacent_numbers.forEach((g) => {
+              if (g && g.number === diceResult[0] + diceResult[1]) {
+                dispatch(
+                  updateResources({
+                    ...newResources,
+                    [g.terrain]: newResources[g.terrain] + f.building_type,
+                  })
+                )
+              }
+            })
+          }
+        })
       })
-    })
+    }
+
   }, [diceResult])
+
+ const rollSeven = () => {
+    console.log("rollSeven")
+    checkSevenCards()
+    // dispatch(setPlaceRobber(true))
+  }
+
+  const checkSevenCards = () => {
+    const handTotal = Object.values(resources).reduce((a,v) => {
+      return a += v
+    }, 0)
+
+    if(handTotal > 7){
+      dispatch(setPickDiscard(Math.floor(handTotal/2)))
+    }
+   
+    console.log("checkSeven Res", resources, handTotal)
+  }
 
   const handlePort = (e, id) => {
     // console.log("HANDLEPORT", e.type)
@@ -188,8 +213,11 @@ const Game = () => {
   }
 
   const handlePickCard = (card) => {
-    console.log({pickCard})
-    console.log({monopolyDev})
+    // console.log("HANDLE-PICK-CARD", card)
+    // dispatch(setPickCard(false))
+    // dispatch(updateResources({ ...newResources, [card]: 1 }))
+    // console.log({pickCard})
+    // console.log({monopolyDev})
     // console.log("HANDLE-PICK-CARD", card)
     if(pickCard){
       yearOfPlentyDev ? dispatch(setPickCard(true)):
@@ -201,13 +229,7 @@ const Game = () => {
     }
   }
 
-  const handlePick31 = (card) => {
-    // console.log("HANDLE_PICK_31", card)
-    dispatch(setPick31(false))
-    dispatch(setPickCard(true))
-    dispatch(updateResources({ ...newResources, [card]: -3 }))
-  }
-
+ 
   // console.log("map", map)
   // console.log("buildings", buildings)
   // console.log("roads", roads)
@@ -215,60 +237,38 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="top-container">
+        
         {/* {(buildSettlement || buildCity) && (
           <div className="top-container-overlay"></div>
         )} */}
         {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />}
-        {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
         {incomingTrade && <IncomingTrade />}
-        {<MyDevelopmentHand />}
+        
       </div>
       <div className="middle-container">
-        <div className="p3-container"></div>
+        {/* <div className="middle-left-container"></div> */}
         <div className="res-dice-container">
           <div className="res-container">
             <div className="res-4">
-              {["wheat", "sheep", "wood"].map((e) => (
+              {["wheat", "sheep", "wood"].map((e,i) => (
                 <div
+                  key={i}
                   className={e}
                   onClick={(pickCard || monopolyDev) ? () => handlePickCard(e) : null}
                 ></div>
               ))}
               </div>
               <div className="res-3">
-              {["clay", "rock"].map((e) => (
+              {["clay", "rock"].map((e,i) => (
                 <div
+                  key={i}
                   className={e}
                   onClick={(pickCard || monopolyDev) ? () => handlePickCard(e) : null}
                 ></div>
               ))}
               </div>
-              {/* <div className="res-4">
-              <div
-                className="wheat"
-                onClick={pickCard ? () => handlePickCard("wheat") : null}
-              ></div>
-              <div
-                className="sheep"
-                onClick={pickCard ? () => handlePickCard("sheep") : null}
-              ></div>
-              <div
-                className="wood"
-                onClick={pickCard ? () => handlePickCard("wood") : null}
-              ></div>
-            </div>
-            <div className="res-3">
-              <div
-                className="clay"
-                onClick={pickCard ? () => handlePickCard("clay") : null}
-              ></div>
-              <div
-                className="rock"
-                onClick={pickCard ? () => handlePickCard("rock") : null}
-              ></div>
-            </div> */}
           </div>
-          <DevelopmentDeck />
+          
           <div className="dice-container">
             {turn > 2 && <DiceButton />}
             <Dice />
@@ -276,10 +276,16 @@ const Game = () => {
         </div>
         <Map handlePort={handlePort} />
         <EndTurnButton />
-        <div className="p4-container"></div>
+        <div className="middle-right-container">
+          <div className="development-container">
+            <DevelopmentDeck />
+            <MyDevelopmentHand />
+          </div>
+            {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
+        </div>
       </div>
       <div className="bottom-container">
-        <MyHand handlePick31={handlePick31} />
+        <MyHand />
       </div>
     </div>
   )
