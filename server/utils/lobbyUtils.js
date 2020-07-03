@@ -122,18 +122,21 @@ const generateInitialGameState = (
     buildCity: false,
     pickCard: false,  // If true, choose card to receive from port exchange.
     pick31: false, // If true, choose card (3) to discard for port exchange.
+    pickDiscard: false, // If truthy, choose multiple cards to discard (roll 7)
     room: `${challenger.user_id}-${opponent.user_id}`,
     activePlayer,
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-    resources: { sheep: 4, wood: 4, clay: 4, wheat: 4, rock: 0 },
+    resources: { sheep: 2, wood: 2, clay: 2, wheat: 2, rock: 0 },
     firstTurn: true,
     secondTurn: true,
     firstSettlementPlaced: false,
     secondSettlementPlaced: false,
     firstRoadPlaced: false,
     secondRoadPlaced: false,
+    placeRobber: false,
+    checkSeven: false,
     // opponentsInfo: [
     //   { resources: { sheep: 3, wood: 3, clay: 3, wheat: 3, rock: 3 } },
     // ],

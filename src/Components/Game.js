@@ -17,6 +17,8 @@ import {
   updateRoads,
   setPickCard,
   setPick31,
+  setPickDiscard,
+  setPlaceRobber,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -31,7 +33,7 @@ import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import MyDevelopmentHand from "./MyDevelopmentHand"
 
-const resources = {
+const newResources = {
   clay: 0,
   wheat: 0,
   rock: 0,
@@ -58,7 +60,8 @@ const Game = () => {
     pickCard,
     pick31,
     map,
-    roads
+    roads,
+    resources
   } = useSelector((redux) => redux)
   useEffect(() => {
     socket.on("disconnect", () => {
@@ -103,33 +106,48 @@ const Game = () => {
     })
   }, [])
 
-  // useEffect(() => {
-
-  // }, [])
-
   useEffect(() => {
-    const newBuildings = [...buildings]
-    newBuildings.forEach((e) => {
-      e.forEach((f) => {
-        if (f.adjacent_numbers && f.user_id === user.user_id) {
-          f.adjacent_numbers.forEach((g) => {
-            if (g && g.number === diceResult[0] + diceResult[1]) {
-              dispatch(
-                updateResources({
-                  ...resources,
-                  [g.terrain]: resources[g.terrain] + f.building_type,
-                })
-              )
-            }
-          })
-        }
+    if(diceResult[0] + diceResult[1] === 7){
+      rollSeven()
+    } else {
+      const newBuildings = [...buildings]
+      newBuildings.forEach((e) => {
+        e.forEach((f) => {
+          if (f.adjacent_numbers && f.user_id === user.user_id) {
+            f.adjacent_numbers.forEach((g) => {
+              if (g && g.number === diceResult[0] + diceResult[1]) {
+                dispatch(
+                  updateResources({
+                    ...newResources,
+                    [g.terrain]: newResources[g.terrain] + f.building_type,
+                  })
+                )
+              }
+            })
+          }
+        })
       })
-    })
+    }
+
   }, [diceResult])
 
-  // useEffect(() => {
+ const rollSeven = () => {
+    console.log("rollSeven")
+    checkSevenCards()
+    // dispatch(setPlaceRobber(true))
+  }
 
-  // }, [socket, dispatch])
+  const checkSevenCards = () => {
+    const handTotal = Object.values(resources).reduce((a,v) => {
+      return a += v
+    }, 0)
+
+    if(handTotal > 7){
+      dispatch(setPickDiscard(Math.floor(handTotal/2)))
+    }
+   
+    console.log("checkSeven Res", resources, handTotal)
+  }
 
   const handlePort = (e, id) => {
     // console.log("HANDLEPORT", e.type)
@@ -138,8 +156,8 @@ const Game = () => {
       : dispatch(setPickCard(true))
     dispatch(
       updateResources({
-        ...resources,
-        [e.type]: resources[e.type] - (e.type === "3 for 1" ? 3 : 2),
+        ...newResources,
+        [e.type]: newResources[e.type] - (e.type === "3 for 1" ? 3 : 2),
       })
     )
   }
@@ -147,19 +165,19 @@ const Game = () => {
   const handlePickCard = (card) => {
     console.log("HANDLE-PICK-CARD", card)
     dispatch(setPickCard(false))
-    dispatch(updateResources({ ...resources, [card]: 1 }))
+    dispatch(updateResources({ ...newResources, [card]: 1 }))
   }
 
   const handlePick31 = (card) => {
     console.log("HANDLE_PICK_31", card)
     dispatch(setPick31(false))
     dispatch(setPickCard(true))
-    dispatch(updateResources({ ...resources, [card]: -3 }))
+    dispatch(updateResources({ ...newResources, [card]: -3 }))
   }
 
-  console.log("map", map)
-  console.log("buildings", buildings)
-  console.log("roads", roads)
+  // console.log("map", map)
+  // console.log("buildings", buildings)
+  // console.log("roads", roads)
 
   return (
     <div className="game-container">

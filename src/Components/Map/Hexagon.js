@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Settlements from "./Settlements"
 import {FaAnchor} from 'react-icons/fa'
+import {BsFillPersonFill} from 'react-icons/bs'
 import Roads from "./Roads"
 import {
   setBuildSettlement,
@@ -150,11 +151,18 @@ const portSlot2 = e.terrain === "port" &&
             "white",
           backgroundImage: e.type !== "3 for 1" &&
             'url(' + require(`../../images/${e.type}.png`) + ')'
-        }}>{e.type === "3 for 1" && <span>3:1</span>}</div>}{
+        }}>{e.type === "3 for 1" && 
+          <span onClick={
+            (portSlot1 === user.user_id || portSlot2 === user.user_id) ? 
+            () => handlePort(e, id) : null
+          }>3:1</span>}</div>}{
           e.terrain === "port" && (<>
             <div className={`port${e.portID}0`}><FaAnchor /></div>
-            <div className={`port${e.portID}1`}><FaAnchor /></div>
+            {/* <div className={`port${e.portID}1`}><FaAnchor /></div> */}
           </>)
+        }
+        {
+          e.hasRobber ? <div className="robber"><BsFillPersonFill /></div> : null
         }
       {e.number ? (
         <div

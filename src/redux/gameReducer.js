@@ -15,6 +15,7 @@ const {
   SET_BUILD_CITY,
   SET_PICK_CARD,
   SET_PICK_31,
+  SET_PICK_DISCARD,
   UPDATE_BUILDINGS,
   UPDATE_ROADS,
   SET_MAP_STATE,
@@ -24,6 +25,7 @@ const {
   END_SECOND_TURN,
   SECOND_SETTLEMENT_PLACED,
   SECOND_ROAD_PLACED,
+  SET_PLACE_ROBBER,
 } = actionTypes
 
 const initialState = {
@@ -34,6 +36,7 @@ const initialState = {
   buildCity: false,
   pickCard: false,
   pick31: false,
+  pickDiscard: false,
   rolledDice: false,
   diceResult: [0, 0],
   tradePending: false,
@@ -49,6 +52,7 @@ const initialState = {
   developmentDeck: [],
   developmentHand: [],
   map: [],
+  placeRobber: false,
 }
 
 export function setGameState(payload, user_id) {
@@ -160,12 +164,20 @@ export function setPick31(payload){
   return {type: SET_PICK_31, payload}
 }
 
+export function setPickDiscard(payload){
+  return {type: SET_PICK_DISCARD, payload}
+}
+
 export function updateBuildings(payload){
   return {type: UPDATE_BUILDINGS, payload}
 }
 
 export function updateRoads(payload) {
   return { type: UPDATE_ROADS, payload }
+}
+
+export function setPlaceRobber(payload) {
+  return { type: SET_PLACE_ROBBER, payload}
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -223,6 +235,8 @@ export default function gameReducer(state = initialState, action) {
       return {...state, pickCard: payload}
     case SET_PICK_31:
       return {...state, pick31: payload}
+    case SET_PICK_DISCARD:
+      return {...state, pickDiscard: payload}
     case UPDATE_BUILDINGS:
       return { ...state, buildings: payload }
       break
@@ -231,6 +245,8 @@ export default function gameReducer(state = initialState, action) {
     case SET_MAP_STATE:
       return { ...state, map: payload }
       break
+    case SET_PLACE_ROBBER:
+      return {...state, placeRobber: payload}
     default:
       return state
   }
