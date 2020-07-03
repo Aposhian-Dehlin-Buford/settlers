@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
 import axios from "axios"
 import { useSelector } from "react-redux"
+import { Button } from "@material-ui/core"
 import { UserContext } from "../context/UserContext"
+import "./UserList.scss"
 
 const UserList = () => {
   const activeComponent = useRef(true)
   const [users, setUsers] = useState([])
-  const {user, socket} = useContext(UserContext)
+  const { user, socket } = useContext(UserContext)
   const { gameStart } = useSelector((redux) => redux)
   useEffect(() => {
     axios
@@ -22,15 +24,19 @@ const UserList = () => {
     socket.on("users", (body) => activeComponent.current && setUsers(body))
   }, [socket, user])
   return (
-    <div>
-      <div>Active Users</div>
-      <div>
+    <div className="user-list-container">
+      <div className="user-list-title">
+        <h1>Active Users</h1>
+      </div>
+      <div className="user-list">
         {users.length > 0 &&
           users.map(({ username, user_id, email }, i) => (
-            <div key={i}>
+            <div key={i} className="user-container">
               <span>USERNAME: {username}</span>
               {user.user_id !== user_id && !gameStart && (
-                <button
+                <Button
+                  color="primary"
+                  variant="outlined"
                   onClick={() => {
                     if (user.user_id !== user_id) {
                       socket.emit("challenge", {
@@ -42,7 +48,7 @@ const UserList = () => {
                   }}
                 >
                   Challenge
-                </button>
+                </Button>
               )}
             </div>
           ))}

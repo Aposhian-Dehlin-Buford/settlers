@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
 import { useDispatch } from "react-redux"
 import { setGameState } from "../redux/gameReducer"
-import {UserContext} from '../context/UserContext'
+import { Button } from "@material-ui/core"
+import { UserContext } from "../context/UserContext"
+import "./UserList.scss"
 
 const ChallengeList = () => {
   const dispatch = useDispatch()
   const activeComponent = useRef(true)
-  const {user, socket} = useContext(UserContext)
+  const { user, socket } = useContext(UserContext)
   const [challenges, setChallenges] = useState([])
   useEffect(() => {
     return () => {
@@ -40,14 +42,18 @@ const ChallengeList = () => {
     })
   }, [socket, dispatch, user.user_id])
   return (
-    <div>
-      <div>Challenges</div>
-      <div>
+    <div className="user-list-container">
+      <div className="user-list-title">
+        <h1>Challenges</h1>
+      </div>
+      <div className="user-list">
         {challenges.length > 0 &&
           challenges.map(({ challenger, opponent }) => (
-            <div key={challenger.user_id}>
+            <div key={challenger.user_id} className="user-container">
               <span>USERNAME: {challenger.username}</span>
-              <button
+              <Button
+                color="secondary"
+                variant="outlined"
                 onClick={() =>
                   socket.emit("accept-challenge", {
                     challenger,
@@ -57,7 +63,7 @@ const ChallengeList = () => {
                 }
               >
                 Accept
-              </button>
+              </Button>
             </div>
           ))}
       </div>

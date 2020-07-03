@@ -1,0 +1,13 @@
+@import '../variables';
+
+.list-container{
+  background-color: $main2;
+  // padding-top: 50px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
