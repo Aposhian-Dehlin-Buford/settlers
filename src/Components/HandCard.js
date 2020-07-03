@@ -14,7 +14,6 @@ const HandCard = ({e, i, handlePick31, setDiscardCounter, discardCounter, toDisc
 
     const handlePickDiscard = () => {
         console.log("discard counter", discardCounter)
-        // setDiscardCounter(discardCounter-1)
         setIsSelected((isSelectedState) => {
             isSelectedState = !isSelected
             if (isSelectedState) {
@@ -28,6 +27,30 @@ const HandCard = ({e, i, handlePick31, setDiscardCounter, discardCounter, toDisc
         })
         
     }
+
+    useEffect(() => {
+        if(pick31){
+            if(resources[e] > 3){
+                TweenMax.to(
+                    cardRef,
+                    .18,
+                    { 
+                      height: cardRef.getBoundingClientRect().height*1.5,
+                      zIndex: 19
+                    }
+                  )
+            }
+        } else {
+            TweenMax.to(
+                cardRef,
+                .18,
+                { 
+                  height: cardRef.getBoundingClientRect().height/1.5,
+                  zIndex: 19
+                }
+              )
+        }
+    }, [pick31])
 
     useEffect(() => {
         if(isSelected){

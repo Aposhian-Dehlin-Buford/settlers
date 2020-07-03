@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, createRef} from "react"
 import {TweenMax} from 'gsap'
 import { useSelector, useDispatch } from "react-redux"
-import { updateResources, setPickDiscard } from "../redux/gameReducer"
+import { updateResources, setPickDiscard, setPick31, setPickCard } from "../redux/gameReducer"
 import HandCard from './HandCard'
 
 let newResources = {
@@ -12,7 +12,7 @@ let newResources = {
   rock: 0,
 }
 
-const MyHand = ({handlePick31}) => {
+const MyHand = () => {
   const dispatch = useDispatch()
   const { resources, pick31, pickDiscard } = useSelector((redux) => redux)
   const { sheep, wood, clay, wheat, rock, } = resources
@@ -77,8 +77,16 @@ const MyHand = ({handlePick31}) => {
     setToDiscard(newResources)
     dispatch(setPickDiscard(false))
     setResetCards(!resetCards)
-
   }
+
+  const handlePick31 = (card) => {
+    // console.log("HANDLE_PICK_31", card)
+    dispatch(setPick31(false))
+    dispatch(setPickCard(true))
+    dispatch(updateResources({ ...newResources, [card]: -3 }))
+    setResetCards(!resetCards)
+  }
+
 
   // console.log("refs", refs)
   // console.log("cardsRef", cardsRef)

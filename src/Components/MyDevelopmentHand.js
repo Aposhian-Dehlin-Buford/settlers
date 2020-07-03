@@ -34,10 +34,15 @@ const MyDevelopmentHand = () => {
         break
     }
   }
+
+  console.log("developmentHand", developmentHand)
   return (
     <div>
       {developmentHand.map((e, i) => (
-        <div key={i} className={e} onClick={() => clickDevCard(e)}>
+        <div 
+          key={i} 
+          className={e.toLowerCase().split(' ').join('-')} 
+          onClick={() => clickDevCard(e)}>
           {e}
         </div>
       ))}
