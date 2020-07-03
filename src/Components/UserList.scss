@@ -1,0 +1,46 @@
+@import '../variables';
+
+.user-list-container{
+  // padding: 30px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 200px;
+  width: 400px;
+  // border-radius: 20px;
+  // background-color: white;
+}
+
+.user-list-title{
+  padding: 20px;
+  margin: 10px;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  background-color: blue;
+  color: $main1;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.user-list{
+  padding: 20px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 80%;
+  width: 100%;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.user-container{
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+}
