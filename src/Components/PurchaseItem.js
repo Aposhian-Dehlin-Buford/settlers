@@ -14,17 +14,17 @@ import {UserContext} from '../context/UserContext'
 const PurchaseItem = ({ cost, name }) => {
   const dispatch = useDispatch()
   const {socket} = useContext(UserContext)
-  const { developmentDeck, developmentHand, room, buildSettlement, buildCity, buildRoad } = useSelector((redux) => redux)
-  const { wood, sheep, wheat, rock, clay } = useSelector((redux) => redux.resources)
+  const { developmentDeck, developmentHand, room, buildSettlement, buildCity, buildRoad, resources } = useSelector((redux) => redux)
+  const { wood, sheep, wheat, rock, clay } = cost
 
   const purchase = () => {
     dispatch(
       updateResources({
-        wood: 0 - cost.wood,
-        clay: 0 - cost.clay,
-        sheep: 0 - cost.sheep,
-        wheat: 0 - cost.wheat,
-        rock: 0 - cost.rock,
+        wood: 0 - wood,
+        clay: 0 - clay,
+        sheep: 0 - sheep,
+        wheat: 0 - wheat,
+        rock: 0 - rock,
       })
     )
     switch (name) {
@@ -52,23 +52,48 @@ const PurchaseItem = ({ cost, name }) => {
         return
     }
   }
+
+  const costs = [wood, clay, wheat, sheep, rock].map(
+    (e, i) =>
+      e > 0 &&
+      [...Array(e)].map((f, j) =>
+        i === 0 ? 
+          "wood" : 
+        i === 1 ? 
+          "clay" : 
+        i === 2 ? 
+          "wheat" : 
+        i === 3 ? 
+          "sheep" : 
+          "rock"
+      )
+  )
+  .flat().filter(e => e != false).map((e,i) => {
+    return <div className={`cost-picture-${e}`} style={{backgroundImage: 'url(' + require(`../images/${e}-alt.png`) + ')'}}></div>
+  })
+
   return (
     <div className="purchase-item-container">
-      <div>Purchase {name}</div>
-      <div>Cost:</div>
-      {cost.wood > 0 && <span>Wood: {cost.wood}</span>}
-      {cost.clay > 0 && <span>Clay: {cost.clay}</span>}
-      {cost.wheat > 0 && <span>Wheat: {cost.wheat}</span>}
-      {cost.sheep > 0 && <span>Sheep: {cost.sheep}</span>}
-      {cost.rock > 0 && <span>Rock: {cost.rock}</span>}
-      {wood >= cost.wood &&
-        clay >= cost.clay &&
-        sheep >= cost.sheep &&
-        wheat >= cost.wheat &&
-        rock >= cost.rock && 
+      <div className="cost-title">{name}</div>
+      <div className="cost-row">
+      {
+        costs
+      }
+      {resources.wood >= wood &&
+        resources.clay >= clay &&
+        resources.sheep >= sheep &&
+        resources.wheat >= wheat &&
+        resources.rock >= rock && 
         !buildSettlement &&
         !buildCity &&
         !buildRoad && <button onClick={purchase}>Buy</button>}
+      </div>
+      {/* {wood > 0 && <span>Wood: {wood}</span>}
+      {clay > 0 && <span>Clay: {clay}</span>}
+      {wheat > 0 && <span>Wheat: {wheat}</span>}
+      {sheep > 0 && <span>Sheep: {sheep}</span>}
+      {rock > 0 && <span>Rock: {rock}</span>} */}
+      
     </div>
   )
 }

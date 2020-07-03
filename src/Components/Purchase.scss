@@ -1,13 +1,72 @@
 @import '../variables';
 
 .purchase-container {
-    height: 100%;
-    border: 5px solid purple;
+    height: 50%;
+    border: 5px solid blue;
     display: flex;
+    flex-direction: column;
 }
 
 .purchase-item-container {
     height: 100%;
-    border: 3px solid red;
+    border: 3px solid white;
     padding: 15px 9px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cost-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.cost-picture-wood {
+    height: $size*.5;
+    width: $size*.5;
+    background: $exp;
+    background-position: center;
+    background-size: 145%;
+    border-radius: 50%;
+    z-index: 27;
+    border: ($size/60) solid white;
+}
+.cost-picture-clay {
+    height: $size*.5;
+    width: $size*.5;
+    background: $exp;
+    background-position: center;
+    background-size: 145%;
+    border-radius: 50%;
+    z-index: 27;
+    border: ($size/60) solid white;
+}
+.cost-picture-wheat {
+    height: $size*.5;
+    width: $size*.5;
+    background: $exp;
+    background-position: center;
+    background-size: 145%;
+    border-radius: 50%;
+    z-index: 27;
+    border: ($size/60) solid white;
+}
+.cost-picture-sheep {
+    height: $size*.5;
+    width: $size*.5;
+    background: $exp;
+    background-position: center;
+    background-size: 145%;
+    border-radius: 50%;
+    z-index: 27;
+    border: ($size/60) solid white;
+}
+.cost-picture-rock {
+    height: $size*.5;
+    width: $size*.5;
+    background: $exp;
+    background-position: center;
+    background-size: 145%;
+    border-radius: 50%;
+    z-index: 27;
+    border: ($size/60) solid white;
 }
