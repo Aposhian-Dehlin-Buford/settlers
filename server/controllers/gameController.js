@@ -36,6 +36,14 @@ const buyRoad = (io, {room, roadsArray, map}) => {
   io.to(room).emit('buy-road', {roadsArray, newMap: map})
 }
 
+const monopoly = (socket, {room, card}) => {
+  socket.to(room).emit('monopoly', {card})
+}
+
+const resolveMonopoly = (socket, {room, card, count}) => {
+  socket.to(room).emit('resolve-monopoly', {card, count})
+}
+
 module.exports = {
   endTurn,
   rollDice,
@@ -44,5 +52,7 @@ module.exports = {
   rejectTrade,
   buyCard,
   buyBuilding,
-  buyRoad
+  buyRoad,
+  monopoly,
+  resolveMonopoly
 }

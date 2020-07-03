@@ -123,12 +123,15 @@ const generateInitialGameState = (
     pickCard: false,  // If true, choose card to receive from port exchange.
     pick31: false, // If true, choose card (3) to discard for port exchange.
     roadBuildDev: false,
+    yearOfPlentyDev: false,
+    monopolyDev: false,
+    opposingMonopoly: null,
     room: `${challenger.user_id}-${opponent.user_id}`,
     activePlayer,
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-    resources: { sheep: 4, wood: 0, clay: 0, wheat: 4, rock: 4 },
+    resources: { sheep: 7, wood: 0, clay: 0, wheat: 7, rock: 7 },
     turn: 0,
     victoryPoints: 0,
     firstTurn: true,

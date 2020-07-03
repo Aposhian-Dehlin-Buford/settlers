@@ -65,6 +65,8 @@ massive({
     socket.on('buy-card', (body) => gameCtrl.buyCard(socket, body))
     socket.on('buy-building', (body) => gameCtrl.buyBuilding(io, body))
     socket.on('buy-road', (body) => gameCtrl.buyRoad(io, body))
+    socket.on('monopoly', (body) => gameCtrl.monopoly(socket, body))
+    socket.on('resolve-monopoly', (body) => gameCtrl.resolveMonopoly(socket, body))
   })
 })
 

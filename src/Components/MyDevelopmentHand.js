@@ -1,13 +1,17 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { setBuildRoad, setMonopoly, setPickCard } from "../redux/gameReducer"
+import { setBuildRoad, setMonopoly, setPickCard, updateDevelopmentHand } from "../redux/gameReducer"
 
 const MyDevelopmentHand = () => {
   const { developmentHand } = useSelector((redux) => redux)
   const dispatch = useDispatch()
   const clickDevCard = (e) => {
-    console.log(e)
-    switch(e[0]){
+    if(e !== 'Victory Point' || 'Knight'){
+      const devDeck = [...developmentHand]
+      devDeck.splice(developmentHand.findIndex(el => e===el), 1)
+      dispatch(updateDevelopmentHand(devDeck))
+    }
+    switch(e){
       case 'Knight':
         // set place robber to true
         break

@@ -17,6 +17,8 @@ import {
   updateRoads,
   setPickCard,
   setPick31,
+  setMonopoly,
+  setOpposingMonopoly,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -31,7 +33,7 @@ import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import MyDevelopmentHand from "./MyDevelopmentHand"
 
-const resources = {
+const newResources = {
   clay: 0,
   wheat: 0,
   rock: 0,
@@ -45,6 +47,7 @@ const Game = () => {
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
   const {
+    room,
     turn,
     incomingTrade,
     active,
@@ -54,6 +57,7 @@ const Game = () => {
     buildCity,
     buildings,
     firstTurn,
+    resources,
     secondTurn,
     diceResult,
     pickCard,
@@ -61,8 +65,35 @@ const Game = () => {
     pick31,
     map,
     roads,
+    monopolyDev,
+    opposingMonopoly,
   } = useSelector((redux) => redux)
-  console.log({ turn })
+  // console.log({ turn }) 
+  // console.log({monopolyDev})
+  useEffect(() => {
+    if(opposingMonopoly){
+      const count = resources[opposingMonopoly]
+      dispatch(updateResources({...newResources, [opposingMonopoly]: count * -1}))
+      socket.emit('resolve-monopoly', {room, card: opposingMonopoly, count})
+      dispatch(setOpposingMonopoly(null))
+    }
+  }, [opposingMonopoly])
+  // const resolveMonopoly = useCallback(({card}) => {
+  //   console.log(resources)
+  //   const count = resources[card]
+  //   dispatch(updateResources({...newResources,
+  //     // wood: 0,
+  //     // clay: 0,
+  //     // wheat: 0,
+  //     // rock: 0,
+  //     // sheep: 0,
+  //     [card]: count * -1
+  //   }))
+  //   console.log('hit monopoly receive')
+  //   console.log({card})
+  //   console.log({count})
+  //   socket.emit('resolve-monopoly', {room, card, count})
+  // }, [resources.wood, resources.clay, resources.wheat, resources.rock, resources.sheep])
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -104,11 +135,24 @@ const Game = () => {
     socket.on("dice-result", ({ diceResult }) => {
       dispatch(updateDiceResult(diceResult))
     })
+    socket.on('monopoly', ({card}) => {
+      dispatch(setOpposingMonopoly(card))
+    })
+    socket.on('resolve-monopoly', ({card, count}) => {
+      // console.log('hit monopoly resolve')
+      // console.log({card})
+      // console.log({count})
+      dispatch(updateResources({...newResources,
+        // wood: 0,
+        // clay: 0,
+        // wheat: 0,
+        // rock: 0,
+        // sheep: 0,
+        [card]: count
+      }))
+      dispatch(setMonopoly(false))
+    })
   }, [])
-
-  // useEffect(() => {
-
-  // }, [])
 
   useEffect(() => {
     const newBuildings = [...buildings]
@@ -119,8 +163,8 @@ const Game = () => {
             if (g && g.number === diceResult[0] + diceResult[1]) {
               dispatch(
                 updateResources({
-                  ...resources,
-                  [g.terrain]: resources[g.terrain] + f.building_type,
+                  ...newResources,
+                  [g.terrain]: newResources[g.terrain] + f.building_type,
                 })
               )
             }
@@ -130,10 +174,6 @@ const Game = () => {
     })
   }, [diceResult])
 
-  // useEffect(() => {
-
-  // }, [socket, dispatch])
-
   const handlePort = (e, id) => {
     // console.log("HANDLEPORT", e.type)
     e.type === "3 for 1"
@@ -141,24 +181,31 @@ const Game = () => {
       : dispatch(setPickCard(true))
     dispatch(
       updateResources({
-        ...resources,
-        [e.type]: resources[e.type] - (e.type === "3 for 1" ? 3 : 2),
+        ...newResources,
+        [e.type]: newResources[e.type] - (e.type === "3 for 1" ? 3 : 2),
       })
     )
   }
 
   const handlePickCard = (card) => {
+    console.log({pickCard})
+    console.log({monopolyDev})
     // console.log("HANDLE-PICK-CARD", card)
-    yearOfPlentyDev ? dispatch(setPickCard(true)):
-    dispatch(setPickCard(false))
-    dispatch(updateResources({ ...resources, [card]: 1 }))
+    if(pickCard){
+      yearOfPlentyDev ? dispatch(setPickCard(true)):
+      dispatch(setPickCard(false))
+      dispatch(updateResources({ ...newResources, [card]: 1 }))
+    }else if(monopolyDev){
+      console.log('hit monopoly')
+      socket.emit('monopoly', {card, room})
+    }
   }
 
   const handlePick31 = (card) => {
     // console.log("HANDLE_PICK_31", card)
     dispatch(setPick31(false))
     dispatch(setPickCard(true))
-    dispatch(updateResources({ ...resources, [card]: -3 }))
+    dispatch(updateResources({ ...newResources, [card]: -3 }))
   }
 
   // console.log("map", map)
@@ -184,7 +231,7 @@ const Game = () => {
               {["wheat", "sheep", "wood"].map((e) => (
                 <div
                   className={e}
-                  onClick={pickCard ? () => handlePickCard(e) : null}
+                  onClick={(pickCard || monopolyDev) ? () => handlePickCard(e) : null}
                 ></div>
               ))}
               </div>
@@ -192,7 +239,7 @@ const Game = () => {
               {["clay", "rock"].map((e) => (
                 <div
                   className={e}
-                  onClick={pickCard ? () => handlePickCard(e) : null}
+                  onClick={(pickCard || monopolyDev) ? () => handlePickCard(e) : null}
                 ></div>
               ))}
               </div>
