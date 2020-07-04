@@ -29,6 +29,7 @@ const {
   SECOND_SETTLEMENT_PLACED,
   SECOND_ROAD_PLACED,
   SET_PLACE_ROBBER,
+  SET_ROBBER_LOCATION,
   SET_OPPOSING_MONOPOLY,
 } = actionTypes
 
@@ -63,6 +64,7 @@ const initialState = {
   developmentHand: [],
   map: [],
   placeRobber: false,
+  robberLocation: null,
 }
 
 export function setGameState(payload, user_id) {
@@ -209,6 +211,10 @@ export function setPlaceRobber(payload) {
   return { type: SET_PLACE_ROBBER, payload}
 }
 
+export function setRobberLocation(payload) {
+  return {type: SET_ROBBER_LOCATION, payload}
+}
+
 export default function gameReducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
@@ -277,6 +283,8 @@ export default function gameReducer(state = initialState, action) {
       break
     case SET_PLACE_ROBBER:
       return {...state, placeRobber: payload}
+    case SET_ROBBER_LOCATION:
+      return {...state, robberLocation: payload}
     case YEAR_OF_PLENTY:
       return {...state, yearOfPlenty: payload}
     case MONOPOLY:
