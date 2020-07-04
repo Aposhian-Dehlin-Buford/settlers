@@ -1,27 +1,104 @@
 @import '../variables';
 
 .offer-trade-container {
-    height: 100%;
-    width: 20%;
-    border: 3px solid green;
+    height: 33%;
+    width: 100%;
+    // border: 3px solid green;
     display: flex;
+    flex-direction: column;
+}
+.offer-trade-container2 {
+    height: 100%;
+    width: 100%;
+    // border: 3px solid green;
+    display: flex;
+    flex-direction: column;
 }
 
 .offer-container {
-    border: 1px solid blue;
+    // border: 1px solid yellow;
     display: flex;
     width: 100%;
-    overflow: auto;
+    height: 100%;
+    // overflow: auto;
+}
+
+.offer-players {
+    // border: 1px solid red;
+    height: $size*.4;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-left: $size/5;
+}
+
+.offer-players-circles {
+    height: $size*.3;
+    width: $size*.3;
+    border: ($size/30) solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $size/6;
+    box-shadow: 0 0 0 black;
 }
 
 .offers {
     display: flex;
     flex-direction: column;
     width: 50%;
+    justify-content: space-around;
+    align-items: center;
 
 }
 
 .for {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+}
+
+.offer-resource-container {
+    display: flex;
+    button {
+        background: transparent;
+        border: none;
+        font-size: $size/2.5;
+        font-weight: bold;
+        width: $size*.2;
+    }
+}
+
+.offer-resource {
+    position: relative;
+    // border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $size*.5;
+    width: $size*.5;
+    z-index: 27;
+    border-radius: 50%;
+    border: ($size/60) solid white;
+    background: $exp;
+    background-size: 145%;
+    background-position: center;
+    margin-left: $size/50;
+    font-size: $size/3;
+    font-weight: bold;
+    color: white;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+}
+
+.offer-resource-overlay {
+    position: absolute;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.527);
+    height: $size*.5;
+    width: $size*.5;
+    border-radius: 50%;
+    border: ($size/60) solid rgb(165, 165, 165);
 }
