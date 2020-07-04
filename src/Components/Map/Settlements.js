@@ -64,7 +64,7 @@ const Settlements = (props) => {
                   !buildings[id][f].user_id
                     ? "white"
                     : buildings[id][f].user_id === 1
-                    ? "blue"
+                    ? "darkblue"
                     : "red"
                 }
               />
@@ -82,11 +82,11 @@ const Settlements = (props) => {
                     ? () => handleCityClick(id, f)
                     : null
                 }
-                color={buildings[id][f].user_id === 1 ? "blue" : "red"}
+                color={buildings[id][f].user_id === 1 ? "darkblue" : "red"}
               />
             ) : buildings[id][f].building_type === 2 ? (
               <FaBuilding
-                color={buildings[id][f].user_id === 1 ? "blue" : "red"}
+                color={buildings[id][f].user_id === 1 ? "darkblue" : "red"}
               />
             ) : null}
           </div>

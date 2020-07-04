@@ -281,8 +281,8 @@ const Game = () => {
         
         <Map handlePort={handlePort} />
         <div className="middle-right-container">
-          
-            {active && rolledDice && !tradePending && turn > 2 && <Purchase />}
+          <Purchase />
+            {/* {active && rolledDice && !tradePending && turn > 2 && } */}
         </div>
       </div>
       <div className="bottom-container">

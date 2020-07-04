@@ -1,7 +1,8 @@
-import React from "react"
+import React, {useContext} from "react"
 import PurchaseItem from "./PurchaseItem"
 import "./Purchase.scss"
 import { useSelector, useDispatch } from "react-redux"
+import {UserContext} from '../context/UserContext'
 import {
   updateResources,
   setBuildSettlement,
@@ -26,12 +27,17 @@ const Purchase = () => {
   const { buildSettlement, buildCity, buildRoad } = useSelector(
     (redux) => redux
   )
+  const { user } = useContext(UserContext)
   const dispatch = useDispatch()
   console.log(buildSettlement)
   return (
-    <div className="purchase-container">
+    <div className="purchase-container" style={{borderColor: user.user_id === 1 ? "darkblue" : "red"}}>
+      <div 
+        className="building-costs" 
+        style={{background: user.user_id === 1 ? "darkblue" : "red"}}>Building Costs
+      </div>
       {options.map(({ cost, name }, i) => (
-        <PurchaseItem key={i} cost={cost} name={name} />
+        <PurchaseItem key={i} cost={cost} name={name} index={i} />
       ))}
       {(buildSettlement || buildCity || buildRoad) && (
         <button
