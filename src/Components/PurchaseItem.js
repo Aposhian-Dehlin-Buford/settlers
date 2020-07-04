@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react"
+import React, { useContext, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import {
   updateResources,
@@ -11,10 +11,10 @@ import {
 } from "../redux/gameReducer"
 import {UserContext} from '../context/UserContext'
 
-const PurchaseItem = ({ cost, name }) => {
+const PurchaseItem = ({ cost, name, index }) => {
   const dispatch = useDispatch()
-  const {socket} = useContext(UserContext)
-  const { developmentDeck, developmentHand, room, buildSettlement, buildCity, buildRoad, resources } = useSelector((redux) => redux)
+  const { user, socket } = useContext(UserContext)
+  const { developmentDeck, developmentHand, room, buildSettlement, buildCity, buildRoad, resources, active, rolledDice, tradePending, turn } = useSelector((redux) => redux)
   const { wood, sheep, wheat, rock, clay } = cost
 
   const purchase = () => {
@@ -72,21 +72,42 @@ const PurchaseItem = ({ cost, name }) => {
     return <div key={i} className={`cost-picture-${e}`} style={{backgroundImage: 'url(' + require(`../images/${e}-alt.png`) + ')'}}></div>
   })
 
+  console.log("purchase-item-user", user)
+  const ptStrings = ["0 pts.","1 pt.","2 pts.","? pts."]
+  const canAfford = resources.wood >= wood &&
+                    resources.clay >= clay &&
+                    resources.sheep >= sheep &&
+                    resources.wheat >= wheat &&
+                    resources.rock >= rock && 
+                    !buildSettlement &&
+                    !buildCity &&
+                    !buildRoad && 
+                    active && 
+                    rolledDice && 
+                    !tradePending && 
+                    turn > 2
+                    
   return (
-    <div className="purchase-item-container">
-      <div className="cost-title">{name}</div>
-      <div className="cost-row">
+    <div 
+      className="purchase-item-container" 
+      onClick={canAfford ? purchase : null} 
+      style={{
+        background: canAfford &&"darkgreen",
+        borderColor: user.user_id === 1 ? "darkblue" : "red"
+    }}>
+      <div className="cost-title"><span>{name === 'Development' ? "Development Card" : name}</span><span>{ptStrings[index]}</span></div>
+      <div className="cost-row" >
       {
         costs
       }
-      {resources.wood >= wood &&
+      {/* {resources.wood >= wood &&
         resources.clay >= clay &&
         resources.sheep >= sheep &&
         resources.wheat >= wheat &&
         resources.rock >= rock && 
         !buildSettlement &&
         !buildCity &&
-        !buildRoad && <button onClick={purchase}>Buy</button>}
+        !buildRoad && <button onClick={purchase}>Buy</button>} */}
       </div>
       {/* {wood > 0 && <span>Wood: {wood}</span>}
       {clay > 0 && <span>Clay: {clay}</span>}

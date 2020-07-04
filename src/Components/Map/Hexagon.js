@@ -172,7 +172,7 @@ const Hexagon = ({ e, id, handlePort }) => {
           borderColor: 
             portSlot1 === 1 ||
             portSlot2 === 1 ?
-            "blue" : 
+            "darkblue" : 
             portSlot1 === 2 ||
             portSlot2 === 2 ? "red" : 
             "white",
