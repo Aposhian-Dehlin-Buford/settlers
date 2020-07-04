@@ -16,6 +16,8 @@ import {
   placeSecondRoad,
   updateResources,
   updateVictoryPoints,
+  setPlaceRobber,
+  setRobberLocation
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
@@ -38,6 +40,8 @@ const Hexagon = ({ e, id, handlePort }) => {
     secondSettlementPlaced,
     firstRoadPlaced,
     secondRoadPlaced,
+    placeRobber,
+    robberLocation,
   } = useSelector((redux) => redux)
   const handleClick = (id, slotNum) => {
     if (
@@ -129,6 +133,20 @@ const Hexagon = ({ e, id, handlePort }) => {
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
+  const handleRobber = () => {
+    const stealCard = () => {
+      
+    }
+    let mapArray = [...map]
+    mapArray[robberLocation].hasRobber = false
+    mapArray[id].hasRobber = true
+    dispatch(setRobberLocation(id))
+    dispatch(setPlaceRobber(false))
+    dispatch(setMapState(mapArray))
+    socket.emit("move-robber", { room, id, map: mapArray })
+  }
+
+
   const portSlot1 =
     e.terrain === "port" &&
     buildings[e.portSlots[0][0]][e.portSlots[0][1]].port[1]
@@ -176,6 +194,7 @@ const Hexagon = ({ e, id, handlePort }) => {
       {e.number ? (
         <div
           className="number-container"
+          onClick={placeRobber ? handleRobber : null}
           style={{
             color: e.number === 6 || e.number === 8 ? "darkred" : "black",
           }}

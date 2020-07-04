@@ -43,20 +43,20 @@ const EndTurnButton = () => {
 
   if(canSee){
     return (
-      <div 
-        className="end-button-container" 
-        ref={el => {endRef = el}}>
-          <button
-            onClick={() => {
-              socket.emit("end-turn", { room })
-              // firstTurn ? dispatch(endFirstTurn()) :
-              // secondTurn && dispatch(endSecondTurn())
-            }}
-          >
-            End Turn
-          </button>
-        
-      </div>
+        <div 
+          className="end-button-container" 
+          ref={el => {endRef = el}}>
+            <button
+              onClick={() => {
+                socket.emit("end-turn", { room })
+                // firstTurn ? dispatch(endFirstTurn()) :
+                // secondTurn && dispatch(endSecondTurn())
+              }}
+            >
+              End Turn
+            </button>
+          
+        </div>
     )
   } else {
     return null
