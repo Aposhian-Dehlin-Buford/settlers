@@ -68,6 +68,7 @@ massive({
     socket.on('monopoly', (body) => gameCtrl.monopoly(socket, body))
     socket.on('resolve-monopoly', (body) => gameCtrl.resolveMonopoly(socket, body))
     socket.on('play-knight', (body) => gameCtrl.playKnight(socket, body))
+    socket.on('move-robber', (body) => gameCtrl.moveRobber(socket, body))
   })
 })
 

@@ -69,7 +69,7 @@ const PurchaseItem = ({ cost, name }) => {
       )
   )
   .flat().filter(e => e != false).map((e,i) => {
-    return <div className={`cost-picture-${e}`} style={{backgroundImage: 'url(' + require(`../images/${e}-alt.png`) + ')'}}></div>
+    return <div key={i} className={`cost-picture-${e}`} style={{backgroundImage: 'url(' + require(`../images/${e}-alt.png`) + ')'}}></div>
   })
 
   return (

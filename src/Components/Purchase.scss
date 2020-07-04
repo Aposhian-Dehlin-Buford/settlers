@@ -18,55 +18,30 @@
 .cost-row {
     display: flex;
     flex-direction: row;
+    div {
+        height: $size*.5;
+        width: $size*.5;
+        z-index: 27;
+        border-radius: 50%;
+        border: ($size/60) solid white;
+        background: $exp;
+        background-size: 145%;
+        background-position: center;
+    }
 }
 
 .cost-picture-wood {
-    height: $size*.5;
-    width: $size*.5;
-    background: $exp;
-    background-position: center;
-    background-size: 145%;
-    border-radius: 50%;
-    z-index: 27;
-    border: ($size/60) solid white;
+    
 }
 .cost-picture-clay {
-    height: $size*.5;
-    width: $size*.5;
-    background: $exp;
-    background-position: center;
-    background-size: 145%;
-    border-radius: 50%;
-    z-index: 27;
-    border: ($size/60) solid white;
+
 }
 .cost-picture-wheat {
-    height: $size*.5;
-    width: $size*.5;
-    background: $exp;
-    background-position: center;
-    background-size: 145%;
-    border-radius: 50%;
-    z-index: 27;
-    border: ($size/60) solid white;
+  
 }
 .cost-picture-sheep {
-    height: $size*.5;
-    width: $size*.5;
-    background: $exp;
-    background-position: center;
-    background-size: 145%;
-    border-radius: 50%;
-    z-index: 27;
-    border: ($size/60) solid white;
+  
 }
 .cost-picture-rock {
-    height: $size*.5;
-    width: $size*.5;
-    background: $exp;
-    background-position: center;
-    background-size: 145%;
-    border-radius: 50%;
-    z-index: 27;
-    border: ($size/60) solid white;
+
 }

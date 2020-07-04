@@ -32,6 +32,7 @@
 }
 
 .middle-container {
+    border: 1px solid blue;
     width: 100%;
     height: 75%;
     display: flex;
@@ -39,28 +40,22 @@
     align-items: center;
 }
 
-// .middle-left-container {
-//     border: 1px solid red;
-//     height: 100%;
-//     width: $size;
+.middle-left-container {
+    border: 1px solid red;
+    height: 100%;
+    // width: $size;
+}
 
-// }
+
 
 .middle-right-container {
     border: 1px solid red;
     height: 100%;
-    width: ($size*.8)*4;
+    width: ($size*.5)*5.5;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    // div {
-    //     height: ($size*1.3);
-    //     width: ($size*.8);
-    //     border: 1px solid black;
-    // }
+    justify-content: center;
 }
-
-
 
 .res-dice-container {
     width: ($size*.8)*4;
@@ -72,14 +67,16 @@
 }
 
 .res-container {
+    border: 1px solid white;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     div {
         font-size: 20px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         div {
-            margin: ($size/10) ($size/20);
+            margin: ($size/50) ($size/20);
             height: ($size*1.3);
             width: ($size*.8);
             // border: ($size/60) solid white;
@@ -116,6 +113,12 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+        .development {
+            background: url(../images/card-back.png);
+            background-size: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     }
 }
 
@@ -126,11 +129,44 @@
 }
 
 .bottom-container {
+    border: 1px solid green;
     height: 15%;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.development-hand-container {
+    border: 1px dotted white;
+    display: flex;
+    width: 15%;
+    
+    div {
+        border: 1px solid white;
+        height: ($size*1.3);
+            width: ($size*.8);
+            // border: ($size/60) solid white;
+            border-radius: 5%;
+    }
+     .knight {
+        
+    }
+    .victory-point {
+        
+    }
+    .road-building {
+        
+    }
+    .monopoly {
+        
+    }
+    .year-of-plenty {
+        
+    }
 }
 
 .my-hand-container {
+    border: 2px solid gold;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -197,11 +233,18 @@
     margin-left: 50px;
 }
 
+.end-turn-container {
+    height: 100%;
+    width: 15%;
+    border: 2px solid pink;
+}
+
 .end-button-container {
     // position: absolute;
-    position: absolute;
-    right: $size/2;
-    bottom: $size/2;
+    position: relative;
+    border: 2px solid purple;
+    // right: $size/2;
+    // bottom: $size/2;
     width: $size; 
     height: ($size*.57736667);
     background: white;

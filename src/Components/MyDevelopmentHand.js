@@ -42,7 +42,7 @@ const MyDevelopmentHand = () => {
 
   console.log("developmentHand", developmentHand)
   return (
-    <div>
+    <div className="development-hand-container">
       {developmentHand.map((e, i) => (
         <div 
           key={i} 

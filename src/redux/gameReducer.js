@@ -29,6 +29,7 @@ const {
   SECOND_SETTLEMENT_PLACED,
   SECOND_ROAD_PLACED,
   SET_PLACE_ROBBER,
+  SET_ROBBER_LOCATION,
   SET_OPPOSING_MONOPOLY,
   SET_FACE_UP_KNIGHTS,
   SET_ENEMY_FACE_UP_KNIGHTS,
@@ -71,6 +72,7 @@ const initialState = {
   ],
   map: [],
   placeRobber: false,
+  robberLocation: null,
 }
 
 export function setGameState(payload, user_id) {
@@ -234,6 +236,10 @@ export function updateEnemyDevCards(payload = 1) {
   return {type: SET_ENEMY_DEV_CARDS, payload}
 }
 
+export function setRobberLocation(payload) {
+  return {type: SET_ROBBER_LOCATION, payload}
+}
+
 export default function gameReducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
@@ -313,7 +319,9 @@ export default function gameReducer(state = initialState, action) {
     case SET_MAP_STATE:
       return { ...state, map: payload }
     case SET_PLACE_ROBBER:
-      return { ...state, placeRobber: payload }
+      return {...state, placeRobber: payload}
+    case SET_ROBBER_LOCATION:
+      return {...state, robberLocation: payload}
     case YEAR_OF_PLENTY:
       return { ...state, yearOfPlenty: payload }
     case MONOPOLY:

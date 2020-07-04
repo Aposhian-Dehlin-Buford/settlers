@@ -12,6 +12,8 @@ const seedMap = () => {
         [[26,1], [31,0]], 
         [[28,1], [33,0]], 
         [[30,1], [34,0]]]
+
+    let desert = null
         
     let tiles = [
                    1,0, 1, 0, 
@@ -64,10 +66,12 @@ const seedMap = () => {
     const indexX = [0,0,0,0, 1,1,1,1,1, 2,2,2,2,2,2, 3,3,3,3,3,3,3, 4,4,4,4,4,4, 5,5,5,5,5, 6,6,6,6]
     const indexY = [3,4,5,6, 2,3,4,5,6, 1,2,3,4,5,6, 0,1,2,3,4,5,6, 0,1,2,3,4,5, 0,1,2,3,4, 0,1,2,3]
     const indexZ = [0,1,2,3, 0,1,2,3,4, 0,1,2,3,4,5, 0,1,2,3,4,5,6, 1,2,3,4,5,6, 2,3,4,5,6, 3,4,5,6]
+    const indexW = [3,3,3,3, 3,2,2,2,3, 3,2,1,1,2,3, 3,2,1,0,1,2,3, 3,2,1,1,2,3, 3,2,2,2,3, 3,3,3,3]
 
     let coorGrid = tiles.map((e,i) => {
         return {
             id: i,
+            w: indexW[i],
             x: indexX[i],
             y: indexY[i],
             z: indexZ[i],
@@ -76,6 +80,9 @@ const seedMap = () => {
     })
 
     let numGrid = coorGrid.map((e,i) => {
+        if(e.terrain === 'desert'){
+            desert = e.id
+        }
         return {
             number: ['desert', 'port', 'water'].includes(e.terrain) ? null : numberType(),
             type: e.terrain === "port" ? ports.splice(Math.floor(Math.random() * ports.length), 1)[0] : null,
@@ -108,8 +115,7 @@ const seedMap = () => {
         }
     })
 
-
-    return roadGrid;
+    return [roadGrid, desert]
 }
 
 module.exports = {seedMap}

@@ -107,6 +107,8 @@ const getBuildings = () => {
   return buildings
 }
 
+const mapRob = seedMap()
+
 const generateInitialGameState = (
   io,
   { challenger, opponent },
@@ -132,7 +134,7 @@ const generateInitialGameState = (
     rolledDice: false,
     diceResult: [0, 0],
     players: [challenger, opponent],
-    resources: { sheep: 2, wood: 2, clay: 2, wheat: 2, rock: 2 },
+    resources: { sheep: 0, wood: 0, clay: 0, wheat: 0, rock: 0 },
     turn: 0,
     victoryPoints: 0,
     firstTurn: true,
@@ -141,6 +143,7 @@ const generateInitialGameState = (
     secondSettlementPlaced: false,
     firstRoadPlaced: false,
     secondRoadPlaced: false,
+    robberLocation: mapRob[1],
     placeRobber: false,
     checkSeven: false,
     // opponentsInfo: [
@@ -157,7 +160,7 @@ const generateInitialGameState = (
     developmentHand: [],
     faceUpKnights: 0,
     enemyPlayersInfo: [{faceUpKnights: 0, developmentHandSize: 0, resources: 0}],
-    map: seedMap(),
+    map: mapRob[0],
     // units: {},
   }
   io.sockets.connected[challengerSocket.socket_id]
