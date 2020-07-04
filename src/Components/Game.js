@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux"
 import Map from "./Map/Map"
 import "./Map/Map.scss"
 import "./Game.scss"
+import "./LeftContainer.scss"
+import "./MiddleContainer.scss"
+import "./RightContainer.scss"
 import {
   updateActivePlayer,
   updateDiceResult,
@@ -235,17 +238,7 @@ const Game = () => {
 
   return (
     <div className="game-container">
-      <div className="top-container">
-        
-        {/* {(buildSettlement || buildCity) && (
-          <div className="top-container-overlay"></div>
-        )} */}
-        {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />}
-        {incomingTrade && <IncomingTrade />}
-        
-      </div>
-      <div className="middle-container">
-        <div className="middle-left-container">
+      <div className="left-container">
           <div className="res-dice-container">
             <div className="res-container">
               <div className="res-4">
@@ -268,31 +261,45 @@ const Game = () => {
                 </div>
             </div>
           
-          <div className="dice-container">
-            {turn > 2 && <DiceButton />}
-            <Dice />
-          </div>
+          
         </div>
         <div className="development-container">
           <DevelopmentDeck />
+          <MyDevelopmentHand />
           </div>
         </div>
-
+      <div className="middle-container">
+        <div className="top-container">
+        {/* {(buildSettlement || buildCity) && (
+          <div className="top-container-overlay"></div>
+        )} */}
         
-        <Map handlePort={handlePort} />
-        <div className="middle-right-container">
-          <Purchase />
-            {/* {active && rolledDice && !tradePending && turn > 2 && } */}
-        </div>
       </div>
-      <div className="bottom-container">
-        <MyDevelopmentHand />
-        <MyHand />
-        <div className="end-turn-container">
+      <div className="map-middle-container">
+        <Map handlePort={handlePort} />
+        <div className="dice-container">
+            <Dice />
+            {turn > 2 && <DiceButton />}
+          </div>
+          <div className="end-turn-container">
           <EndTurnButton />
         </div>
+      </div>
+        <div className="bottom-container">
+        <MyHand />
+        
         
       </div>
+      </div>
+      <div className="right-container">
+        <div className="opponent-dev-hand-container"></div>
+        {/* {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />} */}
+        <OfferTrade />
+        {incomingTrade && <IncomingTrade />}
+        <Purchase />
+          {/* {active && rolledDice && !tradePending && turn > 2 && } */}
+        </div>
+      
     </div>
   )
 }
