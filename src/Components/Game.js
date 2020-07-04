@@ -21,7 +21,8 @@ import {
   setPlaceRobber,
   setMonopoly,
   setOpposingMonopoly,
-  setEnemyFaceUpKnights,
+  updateEnemyKnights,
+  updateEnemyDevCards,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -108,7 +109,10 @@ const Game = () => {
     socket.on("opponent-left", () => {
       dispatch(endGame())
     })
-    socket.on("buy-card", ({ deck }) => dispatch(updateDevelopmentDeck(deck)))
+    socket.on("buy-card", ({ deck }) => {
+      dispatch(updateEnemyDevCards())
+      dispatch(updateDevelopmentDeck(deck))
+    })
     socket.on("request-trade", (body) => dispatch(updateIncomingTrade(body)))
     socket.on("reject-offer", () => dispatch(updateTradePending(false)))
     socket.on("accept-offer", (body) => {
@@ -158,7 +162,8 @@ const Game = () => {
     })
     socket.on('play-knight', () => {
       console.log('knight')
-      dispatch(setEnemyFaceUpKnights())
+      dispatch(updateEnemyDevCards(-1))
+      dispatch(updateEnemyKnights())
     })
   }, [])
 

@@ -32,6 +32,8 @@ const {
   SET_OPPOSING_MONOPOLY,
   SET_FACE_UP_KNIGHTS,
   SET_ENEMY_FACE_UP_KNIGHTS,
+  SET_ENEMY_RESOURCES,
+  SET_ENEMY_DEV_CARDS,
 } = actionTypes
 
 const initialState = {
@@ -59,12 +61,14 @@ const initialState = {
   firstRoadPlaced: false,
   secondRoadPlaced: false,
   incomingTrade: null,
-  buildings: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
-  roads: [...Array(20)].map(e => [...Array(6)].map((f,j) => j)),
+  buildings: [...Array(20)].map((e) => [...Array(6)].map((f, j) => j)),
+  roads: [...Array(20)].map((e) => [...Array(6)].map((f, j) => j)),
   developmentDeck: [],
   developmentHand: [],
   faceUpKnights: 0,
-  enemyPlayersInfo: [{faceUpKnights: 0, developmentHandSize: 0, resources: 0}],
+  enemyPlayersInfo: [
+    { faceUpKnights: 0, developmentHandSize: 0, resources: 0 },
+  ],
   map: [],
   placeRobber: false,
 }
@@ -83,9 +87,10 @@ export function setGameState(payload, user_id) {
   }
 }
 
-export function updateVictoryPoints(payload){
+export function updateVictoryPoints(payload) {
   return {
-    type: UPDATE_VICTORY_POINTS, payload
+    type: UPDATE_VICTORY_POINTS,
+    payload,
   }
 }
 
@@ -102,25 +107,25 @@ export function endSecondTurn() {
   }
 }
 
-export function placeFirstSettlement(){
-  console.log('hit place first settlement')
+export function placeFirstSettlement() {
+  console.log("hit place first settlement")
   return {
     type: FIRST_SETTLEMENT_PLACED,
-    payload: true
+    payload: true,
   }
 }
-export function placeSecondSettlement(){
+export function placeSecondSettlement() {
   return {
     type: SECOND_SETTLEMENT_PLACED,
-    payload: true
+    payload: true,
   }
 }
-export function placeFirstRoad(){
-  return {type: FIRST_ROAD_PLACED, payload: true}
+export function placeFirstRoad() {
+  return { type: FIRST_ROAD_PLACED, payload: true }
 }
 
-export function placeSecondRoad(){
-  return {type: SECOND_ROAD_PLACED, payload: true}
+export function placeSecondRoad() {
+  return { type: SECOND_ROAD_PLACED, payload: true }
 }
 
 export function setMapState(payload) {
@@ -170,39 +175,39 @@ export function setBuildSettlement(payload) {
 }
 
 export function setBuildRoad(buildRoad, roadBuildDev = false) {
-  return { type: SET_BUILD_ROAD, payload: {buildRoad, roadBuildDev} }
+  return { type: SET_BUILD_ROAD, payload: { buildRoad, roadBuildDev } }
 }
 
 // export function setYearOfPlenty(payload=true){
 //   return {type: YEAR_OF_PLENTY, payload}
 // }
 
-export function setMonopoly(payload=true){
-  return {type: MONOPOLY, payload}
+export function setMonopoly(payload = true) {
+  return { type: MONOPOLY, payload }
 }
 
-export function setOpposingMonopoly(payload){
-  return {type: SET_OPPOSING_MONOPOLY, payload}
+export function setOpposingMonopoly(payload) {
+  return { type: SET_OPPOSING_MONOPOLY, payload }
 }
 
 export function setBuildCity(payload) {
   return { type: SET_BUILD_CITY, payload }
 }
 
-export function setPickCard(pickCard, yearOfPlentyDev=false){
-  return {type: SET_PICK_CARD, payload: {pickCard, yearOfPlentyDev}}
+export function setPickCard(pickCard, yearOfPlentyDev = false) {
+  return { type: SET_PICK_CARD, payload: { pickCard, yearOfPlentyDev } }
 }
 
-export function setPick31(payload){
-  return {type: SET_PICK_31, payload}
+export function setPick31(payload) {
+  return { type: SET_PICK_31, payload }
 }
 
-export function setPickDiscard(payload){
-  return {type: SET_PICK_DISCARD, payload}
+export function setPickDiscard(payload) {
+  return { type: SET_PICK_DISCARD, payload }
 }
 
-export function updateBuildings(payload){
-  return {type: UPDATE_BUILDINGS, payload}
+export function updateBuildings(payload) {
+  return { type: UPDATE_BUILDINGS, payload }
 }
 
 export function updateRoads(payload) {
@@ -210,15 +215,23 @@ export function updateRoads(payload) {
 }
 
 export function setPlaceRobber(payload) {
-  return { type: SET_PLACE_ROBBER, payload}
+  return { type: SET_PLACE_ROBBER, payload }
 }
 
-export function setFaceUpKnights(payload=1){
-  return {type: SET_FACE_UP_KNIGHTS, payload}
+export function setFaceUpKnights(payload = 1) {
+  return { type: SET_FACE_UP_KNIGHTS, payload }
 }
 
-export function setEnemyFaceUpKnights(payload=1){
-  return {type: SET_ENEMY_FACE_UP_KNIGHTS, payload}
+export function updateEnemyKnights(payload = 1) {
+  return { type: SET_ENEMY_FACE_UP_KNIGHTS, payload }
+}
+
+export function updateEnemyResources(payload = 1) {
+  return { type: SET_ENEMY_RESOURCES, payload }
+}
+
+export function updateEnemyDevCards(payload = 1) {
+  return {type: SET_ENEMY_DEV_CARDS, payload}
 }
 
 export default function gameReducer(state = initialState, action) {
@@ -227,21 +240,26 @@ export default function gameReducer(state = initialState, action) {
     case SET_GAME_STATE:
       return { ...payload }
     case UPDATE_VICTORY_POINTS:
-      return {...state, victoryPoints: state.victoryPoints + payload}
+      return { ...state, victoryPoints: state.victoryPoints + payload }
     case END_FIRST_TURN:
-      return {...state, firstTurn: payload}
+      return { ...state, firstTurn: payload }
     case END_SECOND_TURN:
-      return {...state, secondTurn: payload}
+      return { ...state, secondTurn: payload }
     case FIRST_SETTLEMENT_PLACED:
-      return {...state, firstSettlementPlaced: payload}
+      return { ...state, firstSettlementPlaced: payload }
     case SECOND_SETTLEMENT_PLACED:
-      return {...state, secondSettlementPlaced: payload}
+      return { ...state, secondSettlementPlaced: payload }
     case FIRST_ROAD_PLACED:
-      return {...state, firstRoadPlaced: payload}
+      return { ...state, firstRoadPlaced: payload }
     case SECOND_ROAD_PLACED:
-      return {...state, secondRoadPlaced: payload}
+      return { ...state, secondRoadPlaced: payload }
     case UPDATE_ACTIVE_PLAYER:
-      return { ...state, active: !state.active, rolledDice: false, turn: !state.active ? state.turn +1 :state.turn }
+      return {
+        ...state,
+        active: !state.active,
+        rolledDice: false,
+        turn: !state.active ? state.turn + 1 : state.turn,
+      }
     case SET_ROLLED_DICE:
       return { ...state, rolledDice: true }
     case UPDATE_DICE_RESULT:
@@ -271,37 +289,52 @@ export default function gameReducer(state = initialState, action) {
     case SET_BUILD_SETTLEMENT:
       return { ...state, buildSettlement: payload }
     case SET_BUILD_ROAD:
-      return { ...state, buildRoad: payload.buildRoad, roadBuildDev: payload.roadBuildDev }
+      return {
+        ...state,
+        buildRoad: payload.buildRoad,
+        roadBuildDev: payload.roadBuildDev,
+      }
     case SET_BUILD_CITY:
-      return {...state, buildCity: payload}
+      return { ...state, buildCity: payload }
     case SET_PICK_CARD:
-      return {...state, pickCard: payload.pickCard, yearOfPlentyDev: payload.yearOfPlentyDev}
+      return {
+        ...state,
+        pickCard: payload.pickCard,
+        yearOfPlentyDev: payload.yearOfPlentyDev,
+      }
     case SET_PICK_31:
-      return {...state, pick31: payload}
+      return { ...state, pick31: payload }
     case SET_PICK_DISCARD:
-      return {...state, pickDiscard: payload}
+      return { ...state, pickDiscard: payload }
     case UPDATE_BUILDINGS:
       return { ...state, buildings: payload }
     case UPDATE_ROADS:
       return { ...state, roads: payload }
     case SET_MAP_STATE:
       return { ...state, map: payload }
-      break
     case SET_PLACE_ROBBER:
-      return {...state, placeRobber: payload}
+      return { ...state, placeRobber: payload }
     case YEAR_OF_PLENTY:
-      return {...state, yearOfPlenty: payload}
+      return { ...state, yearOfPlenty: payload }
     case MONOPOLY:
       // console.log({payload})
-      return {...state, monopolyDev: payload}
+      return { ...state, monopolyDev: payload }
     case SET_OPPOSING_MONOPOLY:
-      return {...state, opposingMonopoly: payload}
+      return { ...state, opposingMonopoly: payload }
     case SET_FACE_UP_KNIGHTS:
-      return {...state, faceUpKnights: state.faceUpKnights + 1}
+      return { ...state, faceUpKnights: state.faceUpKnights + 1 }
     case SET_ENEMY_FACE_UP_KNIGHTS:
-      const {enemyPlayersInfo} = state
+      const { enemyPlayersInfo } = state
       enemyPlayersInfo[0].faceUpKnights += payload
-      return {...state, enemyPlayersInfo}
+      return { ...state, enemyPlayersInfo }
+    case SET_ENEMY_RESOURCES:
+      const enemyResources = state.enemyPlayersInfo
+      enemyResources[0].resources += payload
+      return {...state, enemyPlayersInfo: enemyResources}
+    case SET_ENEMY_DEV_CARDS:
+      const enemyDevCards = state.enemyPlayersInfo
+      enemyDevCards[0].developmentHandSize+= payload
+      return {...state, enemyPlayersInfo: enemyDevCards}
     default:
       return state
   }
