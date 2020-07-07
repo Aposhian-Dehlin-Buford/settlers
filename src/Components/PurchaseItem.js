@@ -29,6 +29,7 @@ const PurchaseItem = ({ cost, name, index }) => {
     )
     switch (name) {
       case "Settlement":
+        console.log("settlement build")
         dispatch(setBuildSettlement(true))
         break
       case "Road":
