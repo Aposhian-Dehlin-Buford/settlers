@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef, useCallback } from "react"
+import React, { useState, useEffect, useContext, useRef, useCallback } from "react"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import Map from "./Map/Map"
@@ -32,6 +32,7 @@ import DiceButton from "./DiceButton"
 import OfferTrade from "./OfferTrade"
 import IncomingTrade from "./IncomingTrade"
 import Dice from "./Dice/Dice"
+import StealFrom from './StealFrom'
 import "./Dice/Dice.scss"
 import Purchase from "./Purchase"
 import DevelopmentDeck from "./DevelopmentDeck"
@@ -75,8 +76,8 @@ const Game = () => {
     opposingMonopoly,
     robberLocation
   } = useSelector((redux) => redux)
-  // console.log({ turn }) 
-  // console.log({monopolyDev})
+
+  const [stealFrom, setStealFrom] = useState([])
   useEffect(() => {
     if(opposingMonopoly){
       const count = resources[opposingMonopoly]
@@ -226,18 +227,53 @@ const Game = () => {
       dispatch(setPickCard(false))
       dispatch(updateResources({ ...newResources, [card]: 1 }))
     }else if(monopolyDev){
-      console.log('hit monopoly')
+      // console.log('hit monopoly')
       socket.emit('monopoly', {card, room})
     }
   }
- 
+
+  const handleRobber = (id) => {
+    let mapArray = [...map]
+    let newArr = []
+    let buildingsArray = [...buildings]
+    let robSlots = [[0,1], [1], [0]]
+    
+    // stealCard(mapArray[id].x, mapArray[id].y, mapArray[id].z)
+    setStealFrom(() => {
+      mapArray[id].robAdj.forEach((e,i) => {
+        newArr.push(robSlots[i].map((f,j) => buildingsArray[e][f].user_id).filter(f => f)[0])
+      })
+      newArr.push(robSlots[0].map((f,j) => buildingsArray[id][f].user_id).filter(f => f)[0])
+      newArr = [...new Set(newArr.filter(f => (f == 1 || f == 2) && f !== user.user_id))]
+
+      return newArr
+    })
+
+    mapArray[robberLocation].hasRobber = false
+    mapArray[id].hasRobber = true
+    dispatch(setRobberLocation(id))
+    dispatch(setPlaceRobber(false))
+    dispatch(setMapState(mapArray))
+    socket.emit("move-robber", { room, id, map: mapArray })
+  }
+  
+  const stealCard = (player) => {
+    setStealFrom([])
+    return
+  }
+  
+  console.log("stealFrom", stealFrom)
   console.log("map", map)
   console.log("buildings", buildings)
   // console.log("roads", roads)
-  console.log("robberLocation", robberLocation)
+  // console.log("robberLocation", robberLocation)
 
   return (
     <div className="game-container">
+      {
+        stealFrom[0] && <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} />
+      }
+      
       <div className="left-container">
           <div className="res-dice-container">
             <div className="res-container">
@@ -251,7 +287,7 @@ const Game = () => {
                 ))}
                 </div>
                 <div className="res-3">
-                {["clay", "rock"].map((e,i) => (
+                {["clay", "rock", "development"].map((e,i) => (
                   <div
                     key={i}
                     className={e}
@@ -276,7 +312,7 @@ const Game = () => {
         
       </div>
       <div className="map-middle-container">
-        <Map handlePort={handlePort} />
+        <Map handlePort={handlePort} handleRobber={handleRobber} />
         <div className="dice-container">
             <Dice />
             {turn > 2 && <DiceButton />}

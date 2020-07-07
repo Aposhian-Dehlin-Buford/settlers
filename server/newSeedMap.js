@@ -12,18 +12,31 @@ const seedMap = () => {
         [[26,1], [31,0]], 
         [[28,1], [33,0]], 
         [[30,1], [34,0]]]
-
-    let desert = null
+        let desert = null
+        let tiles = [
+            1,0, 1, 0, 
+            0, 2, 2, 2, 1, 
+            1, 2, 2, 2, 2, 0, 
+            0, 2, 2, 2, 2, 2,1, 
+            1, 2, 2, 2, 2, 0, 
+            0, 2, 2, 2, 1, 
+            1,0, 1, 0
+        ]
         
-    let tiles = [
-                   1,0, 1, 0, 
-                 0, 2, 2, 2, 1, 
-                1, 2, 2, 2, 2, 0, 
-               0, 2, 2, 2, 2, 2,1, 
-                1, 2, 2, 2, 2, 0, 
-                 0, 2, 2, 2, 1, 
-                   1,0, 1, 0
-                ]
+    // const getRobAdj = (id, x, y, z, grid) => {
+    //     const robAdjacents = [
+    //         [x, y+1, z-1], 
+    //         [x-1, y, z-1], 
+    //         [x+1, y-1, z]]
+    //     const robSlots = [[0,1], [1], [0]]
+    //     let newArr = []
+    //     const newBuildings = [...buildings]
+    //     robAdjacents.forEach((e,i) => {
+    //         let newAdj = mapArray.filter((f,j) => f.x === e[0] && f.y === e[1] && f.z === e[2])
+    //         newArr.push(newAdj)
+    //     })
+    //     console.log(newArr, "newArr")
+    // }
 
     const getSlots = (id, x, y, z, grid) => {
 
@@ -32,6 +45,7 @@ const seedMap = () => {
         const two = grid.filter(f => f.x === x+1 && f.y === y && f.z === z+1)[0]
         const three = grid.filter(f => f.x === x-1 && f.y === y+1 && f.z === z)[0]
         const four = grid.filter(f => f.x === x-1 && f.y === y && f.z === z-1)[0]
+        const five = grid.filter(f => f.x === x && f.y === y-1 && f.z === z-1)[0]
 
         const disable = (slot) => {
             const disable = slot === 0 ? 
@@ -43,7 +57,7 @@ const seedMap = () => {
         const adjacent0 = [idTile(id), idTile(id+1), three, 0, 0, disable(0)]
         const adjacent1 = [idTile(id), idTile(id+1), two, 0, 0, disable(1)]
 
-        return [adjacent0, adjacent1]
+        return [adjacent0, adjacent1, [five && five.id, four && four.id, one && one.id]]
     }
 
     const getRoads = (id, x, y, z, grid) => {
@@ -102,8 +116,10 @@ const seedMap = () => {
     // })
 
     let adjNumGrid = numGrid.map((e,i) => {
+        const mySlots = getSlots(e.id, e.x, e.y, e.z, numGrid)
         return {
-            slots: getSlots(e.id, e.x, e.y, e.z, numGrid),
+            slots: [mySlots[0], mySlots[1]],
+            robAdj: mySlots[2],
             ...e
         }
     })
