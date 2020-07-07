@@ -29,6 +29,7 @@ const PurchaseItem = ({ cost, name, index }) => {
     )
     switch (name) {
       case "Settlement":
+        // console.log("settlement build")
         dispatch(setBuildSettlement(true))
         break
       case "Road":
@@ -42,7 +43,7 @@ const PurchaseItem = ({ cost, name, index }) => {
         const hand = [...developmentHand]
         const [card] = deck.splice(0, 1)
         hand.push(card)
-        console.log(card)
+        // console.log(card)
         card[0] === 'Victory Point' && dispatch(updateVictoryPoints(1))
         socket.emit("buy-card", { deck, room })
         dispatch(updateDevelopmentDeck(deck))
@@ -72,7 +73,7 @@ const PurchaseItem = ({ cost, name, index }) => {
     return <div key={i} className={`cost-picture-${e}`} style={{backgroundImage: 'url(' + require(`../images/${e}-alt.png`) + ')'}}></div>
   })
 
-  console.log("purchase-item-user", user)
+  // console.log("purchase-item-user", user)
   const ptStrings = ["0 pts.","1 pt.","2 pts.","? pts."]
   const canAfford = resources.wood >= wood &&
                     resources.clay >= clay &&

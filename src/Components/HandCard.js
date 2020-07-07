@@ -13,7 +13,7 @@ const HandCard = ({e, i, handlePick31, setDiscardCounter, discardCounter, toDisc
     let cardRef = useRef(null)
 
     const handlePickDiscard = () => {
-        console.log("discard counter", discardCounter)
+        // console.log("discard counter", discardCounter)
         setIsSelected((isSelectedState) => {
             isSelectedState = !isSelected
             if (isSelectedState) {
@@ -64,7 +64,7 @@ const HandCard = ({e, i, handlePick31, setDiscardCounter, discardCounter, toDisc
               }
             )
         } else {
-            console.log("toDiscard", toDiscard)
+            // console.log("toDiscard", toDiscard)
             TweenMax.to(
                 cardRef,
                 .18,
@@ -78,7 +78,7 @@ const HandCard = ({e, i, handlePick31, setDiscardCounter, discardCounter, toDisc
     }, [isSelected])
 
     useEffect(() => {
-        console.log("RESET CARDS", isSelected)
+        // console.log("RESET CARDS", isSelected)
         setIsSelected(false)
     }, [resetCards])
 
