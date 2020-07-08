@@ -73,6 +73,24 @@
     margin-left: $size/20;
 }
 
+.waiting-for-turn {
+    position: absolute;
+    top: $size*1.4;
+    font-size: $size/3;
+    font-weight: bold;
+    color: darkred;
+    opacity: 0;
+}
+
+.your-turn {
+    position: absolute;
+    top: $size*1.4;
+    font-size: $size/3;
+    font-weight: bold;
+    color: darkgreen;
+    opacity: 0;
+}
+
 
 
 

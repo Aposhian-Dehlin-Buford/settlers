@@ -34,7 +34,7 @@ import EndTurnButton from "./EndTurnButton"
 import DiceButton from "./DiceButton"
 import OfferTrade from "./OfferTrade"
 import IncomingTrade from "./IncomingTrade"
-import Dice from "./Dice/Dice"
+// import Dice from "./Dice/Dice"
 import StealFrom from './StealFrom'
 import OpponentHand from './OpponentHand'
 import "./Dice/Dice.scss"
@@ -44,6 +44,7 @@ import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import MyDevelopmentHand from "./MyDevelopmentHand"
 import EnemyPlayer from "./EnemyPlayer"
+import {TweenMax} from 'gsap'
 
 const newResources = {
   clay: 0,
@@ -111,6 +112,30 @@ const Game = () => {
   //   console.log({count})
   //   socket.emit('resolve-monopoly', {room, card, count})
   // }, [resources.wood, resources.clay, resources.wheat, resources.rock, resources.sheep])
+  let animateWaiting = useRef(null)
+  let animateYourTurn =useRef(null)
+  useEffect(() => {
+    if(!active){
+      TweenMax.to(
+        animateWaiting,
+        1,
+        {opacity: 1}
+      ).delay(.1)
+    }
+    if(active){
+      TweenMax.fromTo(
+        animateYourTurn,
+        1,
+        {opacity: 0},
+        {opacity: 1}
+      ).delay(.1)
+      TweenMax.to(
+        animateYourTurn,
+        1,
+        {opacity: 0}
+      ).delay(4.5)
+    }
+  },[active])
   useEffect(() => {
     socket.on("disconnect", () => {
       dispatch(endGame())
@@ -347,10 +372,14 @@ const Game = () => {
         <div className="top-container">
             <OpponentHand />
         </div>
+        {
+          !active ?
+          <div className="waiting-for-turn" ref={el => {animateWaiting = el}}>Waiting for Turn...</div> :
+          <div className="your-turn" ref={el => {animateYourTurn = el}}>Your Turn!</div>
+        }
       <div className="map-middle-container">
         <Map handlePort={handlePort} handleRobber={handleRobber} />
         <div className="dice-container">
-            <Dice />
             {turn > 2 && <DiceButton />}
           </div>
           <div className="end-turn-container">
