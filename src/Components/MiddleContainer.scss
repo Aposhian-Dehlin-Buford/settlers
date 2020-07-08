@@ -41,9 +41,14 @@
 
 .dice-container {
     position: absolute;
-    left: $size/3;
-    bottom: $size/3;
+    left: $size/4;
+    bottom: $size/4;
     // border: 1px solid blue;
+    background: url('../images/bottom-left.png');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: $size;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,6 +145,9 @@
     position: absolute;
     right: $size/2;
     bottom: $size/2;
+    background: url('../images/bottom-left.png');
+    background-position: center;
+    background-size: 100%;
 }
 
 .end-button-container {
