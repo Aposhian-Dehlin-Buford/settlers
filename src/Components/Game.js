@@ -259,6 +259,7 @@ const Game = () => {
   
   const stealCard = (player) => {
     setStealFrom([])
+    
     return
   }
   
@@ -273,6 +274,7 @@ const Game = () => {
       {
         stealFrom[0] && <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} />
       }
+      {/* <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} /> */}
       
       <div className="left-container">
           <div className="res-dice-container">
