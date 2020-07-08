@@ -27,6 +27,9 @@ const PurchaseItem = ({ cost, name, index }) => {
         rock: 0 - rock,
       })
     )
+    socket.emit('update-opponent-res', {room, oppRes: Object.values({wood, clay, sheep, wheat, rock}).reduce((a, v) => {
+      return (a += v)
+    }, 0)})
     switch (name) {
       case "Settlement":
         // console.log("settlement build")

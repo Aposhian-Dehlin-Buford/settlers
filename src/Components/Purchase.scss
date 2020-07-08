@@ -10,6 +10,10 @@
     font-weight: bold;
     font-size: $size/7;
     // border-bottom: ($size/25)*2 solid white;
+    // background: url('../images/medieval_town_map_big-resize.jpg');
+    // background-size: 400%;
+    // background-position: center;
+    // background-repeat: no-repeat;
 }
 
 .building-costs {
@@ -19,13 +23,12 @@
     border: ($size/100) solid white;
     color: white;
     font-weight: normal;
+    // background: purple;
 }
 
 .purchase-item-container {
     height: 100%;
     border-top: ($size/60)*2 solid white;
-    // border-bottom: ($size/60) solid white;
-
     padding: $size/20 $size/20;
     display: flex;
     flex-direction: column;
@@ -45,6 +48,7 @@
     // border: 2px dotted green;
     display: flex;
     flex-direction: row;
+    // background: white;
     div {
         height: $size*.5;
         width: $size*.5;

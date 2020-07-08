@@ -24,10 +24,10 @@ const options = [
 ]
 
 const Purchase = () => {
-  const { buildSettlement, buildCity, buildRoad } = useSelector(
+  const { room, buildSettlement, buildCity, buildRoad } = useSelector(
     (redux) => redux
   )
-  const { user } = useContext(UserContext)
+  const { user, socket } = useContext(UserContext)
   const dispatch = useDispatch()
   console.log(buildSettlement)
   return (
@@ -44,12 +44,21 @@ const Purchase = () => {
           onClick={() => {
             if (buildRoad) {
               dispatch(updateResources(options[0].cost))
+              socket.emit('update-opponent-res', {room, oppRes: Object.values(options[0].cost).reduce((a, v) => {
+                return (a += v)
+              }, 0)})
               dispatch(setBuildRoad(false))
             } else if (buildSettlement) {
               dispatch(updateResources(options[1].cost))
+              socket.emit('update-opponent-res', {room, oppRes: Object.values(options[1].cost).reduce((a, v) => {
+                return (a += v)
+              }, 0)})
               dispatch(setBuildSettlement(false))
             } else if (buildCity) {
               dispatch(updateResources(options[2].cost))
+              socket.emit('update-opponent-res', {room, oppRes: Object.values(options[2].cost).reduce((a, v) => {
+                return (a += v)
+              }, 0)})
               dispatch(setBuildCity(false))
             }
           }}

@@ -94,6 +94,10 @@ const Hexagon = ({ e, id, handlePort, handleRobber }) => {
           resources[buildingsArray[id][slotNum].adjacent_numbers[i].terrain]++
         }
         dispatch(updateResources(resources))
+        socket.emit('update-opponent-res', {room, oppRes: Object.values(resources).reduce((a, v) => {
+          return (a += v)
+        }, 0)})
+
       }
       dispatch(updateVictoryPoints(1))
       socket.emit("buy-building", { room, buildingsArray, map: mapArray })

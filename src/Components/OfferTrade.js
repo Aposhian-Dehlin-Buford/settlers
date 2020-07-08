@@ -40,11 +40,16 @@ const OfferTrade = () => {
   ]
 
   useEffect(() => {
-    TweenMax.from(
-      animate, 1,
-      {opacity: 0}
-    )
-  }, [])
+    if(active && rolledDice && !tradePending){
+      TweenMax.to(
+        animate, 
+        .5,
+        {
+          opacity: 1
+        }
+      )
+    }
+  }, [active, rolledDice, tradePending])
 
   const resetFields = () => {
     setForSheep(0)
@@ -81,9 +86,7 @@ const OfferTrade = () => {
   const offerPlayers = players.map(e => e.user_id).filter(e => e != user.user_id).map((e,i) => <div key={i} onClick={toOffer ? requestTrade : null} className="offer-players-circles" style={{background: e === 1 ? "darkblue" : "red", borderColor: toOffer && "darkgreen", boxShadow: toOffer && "0 0 5px 1px lightblue"}}><GoPerson color={e === 1 ? "lightblue" : "darkred"} /></div>)
 
   return (
-    <div className="offer-trade-container" ref={el => {animate = el}}>
-      {active && rolledDice && !tradePending && (
-      <div className="offer-trade-container2">
+      <div className="offer-trade-container" ref={el => {animate = el}}>
       <div className="offer-players">{ offerPlayers }</div>
       
         <div className="offer-container">
@@ -114,8 +117,6 @@ const OfferTrade = () => {
           </div>
         </div>
       </div>
-      )}
-    </div>
   )
 }
 

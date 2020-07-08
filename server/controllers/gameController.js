@@ -20,6 +20,7 @@ const requestTrade = (socket, { offer, request, room }) => {
 const acceptTrade = (socket, { room, offer, request }) => {
   socket.to(room).emit("accept-offer", {offer, request})
 }
+
 const rejectTrade = (socket, { room }) => {
   socket.to(room).emit("reject-offer")
 }
@@ -47,8 +48,13 @@ const resolveMonopoly = (socket, {room, card, count}) => {
 const playKnight = (socket, {room}) => {
   socket.to(room).emit('play-knight')
 }
+
 const moveRobber = (socket, {room, location, map}) => {
   socket.to(room).emit('move-robber', {location, newMap: map})
+}
+
+const updateOppRes = (socket, {room, oppRes}) => {
+  socket.to(room).emit('update-opponent-res', {oppRes})
 }
 
 module.exports = {
@@ -64,4 +70,5 @@ module.exports = {
   resolveMonopoly,
   playKnight,
   moveRobber,
+  updateOppRes,
 }

@@ -1,8 +1,9 @@
-import React, {useState, useEffect, useRef, createRef} from "react"
+import React, { useState, useEffect, useRef, createRef, useContext } from "react"
 import {TweenMax} from 'gsap'
 import { useSelector, useDispatch } from "react-redux"
 import { updateResources, setPickDiscard, setPick31, setPickCard } from "../redux/gameReducer"
 import HandCard from './HandCard'
+import { UserContext } from "../context/UserContext"
 
 let newResources = {
   sheep: 0,
@@ -14,7 +15,8 @@ let newResources = {
 
 const MyHand = () => {
   const dispatch = useDispatch()
-  const { resources, pick31, pickDiscard } = useSelector((redux) => redux)
+  const { room, resources, pick31, pickDiscard } = useSelector((redux) => redux)
+  const { user, socket } = useContext(UserContext)
   const { sheep, wood, clay, wheat, rock, } = resources
 
   const [refs, setRefs] = useState([])
@@ -67,6 +69,9 @@ const MyHand = () => {
 
   const handleDiscard = (cards) => {
     dispatch(updateResources({...toDiscard}))
+    socket.emit('update-opponent-res', {room, oppRes: Object.values(toDiscard).reduce((a, v) => {
+      return (a += v)
+    }, 0)})
     newResources = {
       sheep: 0,
       wood: 0,
@@ -84,6 +89,7 @@ const MyHand = () => {
     dispatch(setPick31(false))
     dispatch(setPickCard(true))
     dispatch(updateResources({ ...newResources, [card]: -3 }))
+    socket.emit('update-opponent-res', {room, oppRes: -3})
     setResetCards(!resetCards)
   }
 

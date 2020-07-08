@@ -220,19 +220,20 @@ export function setPlaceRobber(payload) {
   return { type: SET_PLACE_ROBBER, payload }
 }
 
-export function setFaceUpKnights(payload = 1) {
+export function setFaceUpKnights(payload) {
   return { type: SET_FACE_UP_KNIGHTS, payload }
 }
 
-export function updateEnemyKnights(payload = 1) {
+export function updateEnemyKnights(payload) {
   return { type: SET_ENEMY_FACE_UP_KNIGHTS, payload }
 }
 
-export function updateEnemyResources(payload = 1) {
+export function updateEnemyResources(payload) {
+  console.log("updateEnemyResources", payload)
   return { type: SET_ENEMY_RESOURCES, payload }
 }
 
-export function updateEnemyDevCards(payload = 1) {
+export function updateEnemyDevCards(payload) {
   return {type: SET_ENEMY_DEV_CARDS, payload}
 }
 
