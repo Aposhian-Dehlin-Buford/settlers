@@ -158,6 +158,8 @@ const generateInitialGameState = (
     numBuildings: [],
     developmentDeck: seedDeck(),
     developmentHand: [],
+    faceUpKnights: 0,
+    enemyPlayersInfo: [{faceUpKnights: 0, developmentHandSize: 0, resources: 0}],
     map: mapRob[0],
     // units: {},
   }
