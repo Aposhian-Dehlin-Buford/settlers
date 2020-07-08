@@ -21,7 +21,7 @@ import {
 } from "../../redux/gameReducer"
 import { UserContext } from "../../context/UserContext"
 
-const Hexagon = ({ e, id, handlePort }) => {
+const Hexagon = ({ e, id, handlePort, handleRobber }) => {
   const dispatch = useDispatch()
   const { user, socket } = useContext(UserContext)
   const {
@@ -133,18 +133,9 @@ const Hexagon = ({ e, id, handlePort }) => {
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }
 
-  const handleRobber = () => {
-    const stealCard = () => {
-      
-    }
-    let mapArray = [...map]
-    mapArray[robberLocation].hasRobber = false
-    mapArray[id].hasRobber = true
-    dispatch(setRobberLocation(id))
-    dispatch(setPlaceRobber(false))
-    dispatch(setMapState(mapArray))
-    socket.emit("move-robber", { room, id, map: mapArray })
-  }
+  // const handleRobber = () => {
+    
+  // }
 
 
   const portSlot1 =
@@ -172,7 +163,7 @@ const Hexagon = ({ e, id, handlePort }) => {
           borderColor: 
             portSlot1 === 1 ||
             portSlot2 === 1 ?
-            "blue" : 
+            "darkblue" : 
             portSlot1 === 2 ||
             portSlot2 === 2 ? "red" : 
             "white",
@@ -194,7 +185,7 @@ const Hexagon = ({ e, id, handlePort }) => {
       {e.number ? (
         <div
           className="number-container"
-          onClick={placeRobber ? handleRobber : null}
+          onClick={placeRobber ? () => handleRobber(id) : null}
           style={{
             color: e.number === 6 || e.number === 8 ? "darkred" : "black",
           }}

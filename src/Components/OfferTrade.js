@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from "react-redux"
 import OfferResource from "./OfferResource"
 import { updateTradePending } from "../redux/gameReducer"
 import {UserContext} from '../context/UserContext'
+import {GoPerson} from 'react-icons/go'
 import './Trade.scss'
 
 const OfferTrade = () => {
   const dispatch = useDispatch()
-  const {socket} = useContext(UserContext)
-  const { active, rolledDice, room, tradePending } = useSelector((redux) => redux)
+  const { user, socket} = useContext(UserContext)
+  const { active, rolledDice, room, tradePending, players } = useSelector((redux) => redux)
   const { sheep, wheat, wood, clay, rock } = useSelector((redux) => redux.resources)
   const [offerSheep, setOffSheep] = useState(0)
   const [offerWood, setOffWood] = useState(0)
@@ -65,10 +66,19 @@ const OfferTrade = () => {
     dispatch(updateTradePending(true))
   }
 
+  const toOffer = offerClay + offerWood + offerWheat + offerRock + offerSheep > 0 &&
+  forClay + forWood + forWheat + forRock + forSheep > 0
+
+  const offerPlayers = players.map(e => e.user_id).filter(e => e != user.user_id).map((e,i) => <div key={i} onClick={toOffer ? requestTrade : null} className="offer-players-circles" style={{background: e === 1 ? "darkblue" : "red", borderColor: toOffer && "darkgreen", boxShadow: toOffer && "0 0 5px 1px lightblue"}}><GoPerson color={e === 1 ? "lightblue" : "darkred"} /></div>)
+
   return (
     <div className="offer-trade-container">
       {active && rolledDice && !tradePending && (
+      <div className="offer-trade-container2">
+      <div className="offer-players">{ offerPlayers }</div>
+      
         <div className="offer-container">
+        
           <div className="offers">
             <div style={{textAlign: 'center'}}>Offer:</div>
             {resources.map(({ name, resource, offer, action }, i) => (
@@ -93,11 +103,8 @@ const OfferTrade = () => {
               />
             ))}
           </div>
-          {offerClay + offerWood + offerWheat + offerRock + offerSheep > 0 &&
-            forClay + forWood + forWheat + forRock + forSheep > 0 && (
-              <button onClick={requestTrade}>Request Trade</button>
-            )}
         </div>
+      </div>
       )}
     </div>
   )

@@ -1,21 +1,48 @@
 @import '../variables';
 
 .purchase-container {
-    height: 50%;
-    border: 5px solid blue;
+    // height: 50%;
+    border: ($size/25) solid white;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: $size/7;
+    // border-bottom: ($size/25)*2 solid white;
+}
+
+.building-costs {
+    text-align: center;
+    font-size: $size/4;
+    padding: $size/18 0px;
+    border: ($size/100) solid white;
+    color: white;
+    font-weight: normal;
 }
 
 .purchase-item-container {
     height: 100%;
-    border: 3px solid white;
-    padding: 15px 9px;
+    border-top: ($size/60)*2 solid white;
+    // border-bottom: ($size/60) solid white;
+
+    padding: $size/20 $size/20;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.cost-title {
+    // border: 2px dotted blue;
+    // margin-bottom: 5px;
+    margin-bottom: $size/20;
+    margin-left: $size/20;
+    display: flex;
+    justify-content: space-between;
 }
 
 .cost-row {
+    // border: 2px dotted green;
     display: flex;
     flex-direction: row;
     div {
@@ -27,6 +54,7 @@
         background: $exp;
         background-size: 145%;
         background-position: center;
+        margin-right: $size/60;
     }
 }
 

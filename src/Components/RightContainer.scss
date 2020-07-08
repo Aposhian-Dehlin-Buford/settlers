@@ -1,0 +1,18 @@
+@import '../variables';
+
+.right-container {
+    // border: 1px solid red;
+    height: 100%;
+    width: (($size*.5)*5.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: ($size/20);
+    padding-bottom: ($size/20);
+}
+
+.opponent-dev-hand-container {
+    border: 1px solid white;
+    height: 15%;
+    width: 100%;
+}
