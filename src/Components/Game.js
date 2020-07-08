@@ -27,6 +27,7 @@ import {
   updateEnemyKnights,
   updateEnemyDevCards,
   setRobberLocation,
+  updateEnemyResources,
 } from "../redux/gameReducer"
 import MyHand from "./MyHand"
 import EndTurnButton from "./EndTurnButton"
@@ -35,6 +36,7 @@ import OfferTrade from "./OfferTrade"
 import IncomingTrade from "./IncomingTrade"
 import Dice from "./Dice/Dice"
 import StealFrom from './StealFrom'
+import OpponentHand from './OpponentHand'
 import "./Dice/Dice.scss"
 import Purchase from "./Purchase"
 import DevelopmentDeck from "./DevelopmentDeck"
@@ -78,6 +80,7 @@ const Game = () => {
     monopolyDev,
     opposingMonopoly,
     robberLocation,
+    enemyPlayersInfo,
   } = useSelector((redux) => redux)
 
   const [stealFrom, setStealFrom] = useState([])
@@ -88,6 +91,7 @@ const Game = () => {
         updateResources({ ...newResources, [opposingMonopoly]: count * -1 })
       )
       socket.emit("resolve-monopoly", { room, card: opposingMonopoly, count })
+    socket.emit('update-opponent-res', {oppRes: count*-1})
       dispatch(setOpposingMonopoly(null))
     }
   }, [opposingMonopoly])
@@ -180,6 +184,9 @@ const Game = () => {
       dispatch(setRobberLocation(location))
       dispatch(setMapState(newMap))
     })
+    socket.on("update-opponent-res", ({oppRes}) => {
+      dispatch(updateEnemyResources(oppRes))
+    })
   }, [])
 
   useEffect(() => {
@@ -206,6 +213,7 @@ const Game = () => {
                       newResources[g.terrain] + buildSlot.building_type,
                   })
                 )
+                socket.emit('update-opponent-res', {room, oppRes: buildSlot.building_type})
               }
             })
           }
@@ -242,6 +250,7 @@ const Game = () => {
         [e.type]: newResources[e.type] - (e.type === "3 for 1" ? 3 : 2),
       })
     )
+    socket.emit('update-opponent-res', {room, oppRes: 2})
   }
 
   const handlePickCard = (card) => {
@@ -250,6 +259,7 @@ const Game = () => {
         ? dispatch(setPickCard(true))
         : dispatch(setPickCard(false))
       dispatch(updateResources({ ...newResources, [card]: 1 }))
+      socket.emit('update-opponent-res', {room, oppRes: 2})
     }else if(monopolyDev){
       // console.log('hit monopoly')
       socket.emit('monopoly', {card, room})
@@ -283,12 +293,14 @@ const Game = () => {
   
   const stealCard = (player) => {
     setStealFrom([])
+    
     return
   }
   
   console.log("stealFrom", stealFrom)
   console.log("map", map)
   console.log("buildings", buildings)
+  console.log("opponent", enemyPlayersInfo)
   // console.log("roads", roads)
   // console.log("robberLocation", robberLocation)
 
@@ -297,6 +309,7 @@ const Game = () => {
       {
         stealFrom[0] && <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} />
       }
+      {/* <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} /> */}
       
       <div className="left-container">
           <div className="res-dice-container">
@@ -324,13 +337,6 @@ const Game = () => {
                 ))}
               </div>
             </div>
-
-            <div className="dice-container">
-              {turn > 2 && <DiceButton />}
-              <Dice />
-            </div>
-          
-          
         </div>
         <div className="development-container">
           <DevelopmentDeck />
@@ -339,11 +345,8 @@ const Game = () => {
         </div>
       <div className="middle-container">
         <div className="top-container">
-        {/* {(buildSettlement || buildCity) && (
-          <div className="top-container-overlay"></div>
-        )} */}
-        
-      </div>
+            <OpponentHand />
+        </div>
       <div className="map-middle-container">
         <Map handlePort={handlePort} handleRobber={handleRobber} />
         <div className="dice-container">
@@ -363,8 +366,12 @@ const Game = () => {
       <div className="right-container">
         <div className="opponent-dev-hand-container"></div>
         {/* {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />} */}
-        <OfferTrade />
+        <div className="trade-container" >
+        {active && rolledDice && !tradePending && (<OfferTrade />)}
         {incomingTrade && <IncomingTrade />}
+        </div>
+        
+        {/* <IncomingTrade /> */}
         <Purchase />
           {/* {active && rolledDice && !tradePending && turn > 2 && } */}
         </div>

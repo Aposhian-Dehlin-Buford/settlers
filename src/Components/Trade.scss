@@ -1,18 +1,21 @@
 @import '../variables';
 
-.offer-trade-container {
+.trade-container {
     height: 33%;
     width: 100%;
     // border: 3px solid green;
     display: flex;
     flex-direction: column;
+    // border: 3px solid white;
 }
-.offer-trade-container2 {
+
+.offer-trade-container {
     height: 100%;
     width: 100%;
     // border: 3px solid green;
     display: flex;
     flex-direction: column;
+    opacity: 0;
 }
 
 .offer-container {
@@ -101,4 +104,100 @@
     width: $size*.5;
     border-radius: 50%;
     border: ($size/60) solid rgb(165, 165, 165);
+}
+
+.incoming-trade-container {
+    // border: 1px solid red;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: $size/10;
+    opacity: 0;
+}
+
+.incoming-trade-title {
+    border: $size/60 solid black;
+    height: 13%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $size/6;
+    font-weight: bold;
+    color: white;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+    letter-spacing: $size/80;
+    // opacity: 0;
+}
+
+.incoming-title {
+    text-align: center;
+    font-size: $size/6;
+    font-weight: bold;
+}
+
+.incoming-trade-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0px $size/2;
+    z-index: 27;
+    div {
+        border: $size/60 solid black;
+        font-size: $size/9;
+        // font-weight: bold;
+        color: white;
+        text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        border-radius: 50%;
+        height: $size*.5;
+        width: $size*.5;
+    }
+    .accept-trade {
+        position: relative;
+        background: darkgreen;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+            background: green;
+            // border-color: rgb(44, 66, 43);
+        }
+    }
+    .reject-trade {
+        position: relative;
+        background: darkred;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+            background: rgb(180, 20, 20);
+        }
+    }
+}
+
+
+.incoming-offer {
+    // border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: $size/60;
+    div {
+        height: $size*.5;
+        width: $size*.5;
+        border-radius: 50%;
+        border: ($size/60) solid white;
+        background: $exp;
+        background-size: 145%;
+        background-position: center;
+        font-size: $size/3;
+        font-weight: bold;
+        color: white;
+        text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: $size/60;
+    }
 }

@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import {GoPerson} from 'react-icons/go'
+import {TweenMax} from 'gsap'
 
 const StealFrom = ({ stealFrom, setStealFrom, stealCard}) => {
+    let overlay = useRef(null)
+
+    useEffect(() => {
+        TweenMax.from(
+            overlay,
+            .5,
+            {
+                opacity: 0
+            }
+        )
+    }, [])
+
+
+
     const playerArray = stealFrom.map((e,i) => <div 
     className="steal-from-player"
     onClick={() => stealCard(e)} 
@@ -9,7 +24,7 @@ const StealFrom = ({ stealFrom, setStealFrom, stealCard}) => {
     key={i}><GoPerson color={e === 1 ? "lightblue" : "darkred"} /></div>)
 
     return (
-        <div className="steal-from-overlay">
+        <div className="steal-from-overlay" ref={el => {overlay = el}}>
         <div className="steal-from-container">
           <div className="steal-from-title">Steal a Card From:</div>
           <div className="steal-from">
