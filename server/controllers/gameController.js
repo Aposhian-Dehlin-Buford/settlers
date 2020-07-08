@@ -44,6 +44,9 @@ const resolveMonopoly = (socket, {room, card, count}) => {
   socket.to(room).emit('resolve-monopoly', {card, count})
 }
 
+const playKnight = (socket, {room}) => {
+  socket.to(room).emit('play-knight')
+}
 const moveRobber = (socket, {room, location, map}) => {
   socket.to(room).emit('move-robber', {location, newMap: map})
 }
@@ -59,5 +62,6 @@ module.exports = {
   buyRoad,
   monopoly,
   resolveMonopoly,
+  playKnight,
   moveRobber,
 }
