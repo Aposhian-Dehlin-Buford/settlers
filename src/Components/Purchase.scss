@@ -10,9 +10,10 @@
     font-weight: bold;
     font-size: $size/7;
     // border-bottom: ($size/25)*2 solid white;
-    // background: url('../images/medieval_town_map_big-resize.jpg');
-    // background-size: 400%;
-    // background-position: center;
+    // background: url('../images/scroll-png-4501.png');
+    background: url('../images/14519.jpg');
+    background-size: 110%;
+    background-position: center;
     // background-repeat: no-repeat;
 }
 
@@ -33,6 +34,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    // border: 1px solid red;
+    // background: rgba(0, 100, 0, 0.486);
 }
 
 .cost-title {

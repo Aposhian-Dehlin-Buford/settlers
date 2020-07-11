@@ -2,6 +2,7 @@
 
 * {
     box-sizing: border-box;
+    
 }
 
 .game-container {
@@ -12,6 +13,20 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    // background: url('../images/dark-brown-leather.jpg');
+    // background: url('../images/dark-wood.jpg');
+    // background-size: 90%;
+    // background: url('../images/Oak-Dark-Wood.jpg');
+    // background-size: 15%;
+    // background: url('../images/dark-wood2.jpg');
+    // background-size: 25%;
+    // background: url('../images/dark-wood5.jpg');
+    // background-size: 100%;
+    background: url('../images/dark-wood7.jpg');
+    background-size: 100%;
+
+    // background-size: 50%;
+    background-position: center;
 }
 
 .steal-from-overlay {

@@ -19,6 +19,7 @@ const EndTurnButton = () => {
     secondTurn,
     secondSettlementPlaced,
     secondRoadPlaced,
+    pickDiscard,
   } = useSelector((redux) => redux)
   const dispatch = useDispatch()
 
@@ -31,21 +32,24 @@ const EndTurnButton = () => {
 
   useEffect(() => {
     if(canSee){
+      TweenMax.to(endRef, .01, {
+        opacity: 0
+      })
       TweenMax.to(endRef, 1, {
         opacity: 1
       })
-      TweenMax.to(endRef, 17, {
-        rotation:360, 
-        ease:Linear.easeNone, 
+      TweenMax.to(endRef, 6, {
+        rotation: 720, 
+        ease: "linear",
         repeat:-1})
     }
   }, [canSee])
 
-  if(canSee){
     return (
         <div 
-          className="end-button-container" 
-          ref={el => {endRef = el}}>
+          className="end-button-container">
+            <div className="end-button-animation" style={{background: canSee ? "linear-gradient(rgba(0, 100, 0, 0.13), green, lightgreen, green, rgba(144, 238, 144, 0.089))" : "transparent"}} ref={el => {endRef = el}}></div>
+            {!canSee && <div className="end-turn-overlay"></div>}
             <button
               onClick={() => {
                 socket.emit("end-turn", { room })
@@ -53,14 +57,13 @@ const EndTurnButton = () => {
                 // secondTurn && dispatch(endSecondTurn())
               }}
             >
-              End Turn
+              {
+                pickDiscard ? "Discard" : <span>{"End\nTurn"}</span>
+              }
             </button>
           
         </div>
     )
-  } else {
-    return null
-  }
 }
 
 export default EndTurnButton

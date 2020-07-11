@@ -1,16 +1,15 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import FaceUpKnights from './FaceUpKnights'
 
-const EnemyPlayer = () => {
+const EnemyPlayer = ({user}) => {
   const {enemyPlayersInfo} = useSelector(redux => redux)
   const {faceUpKnights, resources, developmentHandSize} = enemyPlayersInfo[0]
   
   return (
-    <div>
+    <div className="opponent-dev-hand-container" style={{background: user === 1 ? "rgba(255, 0, 0, 0.100)" : "rgba(0, 0, 139, 0.100)", borderColor: user === 1 ? "red" : "darkblue"}}>
+      <div className="opp-dev-cards"><span>{developmentHandSize > 0 && developmentHandSize}</span></div>
       <FaceUpKnights {...{faceUpKnights}} />
-      <div>Resources: {resources}</div>
-      <div>Development Cards: {developmentHandSize}</div>
     </div>
   )
 }

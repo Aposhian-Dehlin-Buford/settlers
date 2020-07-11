@@ -1,12 +1,39 @@
 import React, { useState, useEffect, useContext, useRef, useCallback } from "react"
-import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
-import Map from "./Map/Map"
+import { useHistory } from "react-router-dom"
+import { UserContext } from "../context/UserContext"
+import {TweenMax} from 'gsap'
+import axios from "axios"
+
+// Styling
+
 import "./Map/Map.scss"
 import "./Game.scss"
 import "./LeftContainer.scss"
 import "./MiddleContainer.scss"
 import "./RightContainer.scss"
+import "./Dice/Dice.scss"
+
+// Components
+
+import Map from "./Map/Map"
+import Purchase from "./Purchase"
+import EnemyPlayer from "./EnemyPlayer"
+import MyDevelopmentHand from "./MyDevelopmentHand"
+import DevelopmentDeck from "./DevelopmentDeck"
+import FaceUpKnights from './FaceUpKnights'
+import MyHand from "./MyHand"
+import EndTurnButton from "./EndTurnButton"
+import DiceButton from "./DiceButton"
+import OfferTrade from "./OfferTrade"
+import IncomingTrade from "./IncomingTrade"
+import StealFrom from './StealFrom'
+import OpponentHand from './OpponentHand'
+import Scoreboard from './Scoreboard'
+// import Dice from "./Dice/Dice"
+
+// Reducer Actions
+
 import {
   updateActivePlayer,
   updateDiceResult,
@@ -29,22 +56,6 @@ import {
   setRobberLocation,
   updateEnemyResources,
 } from "../redux/gameReducer"
-import MyHand from "./MyHand"
-import EndTurnButton from "./EndTurnButton"
-import DiceButton from "./DiceButton"
-import OfferTrade from "./OfferTrade"
-import IncomingTrade from "./IncomingTrade"
-// import Dice from "./Dice/Dice"
-import StealFrom from './StealFrom'
-import OpponentHand from './OpponentHand'
-import "./Dice/Dice.scss"
-import Purchase from "./Purchase"
-import DevelopmentDeck from "./DevelopmentDeck"
-import { useHistory } from "react-router-dom"
-import { UserContext } from "../context/UserContext"
-import MyDevelopmentHand from "./MyDevelopmentHand"
-import EnemyPlayer from "./EnemyPlayer"
-import {TweenMax} from 'gsap'
 
 const newResources = {
   clay: 0,
@@ -82,6 +93,8 @@ const Game = () => {
     opposingMonopoly,
     robberLocation,
     enemyPlayersInfo,
+    victoryPoints,
+    faceUpKnights,
   } = useSelector((redux) => redux)
 
   const [stealFrom, setStealFrom] = useState([])
@@ -322,12 +335,13 @@ const Game = () => {
     return
   }
   
-  console.log("stealFrom", stealFrom)
-  console.log("map", map)
-  console.log("buildings", buildings)
-  console.log("opponent", enemyPlayersInfo)
+  // console.log("stealFrom", stealFrom)
+  // console.log("map", map)
+  // console.log("buildings", buildings)
+  // console.log("opponent", enemyPlayersInfo)
   // console.log("roads", roads)
   // console.log("robberLocation", robberLocation)
+  console.log("victory points", victoryPoints)
 
   return (
     <div className="game-container">
@@ -337,6 +351,8 @@ const Game = () => {
       {/* <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} /> */}
       
       <div className="left-container">
+        <div className="menu-button">Home</div>
+        <Scoreboard />
           <div className="res-dice-container">
             <div className="res-container">
               <div className="res-4">
@@ -363,37 +379,40 @@ const Game = () => {
               </div>
             </div>
         </div>
+        <FaceUpKnights {...{faceUpKnights}} />
         <div className="development-container">
           <DevelopmentDeck />
           <MyDevelopmentHand />
           </div>
         </div>
       <div className="middle-container">
-        <div className="top-container">
+        <div className="top-container" style={{background: user.user_id === 1 ? "rgba(255, 0, 0, 0.100)" : "rgba(0, 0, 139, 0.100)", borderColor: user.user_id === 1 ? "red" : "darkblue"}}>
             <OpponentHand />
         </div>
+        <div className="map-middle-big">
         {
           !active ?
-          <div className="waiting-for-turn" ref={el => {animateWaiting = el}}>Waiting for Turn...</div> :
+          <div className="waiting-for-turn" ref={el => {animateWaiting = el}}>{`Waiting for Player ${user.user_id === 1 ? "2" : "1"}...`}</div> :
           <div className="your-turn" ref={el => {animateYourTurn = el}}>Your Turn!</div>
         }
-      <div className="map-middle-container">
-        <Map handlePort={handlePort} handleRobber={handleRobber} />
-        <div className="dice-container">
-            {turn > 2 && <DiceButton />}
+          <div className="map-middle-container">
+            <Map handlePort={handlePort} handleRobber={handleRobber} />
+            <div className="dice-container">
+                <DiceButton />
+              </div>
+              <div className="end-turn-container">
+              <EndTurnButton />
+            </div>
           </div>
-          <div className="end-turn-container">
-          <EndTurnButton />
         </div>
-      </div>
-        <div className="bottom-container">
+        <div className="bottom-container" style={{background: user.user_id === 1 ? "rgba(0, 0, 139, 0.100)" : "rgba(255, 0, 0, 0.100)", borderColor: user.user_id === 1 ? "darkblue" : "red"}}>
         <MyHand />
         
         
       </div>
       </div>
       <div className="right-container">
-        <div className="opponent-dev-hand-container"></div>
+        <EnemyPlayer user={user.user_id} />
         {/* {active && rolledDice && !tradePending && turn > 2 && <OfferTrade />} */}
         <div className="trade-container" >
         {active && rolledDice && !tradePending && (<OfferTrade />)}

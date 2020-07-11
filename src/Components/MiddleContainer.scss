@@ -1,14 +1,35 @@
 @import '../variables';
 
+.middle-container {
+    // border: 2px solid blue;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: ($size/20);
+}
+
 .top-container {
     // border: 2px solid gold;
     position: relative;
-    height: 15%;
+    min-height: 12.5%;
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: ($size/20);
+    // border-left: $size/15 ridge red;
+    // border-right: $size/15 ridge red;
+    border-bottom: $size/15 ridge red;
+    border-left: $size/15 ridge rgb(44, 44, 44) !important;
+
+    // background: linear-gradient(to right, rgba(109, 0, 0, 0.404), rgba(255, 0, 0, 0.075), );
+    background: none;
+    background: rgba(255, 0, 0, 0.100);
+
     // font-size: 15px;
+    // background: url('../images/dark-brown-leather.jpg');
     .top-container-overlay {
         position: absolute;
         height: 100%;
@@ -18,51 +39,61 @@
     }
 }
 
-.middle-container {
-    // border: 2px solid blue;
+.map-middle-big {
     width: 100%;
     height: 100%;
+    // border: $size/15 ridge rgb(43, 43, 43);
+    border-left: $size/15 ridge rgb(44, 44, 44);
+    border-right: $size/15 ridge rgb(44, 44, 44);
+    // border-top: $size/15 ridge red;
+    // border-bottom: $size/15 ridge darkblue;
+    // border-right: $size/15 ridge rgb(43, 43, 43);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.26);
+    // background: rgba(102, 102, 102, 0.418);
+    padding: 0px $size/3;
+    background: url('../images/textured-black5.jpg');
+    background-size: 110%;
+    background-position: center;
 }
 
 .map-middle-container {
-    height: 100%;
-    width: 100%;
+    // height: 100%;
+    // width: 100%;
+    // margin-top: $size/10;
+    min-width: $size*7;
+    width: $size*7.5;
+    min-height: $size*7.5;
     position: relative;
-    // border: 3px dotted yellow;
+    border: $size/20 solid rgba(24, 24, 24, 0.521);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+    // background: radial-gradient(rgb(15, 77, 97), rgb(77, 133, 151), rgb(102, 173, 197));
 
-.dice-container {
-    position: absolute;
-    left: $size/4;
-    bottom: $size/4;
-    // border: 1px solid blue;
-    background: url('../images/bottom-left.png');
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: $size;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: $size/1.5;
-    text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255), -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
+    background: radial-gradient(rgb(84, 143, 163), rgb(59, 101, 116), rgb(12, 64, 82), );
+    border-radius: 7%;
+    border-radius: 100%;
 }
 
 .bottom-container {
-    border: 1px solid green;
-    height: 15%;
+    // border: 1px solid green;
+    position: relative;
+    min-height: 14%;
     width: 100%;
-    // width: (($size*.5)*5.6);
     display: flex;
     justify-content: center;
+    // background: url('../images/dark-brown-leather.jpg');
+    // padding-top: $size/10;
+    background: rgba(0, 0, 139, 0.100);
+    // border-left: $size/15 ridge darkblue;
+    // border-right: $size/15 ridge darkblue;
+    border-top: $size/15 ridge darkblue;
+
 }
 
 .my-hand-container {
@@ -70,6 +101,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    position: absolute;
     height: 100%;
     div {
         // border: 1px solid white;
@@ -142,73 +174,105 @@
 }
 
 .end-turn-container {
+    // border: 1px solid red;
     position: absolute;
-    right: $size/2;
-    bottom: $size/2;
-    background: url('../images/bottom-left.png');
+    right: $size/4;
+    bottom: $size/4;
+    background: url('../images/bottom-right-white.png');
     background-position: center;
     background-size: 100%;
+    width: $size*2;
+    height: $size*2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .end-button-container {
     // position: absolute;
     position: relative;
     // border: 2px solid purple;
-    // right: $size/2;
-    // bottom: $size/2;
     width: $size; 
-    height: ($size*.57736667);
-    background: white;
+    height: $size;
+    background: transparent;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 165%;
     margin: 0px 0;
-    opacity: 0;
-    // border-left: solid 1px #333333;
-    // border-right: solid 1px #333333;
     display: flex;
     justify-content: center;
     align-items: center;
-    // z-index: inherit;
     button {
         z-index: 100;
-        border: none;
+        border: $size/80 solid white;
         border-radius: 50%;
-        height: $size/2;
-        width: $size/2;
+        height: $size/1.2;
+        width: $size/1.2;
+        font-size: $size/4;
+        font-weight: 700;
+        background: url('../images/more-hexagons.jpg');
+        background-position: center;
+        background-size: 140%;
+        color: white;
+        // text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     }
-    .end-turn-overlay {
-        position: absolute;
-        z-index: 1000;
-        height: 100%;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.404);
-        border-radius: 50%;
-    }
 }
 
-.end-button-container:before,
-.end-button-container:after {
-  content: "";
-  position: absolute;
-  z-index: inherit;
-  width: ($size*.7071);
-  height: ($size*.7071);
-  -webkit-transform: scaleY(0.5774) rotate(-45deg);
-  -ms-transform: scaleY(0.5774) rotate(-45deg);
-  transform: scaleY(0.5774) rotate(-45deg);
-  background: inherit;
-  left: ($size*.14311333);
+.end-turn-overlay {
+    // border: 1px solid purple;
+    position: absolute;
+    z-index: 1000;
+    height: $size/1.2;
+    width: $size/1.2;
+    background: rgba(0, 0, 0, 0.699);
+    border-radius: 50%;
 }
 
-.end-button-container:before {
-  top: ($size*-.35355333);
-  // border-top: solid 1px #333333;
-  // border-right: solid 1px #333333;
+.end-button-animation {
+    position: absolute;
+    // border: 1px solid green;
+    background: linear-gradient(rgba(0, 100, 0, 0.13), green, lightgreen, green, rgba(144, 238, 144, 0.089));
+    width: $size*1; 
+    height: $size*1;
+    border-radius: 50%;
+    background: black;
+
 }
 
-.end-button-container:after {
-  bottom: ($size*-.35355333);
-  // border-bottom: solid 1px #333333;
-  // border-left: solid 1px #333333;
+.waiting-for-turn {
+    z-index: 500;
+    align-self: flex-end;
+    // margin-right: 125px;
 }
+
+.your-turn {
+    z-index: 500;
+    align-self: flex-end;
+    // margin-right: 125px;
+}
+
+// .end-button-container:before,
+// .end-button-container:after {
+//   content: "";
+//   position: absolute;
+//   z-index: inherit;
+//   width: ($size*.7071);
+//   height: ($size*.7071);
+//   -webkit-transform: scaleY(0.5774) rotate(-45deg);
+//   -ms-transform: scaleY(0.5774) rotate(-45deg);
+//   transform: scaleY(0.5774) rotate(-45deg);
+//   background: inherit;
+//   left: ($size*.14311333);
+// }
+
+// .end-button-container:before {
+//   top: ($size*-.35355333);
+//   // border-top: solid 1px #333333;
+//   // border-right: solid 1px #333333;
+// }
+
+// .end-button-container:after {
+//   bottom: ($size*-.35355333);
+//   // border-bottom: solid 1px #333333;
+//   // border-left: solid 1px #333333;
+// }
