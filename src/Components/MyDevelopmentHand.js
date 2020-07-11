@@ -1,11 +1,10 @@
 import React, { useContext } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { setBuildRoad, setMonopoly, setPickCard, updateDevelopmentHand, setFaceUpKnights } from "../redux/gameReducer"
-import FaceUpKnights from './FaceUpKnights'
 import { UserContext } from "../context/UserContext"
 
 const MyDevelopmentHand = () => {
-  const {socket} = useContext(UserContext)
+  const {user, socket} = useContext(UserContext)
   const { developmentHand, faceUpKnights, room } = useSelector((redux) => redux)
   const dispatch = useDispatch()
   const clickDevCard = (e) => {
@@ -43,15 +42,16 @@ const MyDevelopmentHand = () => {
   console.log("developmentHand", developmentHand)
   return (
     <div className="development-hand-container">
-      {developmentHand.map((e, i) => (
-        <div 
-          key={i} 
-          className={e.toLowerCase().split(' ').join('-')} 
-          onClick={() => clickDevCard(e)}>
-          {e}
-        </div>
-      ))}
-      <FaceUpKnights {...{faceUpKnights}} />
+      <div className="development-hand" style={{background: user.user_id === 1 ? "rgba(0, 0, 139, 0.100)" : "rgba(255, 0, 0, 0.100)", borderColor: user.user_id === 1 ? "darkblue" : "red"}}>
+        {developmentHand.map((e, i) => (
+          <div
+            style={{backgroundImage: 'url(' + require(`../images/dev-${e.toLowerCase().split(' ').join('-')}.png`) + ')'}} 
+            key={i} 
+            className={e.toLowerCase().split(' ').join('-')} 
+            onClick={() => clickDevCard(e)}>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

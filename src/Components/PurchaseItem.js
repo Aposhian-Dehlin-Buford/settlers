@@ -96,8 +96,8 @@ const PurchaseItem = ({ cost, name, index }) => {
       className="purchase-item-container" 
       onClick={canAfford ? purchase : null} 
       style={{
-        background: canAfford &&"darkgreen",
-        borderColor: user.user_id === 1 ? "darkblue" : "red"
+        background: canAfford && "rgba(0, 100, 0, 0.486)",
+        borderColor: user.user_id === 1 ? "darkblue" : "red",
     }}>
       <div className="cost-title"><span>{name === 'Development' ? "Development Card" : name}</span><span>{ptStrings[index]}</span></div>
       <div className="cost-row" >

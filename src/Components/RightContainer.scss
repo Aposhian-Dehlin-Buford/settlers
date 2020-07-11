@@ -7,12 +7,39 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-right: ($size/20);
-    padding-bottom: ($size/20);
+    padding: ($size/20);
 }
 
 .opponent-dev-hand-container {
-    border: 1px solid white;
-    height: 15%;
+    // border: $size/50 solid red;
+    // border-top: $size/10 ridge red;
+    // border-right: $size/15 ridge red;
+    border-bottom: $size/15 ridge red;
+    min-height: 12.5%;
     width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgba(255, 0, 0, 0.100);
+    // background: linear-gradient(to right, rgba(255, 0, 0, 0.24), rgba(109, 0, 0, 0.404));
+    // background: rgba(255, 0, 0, 0.144);
+}
+
+.opp-dev-cards {
+    background: url('../images/dev-back.png');
+    background-size: 128%;
+    background-position-y: 48%;
+    background-position-x: 48%;
+    background-repeat: no-repeat;
+    height: ($size*.8);
+    width: ($size*.8);
+    border-radius: 50%;
+    // align-self: center;
+    border: $size/40 solid black;
+    font-size: $size/1.5;
+    text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255), -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: $size/10;
 }

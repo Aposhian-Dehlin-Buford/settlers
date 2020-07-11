@@ -133,6 +133,7 @@ const Hexagon = ({ e, id, handlePort, handleRobber }) => {
     mapArray[id].slots[slotNum][3] = 2
     dispatch(setMapState(mapArray))
     buildingsArray[id][slotNum].building_type = 2
+    dispatch(updateVictoryPoints(1))
     dispatch(setBuildCity(false))
     socket.emit("buy-building", { room, buildingsArray, map: mapArray })
   }

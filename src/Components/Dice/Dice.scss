@@ -1,20 +1,64 @@
 @import '../../variables';
 
-.roll-dice-button {
-    background: white;
-    border: 3px solid green;
-    height: ($size*.6);
-    width: ($size*.6);
-    border-radius: 50%;
+
+.dice-container {
+    // border: 1px solid red;
+    width: $size*2;
+    height: $size*2;
+    position: absolute;
+    left: $size/4;
+    bottom: $size/4;
+    // border: 1px solid blue;
+    background: url('../../images/bottom-left-white.png');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $size/1.5;
+    color: black;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.roll-dice-container {
+    // border: 1px solid white;
+    width: $size; 
+    height: $size;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.roll-dice-button {
+    background: white;
+    // border: 3px solid green;
+    // height: ($size*.6);
+    // width: ($size*.6);
+    // height: $size/1.1;
+    //     width: $size/1.1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $size/1.2;
+    width: $size/1.2;
+    z-index: 10;
+}
+
 .dice-numbers {
+    position: absolute;
+    // border: 2px solid purple;
     width: $size;
     height: ($size*.75);
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: $size/1.1;
+    font-weight: bold;
+    padding-bottom: $size/10;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
