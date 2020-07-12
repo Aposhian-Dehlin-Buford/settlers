@@ -8,8 +8,8 @@ const EnemyPlayer = ({user}) => {
   
   return (
     <div className="opponent-dev-hand-container" style={{background: user === 1 ? "rgba(255, 0, 0, 0.100)" : "rgba(0, 0, 139, 0.100)", borderColor: user === 1 ? "red" : "darkblue"}}>
-      <div className="opp-dev-cards"><span>{developmentHandSize > 0 && developmentHandSize}</span></div>
-      <FaceUpKnights {...{faceUpKnights}} />
+      <div className="opp-dev-cards" style={{borderColor: user === 1 ? "red" : "darkblue"}}><span>{developmentHandSize > 0 && developmentHandSize}</span></div>
+      <FaceUpKnights {...{faceUpKnights, user}} />
     </div>
   )
 }

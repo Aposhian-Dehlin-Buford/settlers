@@ -7,7 +7,7 @@ const OpponentHand = () => {
 
     const { resources } = enemyPlayersInfo[0]
 
-    const oppHand = [...Array(resources)].map((e,i) => <div className="opponent-hand-card" key={i}></div>)
+    const oppHand = resources > 0 && [...Array(resources)].map((e,i) => <div className="opponent-hand-card" key={i}></div>)
 
     console.log("enemyPlayersInfo", enemyPlayersInfo)
     console.log("enemy-hand", resources)
