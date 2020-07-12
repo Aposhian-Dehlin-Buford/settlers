@@ -9,6 +9,7 @@ import './Trade.scss'
 
 const OfferTrade = () => {
   let animate = useRef(null)
+  let greenCircle = useRef(null)
   const dispatch = useDispatch()
   const { user, socket} = useContext(UserContext)
   const { active, rolledDice, room, tradePending, players } = useSelector((redux) => redux)
@@ -39,6 +40,7 @@ const OfferTrade = () => {
     { name: "Rock", resource: 4, offer: forRock, action: setForRock },
   ]
 
+  
   useEffect(() => {
     if(active && rolledDice && !tradePending){
       TweenMax.to(
@@ -47,10 +49,10 @@ const OfferTrade = () => {
         {
           opacity: 1
         }
-      )
-    }
+        )
+      }
   }, [active, rolledDice, tradePending])
-
+  
   const resetFields = () => {
     setForSheep(0)
     setForWheat(0)
@@ -63,7 +65,7 @@ const OfferTrade = () => {
     setOffWheat(0)
     setOffSheep(0)
   }
-
+  
   const requestTrade = () => {
     socket.emit("request-trade", {
       offer: {
@@ -79,16 +81,31 @@ const OfferTrade = () => {
     resetFields()
     dispatch(updateTradePending(true))
   }
-
+  
   const toOffer = offerClay + offerWood + offerWheat + offerRock + offerSheep > 0 &&
   forClay + forWood + forWheat + forRock + forSheep > 0
+  
+  useEffect(() => {
+    if(toOffer){
+      TweenMax.to(greenCircle, .001, {
+        opacity: 0
+      })
+      TweenMax.to(greenCircle, 1, {
+        opacity: 1
+      })
+      TweenMax.to(greenCircle, 5, {
+        rotation: 720, 
+        ease: "linear",
+        repeat:-1})
+    }
+  }, [toOffer])
 
-  const offerPlayers = players.map(e => e.user_id).filter(e => e != user.user_id).map((e,i) => <div key={i} onClick={toOffer ? requestTrade : null} className="offer-players-circles" style={{background: e === 1 ? "darkblue" : "red", borderColor: toOffer && "darkgreen", boxShadow: toOffer && "0 0 5px 1px lightblue"}}><GoPerson color={e === 1 ? "lightblue" : "darkred"} /></div>)
+  const offerPlayers = players.map(e => e.user_id).filter(e => e != user.user_id).map((e,i) => <div key={i} onClick={toOffer ? requestTrade : null} className="offer-players-circles" style={{background: e === 1 ? "darkblue" : "red"}}><GoPerson color={e === 1 ? "lightblue" : "darkred"} /></div>)
 
   return (
       <div className="offer-trade-container" ref={el => {animate = el}}>
-      <div className="offer-players">{ offerPlayers }</div>
-      
+      <div className="offer-players">{ offerPlayers }{<div className="offer-players-animate" style={{background: toOffer ? "linear-gradient(transparent, green, lightgreen, green, transparent)" : "black"}} ref={el => {greenCircle = el}}></div>}</div>
+        
         <div className="offer-container">
         
           <div className="offers">

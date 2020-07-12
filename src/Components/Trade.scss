@@ -16,6 +16,7 @@
     display: flex;
     flex-direction: column;
     opacity: 0;
+    position: relative;
 }
 
 .offer-container {
@@ -23,21 +24,38 @@
     display: flex;
     width: 100%;
     height: 100%;
+    position: relative;
     // overflow: auto;
 }
 
 .offer-players {
     // border: 1px solid red;
-    height: $size*.4;
-    width: 100%;
+    // height: $size*.5;
+    width: 80%;
     display: flex;
     justify-content: center;
-    padding-left: $size/5;
+    // padding-left: $size/5;
+    position: relative;
+    margin-left: $size/5;
+    align-self: center;
+}
+
+.offer-players-animate {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    // z-index: 1000000000;
+    position: absolute;
+    height: $size*.5;
+    width: $size*.5;
+    // border: ($size/30) solid white;
+    border-radius: 50%;
+    background: black;
 }
 
 .offer-players-circles {
-    height: $size*.3;
-    width: $size*.3;
+    height: $size*.45;
+    width: $size*.45;
     border: ($size/30) solid black;
     border-radius: 50%;
     display: flex;
@@ -45,6 +63,7 @@
     align-items: center;
     font-size: $size/6;
     box-shadow: 0 0 0 black;
+    z-index: 1;
 }
 
 .offers {
@@ -115,6 +134,7 @@
     justify-content: space-between;
     padding-bottom: $size/10;
     opacity: 0;
+    color: white;
 }
 
 .incoming-trade-title {

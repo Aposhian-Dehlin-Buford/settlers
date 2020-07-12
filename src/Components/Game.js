@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import {TweenMax} from 'gsap'
 import axios from "axios"
+import {AiFillHome} from 'react-icons/ai'
 
 // Styling
 
@@ -30,6 +31,7 @@ import IncomingTrade from "./IncomingTrade"
 import StealFrom from './StealFrom'
 import OpponentHand from './OpponentHand'
 import Scoreboard from './Scoreboard'
+import LoadingScreen from './LoadingScreen'
 // import Dice from "./Dice/Dice"
 
 // Reducer Actions
@@ -343,20 +345,25 @@ const Game = () => {
   // console.log("robberLocation", robberLocation)
   console.log("victory points", victoryPoints)
 
+  const handleMenu = () => {
+    window.location.reload()
+  }
+
   return (
     <div className="game-container">
+      {/* <LoadingScreen /> */}
       {
         stealFrom[0] && <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} />
       }
       {/* <StealFrom stealFrom={stealFrom} setStealFrom={setStealFrom} stealCard={stealCard} /> */}
       
       <div className="left-container">
-        <div className="menu-button">Home</div>
+        <div className="menu-button"><AiFillHome color={"rgba(0, 0, 0, 0.750)"} onClick={handleMenu}/></div>
         <Scoreboard />
           <div className="res-dice-container">
             <div className="res-container">
               <div className="res-4">
-                {["wheat", "sheep", "wood"].map((e, i) => (
+                {["development", "wheat", "sheep"].map((e, i) => (
                   <div
                     key={i}
                     className={e}
@@ -367,7 +374,7 @@ const Game = () => {
                 ))}
                 </div>
                 <div className="res-3">
-                {["clay", "rock", "development"].map((e,i) => (
+                {["wood", "clay", "rock"].map((e,i) => (
                   <div
                     key={i}
                     className={e}
@@ -379,7 +386,7 @@ const Game = () => {
               </div>
             </div>
         </div>
-        <FaceUpKnights {...{faceUpKnights}} />
+        <FaceUpKnights {...{faceUpKnights}} player={1} user={user.user_id} />
         <div className="development-container">
           <DevelopmentDeck />
           <MyDevelopmentHand />

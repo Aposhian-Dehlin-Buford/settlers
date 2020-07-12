@@ -28,19 +28,24 @@ const DiceButton = () => {
         }
     }, [active])
 
+    let canRoll = (active && !rolledDice && turn > 2)
+
+    const handleDice = () => {
+      socket.emit("roll-dice", { room })
+      dispatch(setRolledDice())
+    }
+
     return (
         <div className="roll-dice-container">
+          {!canRoll && <div className="end-turn-overlay"></div>}
           {/* {(active && !rolledDice && turn > -1) && <div className="end-button-animation" ref={el => {endRef = el}}></div>} */}
-          <div className="end-button-animation" style={{background: (active && !rolledDice && turn > 2) ? "linear-gradient(rgba(0, 100, 0, 0.13), green, lightgreen, green, rgba(144, 238, 144, 0.089))" : "transparent"}} ref={el => {endRef = el}}></div>
+          <div className="end-button-animation" style={{background: canRoll ? "linear-gradient(rgba(0, 100, 0, 0.13), green, lightgreen, green, rgba(144, 238, 144, 0.089))" : "transparent"}} ref={el => {endRef = el}}></div>
                <div className="roll-dice-button"
-               onClick={(active && !rolledDice && turn > -1) ? () => {
-                 socket.emit("roll-dice", { room })
-                 dispatch(setRolledDice())
-                } : null}
+               onClick={canRoll ? handleDice : null}
                 >
-                <Dice />
-          <GiRollingDices color={"darkgreen"} />
+          <GiRollingDices color={"white"} />
         </div>
+                <Dice canRoll={canRoll} handleDice={handleDice} />
         </div>
     )
 }

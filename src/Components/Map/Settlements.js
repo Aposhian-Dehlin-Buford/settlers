@@ -2,6 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { BsHouseDoorFill } from "react-icons/bs"
 import { FaBuilding } from "react-icons/fa"
+import {AiFillHome} from 'react-icons/ai'
 
 const Settlements = (props) => {
   const { id, handleClick, handleCityClick, user } = props
@@ -58,7 +59,7 @@ const Settlements = (props) => {
             buildings[id][f].canBuild !== false &&
             ((turn === 1 && !firstSettlementPlaced) ||
               (turn === 2 && !secondSettlementPlaced)) ? (
-              <BsHouseDoorFill
+              <AiFillHome
                 onClick={() => handleClick(id, f)}
                 color={
                   !buildings[id][f].user_id
@@ -70,13 +71,13 @@ const Settlements = (props) => {
               />
             ) : buildings[id][f].canBuild && !buildings[id][f].building_type ? (
               buildSettlement && (
-                <BsHouseDoorFill
+                <AiFillHome
                   onClick={() => handleClick(id, f)}
                   color={"white"}
                 />
               )
             ) : buildings[id][f].building_type === 1 ? (
-              <BsHouseDoorFill
+              <AiFillHome
                 onClick={
                   buildCity && buildings[id][f].user_id === user.user_id
                     ? () => handleCityClick(id, f)
