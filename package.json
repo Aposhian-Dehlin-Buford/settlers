@@ -17,7 +17,7 @@
     "formik": "^2.1.4",
     "gsap": "^3.3.4",
     "massive": "^6.4.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
